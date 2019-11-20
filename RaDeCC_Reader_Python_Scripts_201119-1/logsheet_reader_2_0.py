@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jan 21 15:27:09 2019
+
+@author: seanselzer
+"""
+import pandas as pd
+import os
+import numpy as np
+from radecc_reader_lvl1_2_0 import *
+
+def logsheet_scan (folder_filepath):
+    log_list = []
+    for dirName, subdirList, fileList in os.walk(folder_filepath/'logsheet_folder'):
+        for file in fileList:
+            log_list.append(pd.read_csv(folder_filepath/'logsheet_folder'/file))
+            
+    log_df =  pd.concat(log_list, sort = False)
+    log_df.to_csv(folder_filepath/'Dataframes'/'output_logsheet.csv')     
+    
+    return(log_df)
+    
