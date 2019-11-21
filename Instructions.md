@@ -104,7 +104,7 @@ Filepath: /Users/username/Desktop/Project_X/Raw_Data_Example
 Filepath: /Users/username/Desktop/Project_X/RaDeCC_Reader_Scripts
 
 
-# User Input to radecc_main.py
+## User Input to radecc_main.py
 
 Open Anaconda Navigator  and launch Spyder. Once Spyder is running open radecc_main.py. Follow the below guide on user input within this file.
 
@@ -141,17 +141,17 @@ Open Anaconda Navigator  and launch Spyder. Once Spyder is running open radecc_m
 		linear_data_type = 'True'
 		linear_data_type = 'False'	
 
-## Electrical spike detection and removal
+### Electrical spike detection and removal
 The RaDeCC_Reader program is able to find spikes in read data that are anomalous (often due to a surge in the electrical supply to the RaDeCC detector). If a spike is found, it is removed and so is not included in the correction and error propagation calulcations that follow. The threshold that determines whether a spike is anomalous is set by the variable *spike_sensitivity*. This variable is set to 100 by default, meaning that if the number of counts in any time interval is more than 100 counts higher than the previous time interval it is deemed a spike and removed from calculations. To disable this function set *spike_sensitivity* = 1e6.
 
 - *spike_sensitivity* : The threshold of counts in a time interval that determines whether a spike is anomalous or not.
 
-## Information for the directory builder
+### Information for the directory builder
 
 - *sample_type*: This is the sample naming convention e.g. if your first sample is sample001 and your second is sample002 then sample_type is 'sample'
 - *number_of_samples*: The is the number of samples (1-999).
 
-## Information for the detector efficiency calculations
+### Information for the detector efficiency calculations
 
 - *thstd*: This is the filename identifier for Thorium-228 standards e.g. 'thstd' in the filename 'thstd-250119-detector1.txt'
 - *acstd*: This is the filename identifier for Actinium-227 standards e.g. 'acstd' in the filename 'acstd-250119-detector1.txt'
@@ -163,7 +163,7 @@ The RaDeCC_Reader program is able to find spikes in read data that are anomalous
 - *acstd_prepDatestr* = date and time of actinium-227 standard preparation in the form - 'dd/mm/yyyy hh:mm:ss'
 - *det_list* =  list of detectors in the form - ['detector_1', 'detector_2', ..., 'detector_n']
 
-## Logsheet identifiers (below)
+### Logsheet identifiers (below)
 
 These are the row names used in the logsheet for each variable (e.g. Latitude may be abbreviated in the logsheet to 'Lat'). These are used by the programme to search for the relevant data
 in the logsheet.
@@ -188,14 +188,14 @@ The program should now be ready to run. With radecc_main_2_1.py open in Spyder 3
 
 
 
-##The program will also output the following files in .csv format
+###The program will also output the following files in .csv format
 
-###Dataframes (Found in the Dataframes Folder)
+**Dataframes (Found in the Dataframes Folder)**
 - A main table (.csv format) containing all metadata from logsheets as well as values for each level of the Garcia-Solsona corrections and uncertainty propagations, ending with dpm/1000L for both 223Ra and 224Ra as well as an estimation of 226Ra based on 222Rn ingrowth. All this is displayed for each read of each sample, ready for easy data-manipulation in Microsoft Excel.
 - A summary table of detector efficiencies. 
 - A table of efficiencies for each channel, detailing the efficiency calculated for each standard read.
 - An output logsheet, the amalgamation of all input logsheets.
-###Plots (Found in the Read_Plots Folder)
+**Plots (Found in the Read_Plots Folder)**
 - A plot of counts per minute for the total, radon-219 and radon-220 channels over the course of each read. Spikes in counts per minute (any counts that exceeded the default spike_sensitivity constant) have been removed. 
 
 
