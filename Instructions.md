@@ -196,7 +196,7 @@ The program should now be ready to run. With radecc_main_2_1.py open in Spyder 3
 - A table of efficiencies for each channel, detailing the efficiency calculated for each standard read.
 - An output logsheet, the amalgamation of all input logsheets.
 
-#### Plots (Found in the Read_Plots Folder)**
+#### Plots (Found in the Read_Plots Folder)
 - A plot of counts per minute for the total, radon-219 and radon-220 channels over the course of each read. Spikes in counts per minute (any counts that exceeded the default spike_sensitivity constant) have been removed. 
 
 
