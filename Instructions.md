@@ -137,12 +137,12 @@ Open Anaconda Navigator  and launch Spyder. Once Spyder is running open radecc_m
 		linear_data_type = False
 	
 	Not:
-	
+
 		linear_data_type = 'True'
 		linear_data_type = 'False'	
 
 ## Electrical spike detection and removal
-The RaDeCC_Reader program is able to find spikes in read data that are anomalous (often due to a surge in the electrical supply to the RaDeCC detector). If a spike is found, it is removed and so is not included in the correction and error propagation calulcations that follow. The threshold that determines whether a spike is anomalous is set by the variable *spike_sensitivity*. This variable is set to 100 by default, meaning that if the number of counts in any time interval is more than 100 counts higher than the previous time interval it is deemed a spike and removed from calculations. To disable this function set *spike_sensitivity* = 1000.
+The RaDeCC_Reader program is able to find spikes in read data that are anomalous (often due to a surge in the electrical supply to the RaDeCC detector). If a spike is found, it is removed and so is not included in the correction and error propagation calulcations that follow. The threshold that determines whether a spike is anomalous is set by the variable *spike_sensitivity*. This variable is set to 100 by default, meaning that if the number of counts in any time interval is more than 100 counts higher than the previous time interval it is deemed a spike and removed from calculations. To disable this function set *spike_sensitivity* = 1e6.
 
 - *spike_sensitivity* : The threshold of counts in a time interval that determines whether a spike is anomalous or not.
 
