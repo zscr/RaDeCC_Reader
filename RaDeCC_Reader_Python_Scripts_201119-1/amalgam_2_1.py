@@ -235,25 +235,25 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
             t1.append((diff.seconds/60)+diff.days*24*60)
             
         
-    lvl1_main_df['blankcorr219'] = blankcorr219
-    lvl1_main_df['blankcorr219_err'] = blankcorr219_err
-    lvl1_main_df['blankcorr220'] = blankcorr220
-    lvl1_main_df['blankcorr220_err'] = blankcorr220_err
-    lvl1_main_df['dpm219'] = dpm219
-    lvl1_main_df['dpm219_err'] = dpm219_err
-    lvl1_main_df['dpm219_thstdonly'] = dpm219_thstdonly
-    lvl1_main_df['dpm219_thstdonly_err'] = dpm219_thstdonly_err
-    lvl1_main_df['dpm220'] = dpm220
-    lvl1_main_df['dpm220_err'] = dpm220_err
-    lvl1_main_df['vdpm219'] = vdpm219
-    lvl1_main_df['vdpm219_err'] = vdpm219_err
-    lvl1_main_df['vdpm219_thstdonly'] = vdpm219_thstdonly
-    lvl1_main_df['vdpm219_thstdonly_err'] = vdpm219_thstdonly_err
-    lvl1_main_df['vdpm220'] = vdpm220
-    lvl1_main_df['vdpm220_err'] = vdpm220_err
+    lvl1_main_df['blankcorr223'] = blankcorr219
+    lvl1_main_df['blankcorr223_err'] = blankcorr219_err
+    lvl1_main_df['blankcorr224'] = blankcorr220
+    lvl1_main_df['blankcorr224_err'] = blankcorr220_err
+    lvl1_main_df['dpm223'] = dpm219
+    lvl1_main_df['dpm223_err'] = dpm219_err
+    lvl1_main_df['dpm223_thstdonly'] = dpm219_thstdonly
+    lvl1_main_df['dpm223_thstdonly_err'] = dpm219_thstdonly_err
+    lvl1_main_df['dpm224'] = dpm220
+    lvl1_main_df['dpm224_err'] = dpm220_err
+    lvl1_main_df['vdpm223 (dpm/m^3)'] = vdpm219
+    lvl1_main_df['vdpm223_err (dpm/m^3)'] = vdpm219_err
+    lvl1_main_df['vdpm223_thstdonly (dpm/m^3)'] = vdpm219_thstdonly
+    lvl1_main_df['vdpm223_thstdonly_err (dpm/m^3)'] = vdpm219_thstdonly_err
+    lvl1_main_df['vdpm224 (dpm/m^3)'] = vdpm220
+    lvl1_main_df['vdpm224_err (dpm/m^3)'] = vdpm220_err
     lvl1_main_df['t1_(mins)'] = t1
-    lvl1_main_df['vdpm226'] = vdpm226
-    lvl1_main_df['vdpm226_err'] = vdpm226_err
+    lvl1_main_df['vdpm226 (dpm/m^3)'] = vdpm226
+    lvl1_main_df['vdpm226_err (dpm/m^3)'] = vdpm226_err
 
     return(lvl1_main_df)
 
