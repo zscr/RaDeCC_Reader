@@ -28,6 +28,8 @@ Once the Anaconda distribution is successfully installed, open 'Anaconda Navigat
 
 Spyder is where you will open and run the RaDeCC Reader program.
 
+**It is advised to run the program with the data in Raw_Data_Example first in order to check that the program itself is functioning properly.**
+
 
 ## Preparing Input Data
 
@@ -170,15 +172,20 @@ The program should now be ready to run. With radecc_main_2_1.py open in Spyder 3
 
 - If a directory that the program is trying to create already exists, the program will not overwrite the existing directory and notify the user via the terminal
 - After the files have been copied from the source directory(source_dir) to the newly constructed original directory (original_dir), the program will report the number of files not copied (should be 0)
-- For each deployment any sample volumes below 100L will be reported as a 'Did Not Pump'
-- If a spike (an interval with 100 counts more than the previous interval in either the 219 or 220 channel) is detected in a readfile, that interval is removed and the summary values are calculated without them. The user is notified via the terminal or console as well as in the .csv file contain the output results
+- If a spike ( when the *spike_sensitivity* is exceeded in either the 219 or 220 channel) is detected in a readfile, that interval is removed and the summary values are calculated without them. The user is notified via the terminal or console as well as in the .csv file contain the output results
+- If there are not enough data points to find a slope for 222Rn ingrowth. The user is notified
 
 
 
 ##The program will also output the following files in .csv format
 
-- A table of detector efficiencies (detector_efficiency_dataframe.csv)
+###Dataframes (Found in the Dataframes Folder)
 - A main table (.csv format) containing all metadata from logsheets as well as values for each level of the Garcia-Solsona corrections and uncertainty propagations, ending with dpm/1000L for both 223Ra and 224Ra as well as an estimation of 226Ra based on 222Rn ingrowth. All this is displayed for each read of each sample, ready for easy data-manipulation in Microsoft Excel.
+- A summary table of detector efficiencies. 
+- A table of efficiencies for each channel, detailing the efficiency calculated for each standard read.
+- An output logsheet, the amalgamation of all input logsheets.
+###Plots (Found in the Read_Plots Folder)
+- A plot of counts per minute for the total, radon-219 and radon-220 channels over the course of each read. Spikes in counts per minute (any counts that exceeded the default spike_sensitivity constant) have been removed. 
 
 
 
@@ -186,17 +193,13 @@ The program should now be ready to run. With radecc_main_2_1.py open in Spyder 3
 ## Authors
 
 * **Sean Selzer** - (https://github.com/Rad-Reader)
-
-See also the list of [contributors](https://github.com/Rad-Reader/tobeadded) who participated in this project.
-
-## Versioning
-
-To be added
+* **Amber L. Annett**
+* **William B. Homoky**
 
 ## License
 
-To be added
+MIT
 
 ## Acknowledgments
 
-To be added
+The authors gratefully acknowledge support from the UK’s Natural Environment Research Council who funded S.S. through the Environmental Research Doctoral Training Partnership with University of Oxford, and A.L.A. and W.B.H. through Independent Research Fellowships (NE/P017630/1 and NE/K009532/1).
