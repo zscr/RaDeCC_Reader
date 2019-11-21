@@ -31,7 +31,7 @@ Spyder is where you will open and run the RaDeCC Reader program.
 
 ## Preparing Input Data
 
-# Logsheet formatting:
+### Logsheet formatting:
 
 	- Logsheets should be formatted such that each row represents a sample and each column a variable such as sample name, latitude, sample volume etc. (See Example_Logsheet.csv)
 	- Logsheets must be in a comma-separated value (.csv) format.
@@ -39,7 +39,7 @@ Spyder is where you will open and run the RaDeCC Reader program.
 	- If using sub-sample names/values, those in the logsheet must match those in the filenames(e.g. individual sub-samples at different depths at a string of locations, each location being a sample, each depth being a sub-sample)
 
 
-# File naming conventions:
+### File naming conventions:
 	- For linear sample sets (e.g. 1-dimensional surface sampling), read file names need to follow the format: 
 		
 		[Read_Number]-[Sample]-[Cartridge_Type]-[Date]-[Detector_Name].txt
@@ -96,7 +96,7 @@ Filepath: /Users/username/Desktop/Project_X/raw_data
 Filepath: /Users/username/Desktop/Project_X/RaDeCC_Reader_Scripts
 
 
-## User Input to radecc_main.py
+# User Input to radecc_main.py
 
 Open Anaconda Navigator  and launch Spyder. Once Spyder is running open radecc_main.py. Follow the below guide on user input within this file.
 
@@ -116,17 +116,17 @@ Open Anaconda Navigator  and launch Spyder. Once Spyder is running open radecc_m
 		- linear_data_type = 'True'
 		- linear_data_type = 'False'	
 
-# Electrical spike detection and removal
+## Electrical spike detection and removal
 The RaDeCC_Reader program is able to find spikes in read data that are anomalous (often due to a surge in the electrical supply to the RaDeCC detector). If a spike is found, it is removed and so is not included in the correction and error propagation calulcations that follow. The threshold that determines whether a spike is anomalous is set by the variable *spike_sensitivity*. This variable is set to 100 by default, meaning that if the number of counts in any time interval is more than 100 counts higher than the previous time interval it is deemed a spike and removed from calculations. To disable this function set *spike_sensitivity* = 1000.
 
 - *spike_sensitivity* : The threshold of counts in a time interval that determines whether a spike is anomalous or not.
 
-# Information for the directory builder:
+## Information for the directory builder:
 
 	- *sample_type*: This is the sample naming convention e.g. if your first sample is sample001 and your second is sample002 then sample_type is 'sample'
 	- *number_of_samples*: The is the number of samples (1-999).
 
-#Information for the detector efficiency calculations:
+##Information for the detector efficiency calculations:
 
 	- *thstd*: This is the filename identifier for Thorium-228 standards e.g. 'thstd' in the filename 'thstd-250119-detector1.txt'
 	- *acstd*: This is the filename identifier for Actinium-227 standards e.g. 'acstd' in the filename 'acstd-250119-detector1.txt'
