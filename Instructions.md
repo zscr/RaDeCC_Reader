@@ -188,14 +188,15 @@ The program should now be ready to run. With radecc_main_2_1.py open in Spyder 3
 
 
 
-###The program will also output the following files in .csv format
+### The program will also output the following files in .csv format
 
-**Dataframes (Found in the Dataframes Folder)**
+#### Dataframes (Found in the Dataframes Folder)
 - A main table (.csv format) containing all metadata from logsheets as well as values for each level of the Garcia-Solsona corrections and uncertainty propagations, ending with dpm/1000L for both 223Ra and 224Ra as well as an estimation of 226Ra based on 222Rn ingrowth. All this is displayed for each read of each sample, ready for easy data-manipulation in Microsoft Excel.
 - A summary table of detector efficiencies. 
 - A table of efficiencies for each channel, detailing the efficiency calculated for each standard read.
 - An output logsheet, the amalgamation of all input logsheets.
-**Plots (Found in the Read_Plots Folder)**
+
+#### Plots (Found in the Read_Plots Folder)**
 - A plot of counts per minute for the total, radon-219 and radon-220 channels over the course of each read. Spikes in counts per minute (any counts that exceeded the default spike_sensitivity constant) have been removed. 
 
 
