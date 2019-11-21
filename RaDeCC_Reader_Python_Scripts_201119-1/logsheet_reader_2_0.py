@@ -17,7 +17,7 @@ def logsheet_scan (folder_filepath):
             log_list.append(pd.read_csv(folder_filepath/'logsheet_folder'/file))
             
     log_df =  pd.concat(log_list, sort = False)
-    log_df.to_csv(folder_filepath/'Dataframes'/'output_logsheet.csv')     
+    log_df.to_csv(folder_filepath/'Dataframes'/'Amalgamated_Logsheet.csv')     
     
     return(log_df)
     
