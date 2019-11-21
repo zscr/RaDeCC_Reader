@@ -1,0 +1,12 @@
+,Detector,no_of_acstd_reads,no_of_thstd_reads,no_of_blank_reads,Average_E220,Standard_Deviation_E220,Average_E219,Standard_Deviation_E219,Average_Blank_219,Standard_Deviation_Blank_219,Average_Blank_220,Standard_Deviation_Blank_220,Average_Blank_Tot,Standard_Deviation_Blank_Tot,E219_from_E220,E219_from_E220_uncertainty
+0,hawkeye,0,0,0,,,,,,,,,,,,
+1,bw,0,0,0,,,,,,,,,,,,
+2,loki,0,0,0,,,,,,,,,,,,
+3,thor,0,0,0,,,,,,,,,,,,
+4,ironman,0,0,0,,,,,,,,,,,,
+5,capn,0,0,0,,,,,,,,,,,,
+6,mulder,0,0,0,,,,,,,,,,,,
+7,green,0,0,0,,,,,,,,,,,,
+8,fish,0,0,0,,,,,,,,,,,,
+9,dino,0,0,0,,,,,,,,,,,,
+10,No_Read,0,0,0,,,,,,,,,,,,
