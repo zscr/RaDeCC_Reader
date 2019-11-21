@@ -13,7 +13,10 @@ Required input:
 
 ## Prerequisites
 
-Python 3.6
+Hardware Requirements: 2 x 64-bit 2.8 GHz 8.00 GT/s CPUs, 32 GB RAM (or 16 GB of 1600 MHz DDR3 RAM), 300 GB Storage. 
+
+Written in Python 3.6 (Spyder 3.3.4), RaDeCC Reader (179 KB) is available on GitHub (https://github.com/oxradreader/RaDeCC_Reader)
+
 
 ## Installing Python (Anaconda)
 
@@ -28,7 +31,7 @@ Spyder is where you will open and run the RaDeCC Reader program.
 
 ## Preparing Input Data
 
-#Logsheet formatting:
+# Logsheet formatting:
 
 	- Logsheets should be formatted such that each row represents a sample and each column a variable such as sample name, latitude, sample volume etc. (See Example_Logsheet.csv)
 	- Logsheets must be in a comma-separated value (.csv) format.
@@ -36,18 +39,18 @@ Spyder is where you will open and run the RaDeCC Reader program.
 	- If using sub-sample names/values, those in the logsheet must match those in the filenames(e.g. individual sub-samples at different depths at a string of locations, each location being a sample, each depth being a sub-sample)
 
 
-#File naming conventions:
+# File naming conventions:
 	- For linear sample sets (e.g. 1-dimensional surface sampling), read file names need to follow the format: 
 		
 		[Read_Number]-[Sample]-[Cartridge_Type]-[Date]-[Detector_Name].txt
 
 		- [Read_Number] : Usually 1-4 this indicates whether it is a first, second, third or fourth read.
-		- [Sample] : this is the name of your sample, e.g. Sample001 (N.B. samples need to be numbered 001-999 e.g. Sample001 to Sample999)
+		- [Sample] : this is the name of your sample, e.g. StnX001 (N.B. samples need to be numbered 001-999 e.g. StnX001 to StnX999)
 		- [Cartridge_Type] : When sampling with two MnO-fibres in series in order to calculate scavenging efficiency, the first MnO-fibre in the series may be the 'A' fibre and the second the 'B' fibre.
-		- [Date] : this is the date of this particular read of this sample. the format of this date is flexible but cannot contain any punctuation e.g.(/.,-)
+		- [Date] : this is the date of this particular read of this sample in DDMMYY or MMDDYY form, it cannot contain any punctuation e.g.(/.,-)
 		- [Detector_Name] : this is the name of the detector used for this particular read of this sample.
 
-		e.g. 1-sample042-250119-detector1.txt
+		e.g. 1-StnX042-250119-detector1.txt
 
 
 	- For sample sets that contain sub-samples (e.g. multiple depth profiles creating a 2-dimensional transect), sample read file names need to follow the format:
@@ -55,7 +58,7 @@ Spyder is where you will open and run the RaDeCC Reader program.
 		[read_number]-[Sample]-[Sub-Sample][Cartridge_Type]-[Date]-[Detector_Name].txt
 
 		- [Read_Number] : Usually 1-4 this indicates whether it is a first, second, third or fourth read.
-		- [Sample] : this is the name of your sample, e.g. Sample001 (N.B. samples need to be numbered 001-999 e.g. Sample001 to Sample999)
+		- [Sample] : this is the name of your sample, e.g. StnX001 (N.B. samples need to be numbered 001-999 e.g. StnX001 to StnX999)
 		- [Sub-Sample] : this is the name of the sub sample, for example if one sample contains a number of sub-samples at different depths or times this could be the sub-sample depth or time. These values or names should match those in the logsheet(s)
 		- [Cartridge_Type] : When sampling with two MnO-fibres in series in order to calculate scavenging efficiency, the first MnO-fibre in the series may be the 'A' fibre and the second the 'B' fibre.
 		- [Date] : this is the date of this particular read of this sample. the format of this date is flexible but cannot contain any punctuation e.g.(/.,-)
@@ -113,12 +116,12 @@ Open Anaconda Navigator  and launch Spyder. Once Spyder is running open radecc_m
 		- linear_data_type = 'True'
 		- linear_data_type = 'False'	
 
-#Electrical spike detection and removal
+# Electrical spike detection and removal
 The RaDeCC_Reader program is able to find spikes in read data that are anomalous (often due to a surge in the electrical supply to the RaDeCC detector). If a spike is found, it is removed and so is not included in the correction and error propagation calulcations that follow. The threshold that determines whether a spike is anomalous is set by the variable *spike_sensitivity*. This variable is set to 100 by default, meaning that if the number of counts in any time interval is more than 100 counts higher than the previous time interval it is deemed a spike and removed from calculations. To disable this function set *spike_sensitivity* = 1000.
 
 - *spike_sensitivity* : The threshold of counts in a time interval that determines whether a spike is anomalous or not.
 
-#Information for the directory builder:
+# Information for the directory builder:
 
 	- *sample_type*: This is the sample naming convention e.g. if your first sample is sample001 and your second is sample002 then sample_type is 'sample'
 	- *number_of_samples*: The is the number of samples (1-999).
