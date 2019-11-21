@@ -1,5 +1,5 @@
 # RaDeCC Reader
-# Version 1.0.0
+## Version 1.0.0
 
 This program calculates:
 - Fully corrected dpm(223Ra)/1000 L and dpm(224Ra)/1000 L with propagated uncertainties
@@ -31,7 +31,7 @@ Spyder is where you will open and run the RaDeCC Reader program.
 
 ## Preparing Input Data
 
-### Logsheet formatting:
+### Logsheet formatting
 
 	- Logsheets should be formatted such that each row represents a sample and each column a variable such as sample name, latitude, sample volume etc. (See Example_Logsheet.csv)
 	- Logsheets must be in a comma-separated value (.csv) format.
@@ -39,7 +39,7 @@ Spyder is where you will open and run the RaDeCC Reader program.
 	- If using sub-sample names/values, those in the logsheet must match those in the filenames(e.g. individual sub-samples at different depths at a string of locations, each location being a sample, each depth being a sub-sample)
 
 
-### File naming conventions:
+### File naming conventions
 	- For linear sample sets (e.g. 1-dimensional surface sampling), read file names need to follow the format: 
 		
 		[Read_Number]-[Sample]-[Cartridge_Type]-[Date]-[Detector_Name].txt
@@ -121,12 +121,12 @@ The RaDeCC_Reader program is able to find spikes in read data that are anomalous
 
 - *spike_sensitivity* : The threshold of counts in a time interval that determines whether a spike is anomalous or not.
 
-## Information for the directory builder:
+## Information for the directory builder
 
 	- *sample_type*: This is the sample naming convention e.g. if your first sample is sample001 and your second is sample002 then sample_type is 'sample'
 	- *number_of_samples*: The is the number of samples (1-999).
 
-##Information for the detector efficiency calculations:
+##Information for the detector efficiency calculations
 
 	- *thstd*: This is the filename identifier for Thorium-228 standards e.g. 'thstd' in the filename 'thstd-250119-detector1.txt'
 	- *acstd*: This is the filename identifier for Actinium-227 standards e.g. 'acstd' in the filename 'acstd-250119-detector1.txt'
@@ -138,7 +138,7 @@ The RaDeCC_Reader program is able to find spikes in read data that are anomalous
 	- *acstd_prepDatestr* = date and time of actinium-227 standard preparation in the form - 'dd/mm/yyyy hh:mm:ss'
 	- *det_list* =  list of detectors in the form - ['detector_1', 'detector_2', ..., 'detector_n']
 
-#Logsheet identifiers (below):
+#Logsheet identifiers (below)
 
 These are the row names used in the logsheet for each variable (e.g. Latitude may be abbreviated in the logsheet to 'Lat'). These are used by the programme to search for the relevant data
 in the logsheet.
@@ -151,7 +151,7 @@ The program should now be ready to run. With radecc_main_2_1.py open in Spyder, 
 
 ## Output from radecc_main.py
 
-#While the program runs there will be some output to the terminal (or console). The program will notify the user via the terminal in the following events:
+#While the program runs there will be some output to the terminal (or console). The program will notify the user via the terminal in the following events
 
 	- If a directory that the program is trying to create already exists, the program will not overwrite the existing directory and notify the user via the terminal
 	- After the files have been copied from the source directory(source_dir) to the newly constructed original directory (original_dir), the program will report the number of files not copied (should be 0)
@@ -160,7 +160,7 @@ The program should now be ready to run. With radecc_main_2_1.py open in Spyder, 
 
 
 
-#The program will also output the following files in .csv format:
+#The program will also output the following files in .csv format
 
 	- A table of detector efficiencies (detector_efficiency_dataframe.csv)
 	- A main table (.csv format) containing all metadata from logsheets as well as values for each level of the Garcia-Solsona corrections and uncertainty propagations, ending with dpm/1000L for both 223Ra and 224Ra as well as an estimation of 226Ra based on 222Rn ingrowth. All this is displayed for each read of each sample, ready for easy data-manipulation in Microsoft Excel.
