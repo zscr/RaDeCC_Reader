@@ -33,22 +33,22 @@ Spyder is where you will open and run the RaDeCC Reader program.
 
 ### Logsheet formatting
 
-	- Logsheets should be formatted such that each row represents a sample and each column a variable such as sample name, latitude, sample volume etc. (See Example_Logsheet.csv)
-	- Logsheets must be in a comma-separated value (.csv) format.
-	- Sample names in the loghsheet must match the sample names used in filenames.
-	- If using sub-sample names/values, those in the logsheet must match those in the filenames(e.g. individual sub-samples at different depths at a string of locations, each location being a sample, each depth being a sub-sample)
+- Logsheets should be formatted such that each row represents a sample and each column a variable such as sample name, latitude, sample volume etc. (See Example_Logsheet.csv)
+- Logsheets must be in a comma-separated value (.csv) format.
+- Sample names in the loghsheet must match the sample names used in filenames.
+- If using sub-sample names/values, those in the logsheet must match those in the filenames(e.g. individual sub-samples at different depths at a string of locations, each location being a sample, each depth being a sub-sample)
 
 
 ### File naming conventions
-	- For linear sample sets (e.g. 1-dimensional surface sampling), read file names need to follow the format: 
+- For linear sample sets (e.g. 1-dimensional surface sampling), read file names need to follow the format: 
 		
 		[Read_Number]-[Sample]-[Cartridge_Type]-[Date]-[Detector_Name].txt
 
-		- [Read_Number] : Usually 1-4 this indicates whether it is a first, second, third or fourth read.
-		- [Sample] : this is the name of your sample, e.g. StnX001 (N.B. samples need to be numbered 001-999 e.g. StnX001 to StnX999)
-		- [Cartridge_Type] : When sampling with two MnO-fibres in series in order to calculate scavenging efficiency, the first MnO-fibre in the series may be the 'A' fibre and the second the 'B' fibre.
-		- [Date] : this is the date of this particular read of this sample in DDMMYY or MMDDYY form, it cannot contain any punctuation e.g.(/.,-)
-		- [Detector_Name] : this is the name of the detector used for this particular read of this sample.
+	- [Read_Number] : Usually 1-4 this indicates whether it is a first, second, third or fourth read.
+	- [Sample] : this is the name of your sample, e.g. StnX001 (N.B. samples need to be numbered 001-999 e.g. StnX001 to StnX999)
+	- [Cartridge_Type] : When sampling with two MnO-fibres in series in order to calculate scavenging efficiency, the first MnO-fibre in the series may be the 'A' fibre and the second the 'B' fibre.
+	- [Date] : this is the date of this particular read of this sample in DDMMYY or MMDDYY form, it cannot contain any punctuation e.g.(/.,-)
+	- [Detector_Name] : this is the name of the detector used for this particular read of this sample.
 
 		e.g. 1-StnX042-250119-detector1.txt
 
@@ -57,12 +57,12 @@ Spyder is where you will open and run the RaDeCC Reader program.
 	
 		[read_number]-[Sample]-[Sub-Sample][Cartridge_Type]-[Date]-[Detector_Name].txt
 
-		- [Read_Number] : Usually 1-4 this indicates whether it is a first, second, third or fourth read.
-		- [Sample] : this is the name of your sample, e.g. StnX001 (N.B. samples need to be numbered 001-999 e.g. StnX001 to StnX999)
-		- [Sub-Sample] : this is the name of the sub sample, for example if one sample contains a number of sub-samples at different depths or times this could be the sub-sample depth or time. These values or names should match those in the logsheet(s)
-		- [Cartridge_Type] : When sampling with two MnO-fibres in series in order to calculate scavenging efficiency, the first MnO-fibre in the series may be the 'A' fibre and the second the 'B' fibre.
-		- [Date] : this is the date of this particular read of this sample. the format of this date is flexible but cannot contain any punctuation e.g.(/.,-)
-		- [Detector_Name] : this is the name of the detector used for this particular read of this sample.
+	- [Read_Number] : Usually 1-4 this indicates whether it is a first, second, third or fourth read.
+	- [Sample] : this is the name of your sample, e.g. StnX001 (N.B. samples need to be numbered 001-999 e.g. StnX001 to StnX999)
+	- [Sub-Sample] : this is the name of the sub sample, for example if one sample contains a number of sub-samples at different depths or times this could be the sub-sample depth or time. These values or names should match those in the logsheet(s)
+	- [Cartridge_Type] : When sampling with two MnO-fibres in series in order to calculate scavenging efficiency, the first MnO-fibre in the series may be the 'A' fibre and the second the 'B' fibre.
+	- [Date] : this is the date of this particular read of this sample. the format of this date is flexible but cannot contain any punctuation e.g.(/.,-)
+	- [Detector_Name] : this is the name of the detector used for this particular read of this sample.
 	  	
 		e.g. 1-sample042-1700A-250119-detector1.txt
 	
