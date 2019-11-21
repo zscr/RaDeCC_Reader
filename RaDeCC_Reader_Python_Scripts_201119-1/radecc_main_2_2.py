@@ -26,11 +26,11 @@ from logsheet_reader_2_0 import *
 #__________________________________________________________________________________________________________________________________________________________
 #input_directory*: This is the filepath of the folder in which the sample, standard and blank read files as well as logsheets were placed. 
 # e.g. /Users/username/Desktop/Project_X/raw_data
-input_directory = Path('/Users/seanselzer/Desktop/icy-lab_ss_310519/Raw_Data_Example')
+input_directory = Path('/Users/seanselzer/Documents/GitHub/RaDeCC_Reader/Raw_Data_Example')
 #*output_directory*: This is filepath of the folder in which you would like the output to be placed.   e.g. Filepath: /Users/username/Desktop/Project_X/Output_Data
-output_directory = Path('/Users/seanselzer/Desktop/icy-lab_ss_310519/Example_Output_Folder_181119')
+output_directory = Path('/Users/seanselzer/Documents/GitHub/RaDeCC_Reader/Example_Output_Folder')
 #*output_filename* : the name you would like to give the ouput file.   e.g. project_x_output.csv
-output_filename = 'Example_Results_Dataframe_051119.csv'
+output_filename = 'Example_Results_Dataframe.csv'
 
 #Date Format: If the dates in read files and logsheets are DD/MM/YYYY (day first) then input 'True' else for MM/DD/YYYY input 'False'
 DDMMYYY_DateFormat = True
