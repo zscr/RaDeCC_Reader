@@ -163,7 +163,7 @@ The RaDeCC_Reader program is able to find spikes in read data that are anomalous
 - *acstd_prepDatestr* = date and time of actinium-227 standard preparation in the form - 'dd/mm/yyyy hh:mm:ss'
 - *det_list* =  list of detectors in the form - ['detector_1', 'detector_2', ..., 'detector_n']
 
-#Logsheet identifiers (below)
+## Logsheet identifiers (below)
 
 These are the row names used in the logsheet for each variable (e.g. Latitude may be abbreviated in the logsheet to 'Lat'). These are used by the programme to search for the relevant data
 in the logsheet.
