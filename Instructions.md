@@ -110,20 +110,21 @@ Open Anaconda Navigator  and launch Spyder. Once Spyder is running open radecc_m
 
 **Important**: Ensure there are no spaces anywhere in the filepaths used for *input_directory* or *output_directory*
 - *input_directory*: This is the filepath of the folder in which the sample, standard and blank read files as well as logsheets were placed 
-	e.g. 
+	For Example: 
 		Filepath (Linux, OS X): /Users/username/Desktop/Project_X/Raw_Data_Example
 		Filepath (Windows): C:\\Users\\username\\Desktop\\Project_X\\Raw_Data_Example
 
 - *output_directory*: This is filepath of the folder in which you would like the output to be placed.
-	e.g. 
+	For Example: 
 		Filepath (Linux, OS X): /Users/username/Desktop/Project_X/Output_Data
 		Filepath (Windows): C:\\Users\\username\\Desktop\\Project_X\\Output_Data
 
 - *output_filename* : the name you would like to give the ouput file.
-	e.g. project_x_output.csv
+	For Example:
+		project_x_output.csv
 
 - *linear_data_type* : This variable is set to True if the dataset being input is linear/1-dimensional (e.g. a string of ocean surface samples or a time series at one point/location). Alternatively this is set to False if the dataset being input is 2-dimensional (e.g. a time-series at a string of locations or a string of depth profiles).
-	Note: this variable should be set as either of the below:
+	Note - this variable should be set as either of the below:
 		- linear_data_type = True
 		- linear_data_type = False
 	Not:
