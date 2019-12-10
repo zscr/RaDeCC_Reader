@@ -158,7 +158,6 @@ The RaDeCC_Reader program is able to find spikes in read data that are anomalous
 - *blank*: This is the filename identifier for blank standards e.g. 'blank' in the filename 'blank-250119-detector1.txt'
 - *acstd_activity*: This is the start activity of the actinium-227 standard at the date of preparation
 - *thstd_activity*:	This is the start activity of the thorium-228 standard at the date of preparation
-- *ac_halflife*: This is the half-life of actinium-227
 - *thstd_prepDatestr* = date and time of thorium-228 standard preparation in the form - 'dd/mm/yyyy hh:mm:ss'
 - *acstd_prepDatestr* = date and time of actinium-227 standard preparation in the form - 'dd/mm/yyyy hh:mm:ss'
 - *det_list* =  list of detectors in the form - ['detector_1', 'detector_2', ..., 'detector_n']
