@@ -22,7 +22,7 @@ from logsheet_reader_2_0 import *
 
 
 #__________________________________________________________________________________________________________________________________________________________
-"""##########  USER INPUT AREA  ##########"""
+"""##########  USER INPUT AREA  ###########"""
 #__________________________________________________________________________________________________________________________________________________________
 #input_directory*: This is the filepath of the folder in which the sample, standard and blank read files as well as logsheets were placed. 
 # e.g. /Users/username/Desktop/Project_X/raw_data
