@@ -91,7 +91,7 @@ acstd_prepDatestr = '13/10/2014 00:00:00'
 
 
 #detector_list: list all detectors used for the analysis of the sample set in the form: ['detector_1', 'detector_2', ..., 'detector_n']
-detector_list = ['detector1']
+detector_list = ['detector1', 'detector2']
 
 #__________________________________________________________________________________________________________________________________________________________
 """Information for logsheet reader"""
@@ -109,6 +109,7 @@ sub_sample_variable = 'Sample_Depth'
 
 #sample_volume is the name of the column in the logsheet(s) that contains the volumes of each sample/sub-sample.
 sample_volume = 'Volume_sampled'
+sample_volume_error = 'Volume_error'
 
 
 #__________________________________________________________________________________________________________________________________________________________
@@ -183,7 +184,7 @@ eff_df = create_effdf (output_directory, thstd, acstd, blank, thstd_activity, ac
 
 log_df = logsheet_scan(output_directory)
 
-lvl2_main_df = amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_variable, sub_sample_variable, spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank)
+lvl2_main_df = amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_volume_error, sample_variable, sub_sample_variable, spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank)
 
 folder_filepath = output_directory/'Dataframes'
 if folder_filepath.exists() == False:

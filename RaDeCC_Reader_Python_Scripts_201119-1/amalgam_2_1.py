@@ -24,7 +24,7 @@ from detector_efficiencies_2_1 import *
 
 #____________________________________________________________________________________________________________________________________________________________
 
-def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_variable, sub_sample_variable, spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank ):
+def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_volume_error, sample_variable, sub_sample_variable, spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank ):
     main_samplelist = []
     
     print('\n---Creating sample results dataframe---\n')
@@ -128,44 +128,41 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
             #dpm219 error 
             dpm220_err.append(float((np.sqrt((blankcorr220_err[-1]/eff_df.Average_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()])**2 + ((lvl1_main_df['final220'][i]*eff_df.Standard_Deviation_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()])/eff_df.Average_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]**2)**2))/dpm220[-1]))
             
-                        
             #219 Volume corrections
             vdpm219.append((dpm219[-1]/float(lvl1_main_df[sample_volume][i]))*1000)
             #219 Volume corrections error
-            vdpm219_err.append(dpm219_err[-1]*vdpm219[-1])
-            if float(vdpm219[-1]) < 0 :
-                vdpm219[-1] = 0
+            vdpm219_err.append(np.sqrt((dpm219_err[-1]/float(lvl1_main_df[sample_volume][i]))**2 + ((dpm219[-1]*float(lvl1_main_df[sample_volume_error][i]))/(float(lvl1_main_df[sample_volume][i])**2))**2)*1000)
             
             #220 Volume corrections
             vdpm220.append((dpm220[-1]/float(lvl1_main_df[sample_volume][i]))*1000)
             #220 Volume corrections error
-            vdpm220_err.append(dpm220_err[-1]*vdpm220[-1])  
-            if float(vdpm220[-1]) < 0 :
-                vdpm220[-1] = 0 
+            vdpm220_err.append(np.sqrt((dpm220_err[-1]/float(lvl1_main_df[sample_volume][i]))**2 + ((dpm220[-1]*float(lvl1_main_df[sample_volume_error][i]))/(float(lvl1_main_df[sample_volume][i])**2))**2)*1000)
+            
                 
             ##############################################
-            #dpm219 calculation using 
+            #dpm219_thstdonly calculation using 
             dpm219_thstdonly.append(float(blankcorr219[-1]/eff_df.E219_from_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]))
-            #dpm219 error 
+            #dpm219_thstdonly error 
             dpm219_thstdonly_err.append(float((np.sqrt((blankcorr219_err[-1]/eff_df.E219_from_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()])**2 + ((lvl1_main_df['final219'][i]*eff_df.E219_from_E220_uncertainty[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()])/eff_df.E219_from_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]**2)**2))/dpm219_thstdonly[-1]))
                     
             ################################################
                             
             ###############################################################################
-            #219 Volume corrections
+            #dpm219_thstdonly Volume corrections
             vdpm219_thstdonly.append((dpm219_thstdonly[-1]/float(lvl1_main_df[sample_volume][i]))*1000)
-            #219 Volume corrections error
-            vdpm219_thstdonly_err.append(dpm219_thstdonly_err[-1]*vdpm219_thstdonly[-1])
+            #dpm219_thstdonly_err Volume corrections error
+            vdpm219_thstdonly_err.append(np.sqrt((dpm219_thstdonly_err[-1]/float(lvl1_main_df[sample_volume][i]))**2 + ((dpm219_thstdonly[-1]*float(lvl1_main_df[sample_volume_error][i]))/(float(lvl1_main_df[sample_volume][i])**2))**2)*1000)
+            
             if float(vdpm219_thstdonly[-1]) < 0 :
                 vdpm219_thstdonly[-1] = 0
             ###############################################################################
             
-            
+            #dpm226 calculation 
             vdpm226.append(((lvl1_main_df['Slope'][i]/0.000186)/float(lvl1_main_df[sample_volume][i]))*1000)
-            if float(vdpm226[-1]) <0:
-                vdpm226[-1] = 0
+            #dpm226_err calculation 
+            vdpm226_err.append(np.sqrt(((lvl1_main_df['stderr_slope'][i]/0.000186)/float(lvl1_main_df[sample_volume][i]))**2 + (((lvl1_main_df['Slope'][i]/0.000186)*float(lvl1_main_df[sample_volume_error][i]))/(float(lvl1_main_df[sample_volume][i])**2))**2)*1000)
             
-            vdpm226_err.append(vdpm226[-1]*(lvl1_main_df['stderr_slope'][i]/lvl1_main_df['Slope'][i]))
+            
             #Time difference between sampling datetime and read datetime (t1 in Garcia-Solsona)
             diff = pd.to_datetime(lvl1_main_df['Mid_Read_Datetime'][i]) - pd.to_datetime(lvl1_main_df['Mid_Sample_Datetime'][i]) 
             t1.append((diff.seconds/60)+diff.days*24*60)
@@ -228,7 +225,7 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
             vdpm226.append(((lvl1_main_df['Slope'][i]/0.000186)/float(lvl1_main_df[sample_volume][i]))*1000)
             if vdpm226[-1]<0:
                 vdpm226[-1] = 0
-            vdpm226_err.append(vdpm226[-1]*(lvl1_main_df['stderr_slope'][i]/lvl1_main_df['Slope'][i]))
+            vdpm226_err.append(np.sqrt(((lvl1_main_df['stderr_slope'][i]/0.000186)/float(lvl1_main_df[sample_volume][i]))**2 + (((lvl1_main_df['Slope'][i]/0.000186)*float(lvl1_main_df[sample_volume_error][i]))/(float(lvl1_main_df[sample_volume][i])**2))**2)*1000)
             
             #Time difference between sampling datetime and read datetime (t1 in Garcia-Solsona)
             diff = pd.to_datetime(lvl1_main_df['Mid_Read_Datetime'][i]) - pd.to_datetime(lvl1_main_df['Mid_Sample_Datetime'][i]) 
