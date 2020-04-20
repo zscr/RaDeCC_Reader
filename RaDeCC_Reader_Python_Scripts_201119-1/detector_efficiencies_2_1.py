@@ -26,7 +26,9 @@ import pandas as pd
 from radecc_reader_lvl1_2_0 import *
 
 
-def create_effdf(output_directory, thstd, acstd, blank, thstd_activity, acstd_activity, acstd_prepDate, ac_halfLife, detector_list, adjustment_coefficient, spike_sensitivity, equilibration_time_variable, DDMMYYY_DateFormat):
+def create_effdf(output_directory, thstd, acstd, blank, ac_halfLife, 
+                 detector_list, adjustment_coefficient, spike_sensitivity, equilibration_time_variable, DDMMYYY_DateFormat, 
+                 acstd_start_activity_dict, acstd_date_dict, thstd_start_activity_dict, thstd_date_dict, blank_name_list):
     thstdList = []
     acstdList = []
     blankstdList = []
@@ -34,22 +36,33 @@ def create_effdf(output_directory, thstd, acstd, blank, thstd_activity, acstd_ac
     #____________________________________________________________________________________________________________________________________________________________________
     #Make dataframe of thstd reads
     #____________________________________________________________________________________________________________________________________________________________________
+    standard_name_list = []
+    standard_manufacture_date_list = []
+    standard_start_activity_list = []
     
     print('\n---Calculating efficiencies---\n')
-    
     
     for dirName, subdirList, fileList in os.walk(output_directory/(thstd+'_folder')):
         if len(fileList)!= 0:
             for file in fileList:
                 thstdList.append(slope_calculator(output_directory ,output_directory/(thstd+'_folder')/file, spike_sensitivity, equilibration_time_variable, DDMMYYY_DateFormat, thstd, acstd, blank))
-
-    thstd_df = pd.DataFrame(thstdList, columns=['Read_Start_Time', 'Read_End_Time', 'Slope', 'R_slope', 'cnt219', 'cnt219_abserr', 'cnt220', 'cnt220_abserr', 'cpm_219', 'err_219', 'cpm_220', 'err_220', 'cpm_Tot', 'err_Tot', 'y219cc', 'y219cc_err', 
+                for thstd_name in thstd_date_dict.keys():
+                    if thstd_name.lower() in file.lower():
+                        print (thstd_name)
+                        standard_name_list.append(thstd_name)
+                        standard_manufacture_date_list.append(pd.to_datetime(thstd_date_dict[thstd_name], dayfirst = DDMMYYY_DateFormat))
+                        standard_start_activity_list.append(thstd_start_activity_dict[thstd_name])
+                        
+    thstd_df = pd.DataFrame(thstdList, columns=['Read_Start_Time', 'Read_End_Time', 'Slope', 'R_slope', 'cnt219', 'cnt219_abserr', 'cnt220', 'cnt220_abserr', 
+                                                'cpm_219', 'err_219', 'cpm_220', 'err_220', 'cpm_Tot', 'err_Tot', 'y219cc', 'y219cc_err', 
                                                 'y220cc', 'y220cc_err', 'corr219', 'corr219_err', 'corr220', 'corr220_err','final219', 
                                                        'final220',  'Read_Runtime', 'final219_err', 'final220_err', 'cntTot_abserr', 
                                                       'errslope_abs', 'Detector_Name', 'Cartridge_Type', 'Read_Number', 'Spike_Value'])
     thstd_df['Filename']= fileList
-    thstd_df['E220'] = thstd_df.final220/thstd_activity
-    
+    thstd_df['Standard_name']= standard_name_list
+    thstd_df['Standard_manufacture_date'] = standard_manufacture_date_list
+    thstd_df['Standard_start_activity'] = standard_start_activity_list
+    thstd_df['E220'] = thstd_df.final220/thstd_df['Standard_start_activity']
     
 
 
@@ -57,36 +70,55 @@ def create_effdf(output_directory, thstd, acstd, blank, thstd_activity, acstd_ac
     #____________________________________________________________________________________________________________________________________________________________________
     #Make dataframe of acstd reads
     #____________________________________________________________________________________________________________________________________________________________________
-    
+    standard_name_list = []
+    standard_manufacture_date_list = []
+    standard_start_activity_list = []
     for dirName, subdirList, fileList in os.walk(output_directory/(acstd+'_folder')):
         if len(fileList)!= 0:
             for file in fileList:
                 acstdList.append(slope_calculator(output_directory ,output_directory/(acstd+'_folder')/file, spike_sensitivity, equilibration_time_variable, DDMMYYY_DateFormat, thstd, acstd, blank))
-
-    acstd_df = pd.DataFrame(acstdList, columns=['Read_Start_Time', 'Read_End_Time', 'Slope', 'R_slope', 'cnt219', 'cnt219_abserr', 'cnt220', 'cnt220_abserr', 'cpm_219', 'err_219', 'cpm_220', 'err_220', 'cpm_Tot', 'err_Tot', 'y219cc', 'y219cc_err', 
+                for acstd_name in acstd_date_dict.keys():
+                    if acstd_name.lower() in file.lower():
+                        print (acstd_name)
+                        standard_name_list.append(acstd_name)
+                        standard_manufacture_date_list.append(pd.to_datetime(acstd_date_dict[acstd_name], dayfirst = DDMMYYY_DateFormat))
+                        standard_start_activity_list.append(acstd_start_activity_dict[acstd_name])
+                        
+    acstd_df = pd.DataFrame(acstdList, columns=['Read_Start_Time', 'Read_End_Time', 'Slope', 'R_slope', 'cnt219', 'cnt219_abserr', 'cnt220', 'cnt220_abserr', 
+                                                'cpm_219', 'err_219', 'cpm_220', 'err_220', 'cpm_Tot', 'err_Tot', 'y219cc', 'y219cc_err', 
                                                 'y220cc', 'y220cc_err', 'corr219', 'corr219_err', 'corr220', 'corr220_err','final219', 
                                                        'final220',  'Read_Runtime', 'final219_err', 'final220_err', 'cntTot_abserr', 
                                                       'errslope_abs', 'Detector_Name', 'Cartridge_Type', 'Read_Number', 'Spike_Value'])
     acstd_df['Filename']= fileList
-    acstd_df['Time_since_std_made'] = acstd_df.Read_Start_Time - acstd_prepDate
+    acstd_df['Standard_name']= standard_name_list
+    acstd_df['Standard_manufacture_date'] = standard_manufacture_date_list
+    acstd_df['Standard_start_activity'] = standard_start_activity_list
+    acstd_df['Time_since_std_made'] = acstd_df.Read_Start_Time - acstd_df['Standard_manufacture_date']
     acstd_df['Time_since_std_made_in_s'] = acstd_df['Time_since_std_made'].dt.total_seconds()
     #t2 = ((acstd_df.Read_Start_Time[0]-acstd_prepDate).delta*1e-9)/60/60/24
     #print (t2)
-    acstd_df['E219'] = acstd_df.final219/(acstd_activity* np.exp(-(np.log(2)/(ac_halfLife*365*24*60*60))*(acstd_df['Time_since_std_made_in_s'])))
+    acstd_df['E219'] = acstd_df.final219/(acstd_df['Standard_start_activity']* np.exp(-(np.log(2)/(ac_halfLife*365*24*60*60))*(acstd_df['Time_since_std_made_in_s'])))
     
     #____________________________________________________________________________________________________________________________________________________________________
     #Make dataframe of blank reads
     #____________________________________________________________________________________________________________________________________________________________________
+    standard_name_list = []
     for dirName, subdirList, fileList in os.walk(output_directory/(blank+'_folder')):
         if len(fileList)!= 0:
             for file in fileList:
                 blankstdList.append(slope_calculator(output_directory ,output_directory/(blank+'_folder')/file, spike_sensitivity, equilibration_time_variable, DDMMYYY_DateFormat, thstd, acstd, blank))
-
-    blank_df = pd.DataFrame(blankstdList, columns=['Read_Start_Time', 'Read_End_Time', 'Slope', 'R_slope', 'cnt219', 'cnt219_abserr', 'cnt220', 'cnt220_abserr', 'cpm_219', 'err_219', 'cpm_220', 'err_220', 'cpm_Tot', 'err_Tot', 'y219cc', 'y219cc_err', 
+                for blank_name in blank_name_list:
+                    if blank_name.lower() in file.lower():
+                        print (blank_name)
+                        standard_name_list.append(blank_name)
+                        
+    blank_df = pd.DataFrame(blankstdList, columns=['Read_Start_Time', 'Read_End_Time', 'Slope', 'R_slope', 'cnt219', 'cnt219_abserr', 'cnt220', 'cnt220_abserr',
+                                                   'cpm_219', 'err_219', 'cpm_220', 'err_220', 'cpm_Tot', 'err_Tot', 'y219cc', 'y219cc_err', 
                                                 'y220cc', 'y220cc_err', 'corr219', 'corr219_err', 'corr220', 'corr220_err','final219', 
                                                        'final220',  'Read_Runtime', 'final219_err', 'final220_err', 'cntTot_abserr', 
                                                       'errslope_abs', 'Detector_Name', 'Cartridge_Type', 'Read_Number', 'Spike_Value'])
     blank_df['Filename']= fileList
+    blank_df['Standard_name']= standard_name_list
     
     no_of_thstd_reads = []
     no_of_acstd_reads = []

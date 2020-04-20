@@ -68,27 +68,22 @@ number_of_samples = 30
 #Specify, if different from the below, the identifiers used for each of the standards and the blank below:
 # 228-Thorium Standard:
 thstd = 'thstd'
+thstd_date_dict = {'green':'13/10/2014 00:00:00', 'yellow':'13/10/2014 00:00:00'}
+thstd_start_activity_dict = {'green':12.20454, 'yellow':12.20454}
+
 # 227-Actinium Standard:
 acstd = 'acstd'
+acstd_date_dict = {'red':'13/10/2014 00:00:00', 'blue':'13/10/2014 00:00:00'}
+acstd_start_activity_dict = {'red':10.49429, 'blue':10.49429}
+
 # Blank:
 blank = 'blank'
+blank_name_list = ['exposure', 'analytical']
 
-#Enter standard's start activity and date of preparation
-# 228-Thorium standard activity:
-thstd_activity = 12.20454
-# 227-Actinium standard activity:
-acstd_activity = 10.49429
+
 
 adjustment_coefficient = 0.45
 adjustment_coefficient_uncertainty = 0.05
-
-#Enter Standard Preparation Date in the form 'MM/DD/YYYY  HH:MM:SS'
-
-#228-thorium preparation date and time
-thstd_prepDatestr = '13/10/2014 00:00:00'
-#227-actinium preparation date and time
-acstd_prepDatestr = '13/10/2014 00:00:00'
-
 
 #detector_list: list all detectors used for the analysis of the sample set in the form: ['detector_1', 'detector_2', ..., 'detector_n']
 detector_list = ['detector1', 'detector2']
@@ -172,15 +167,17 @@ if linear_data_type == False:
     dir_constructor(input_directory, output_directory, sample_type, number_of_samples, deployment_dir_list)
     dir_filler(output_directory, input_directory, sample_type)
 
-thstd_prepDate = pd.to_datetime(thstd_prepDatestr, dayfirst = DDMMYYY_DateFormat)
-acstd_prepDate = pd.to_datetime(acstd_prepDatestr, dayfirst = DDMMYYY_DateFormat)
+#thstd_prepDate = pd.to_datetime(thstd_prepDatestr, dayfirst = DDMMYYY_DateFormat)
+#acstd_prepDate = pd.to_datetime(acstd_prepDatestr, dayfirst = DDMMYYY_DateFormat)
 
 ra223_lambda = (np.log(2)/(half_life223*24*60))
 ra224_lambda = (np.log(2)/(half_life224*24*60))
 
 detector_list.append('No_Read')
 
-eff_df = create_effdf (output_directory, thstd, acstd, blank, thstd_activity, acstd_activity, acstd_prepDate, ac_halfLife, detector_list, adjustment_coefficient, spike_sensitivity, equilibration_time_variable, DDMMYYY_DateFormat)
+eff_df = create_effdf (output_directory, thstd, acstd, blank, ac_halfLife, 
+                       detector_list, adjustment_coefficient, spike_sensitivity, equilibration_time_variable, DDMMYYY_DateFormat,
+                       acstd_start_activity_dict, acstd_date_dict, thstd_start_activity_dict, thstd_date_dict, blank_name_list)
 
 log_df = logsheet_scan(output_directory)
 
