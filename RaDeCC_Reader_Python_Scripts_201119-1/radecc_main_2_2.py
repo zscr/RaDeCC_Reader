@@ -37,7 +37,7 @@ DDMMYYY_DateFormat = True
 
 #*linear_data_type* : This variable is set to True if the dataset being input is linear/1-dimensional (e.g. a string of ocean surface samples or a time series at one point/location). 
 # Alternatively this is set to False if the dataset being input is 2-dimensional (e.g. a time-series at a string of locations or a string of depth profiles).
-linear_data_type = True
+linear_data_type = False
 
 
 #spike_sensitivity is the threshold of counts in a time interval that determines whether a spike is anomalous or not. 
@@ -72,7 +72,7 @@ thstd_date_dict = {'green':'13/10/2014 00:00:00', 'yellow':'13/10/2014 00:00:00'
 thstd_start_activity_dict = {'green':12.20454, 'yellow':12.20454}
 
 # 227-Actinium Standard:
-acstd = 'acstd'
+
 acstd_date_dict = {'red':'13/10/2014 00:00:00', 'blue':'13/10/2014 00:00:00'}
 acstd_start_activity_dict = {'red':10.49429, 'blue':10.49429}
 
@@ -143,6 +143,8 @@ sample_volume_error = 'Volume_error'
 #__________________________________________________________________________________________________________________________________________________________
 start = time.time()
 
+acstd = 'acstd'
+
 # 227-Actinium half-life (years):
 ac_halfLife = 21.772 #YEARS
 half_life223 = 11.43 #days
@@ -161,11 +163,11 @@ deployment_dir_list.append('logsheet')
 
 if linear_data_type == True:
     dir_constructor_linear(input_directory, output_directory, sample_type, number_of_samples, deployment_dir_list)
-    dir_filler_linear(output_directory, input_directory, sample_type)
+    dir_filler_linear(output_directory, input_directory, sample_type, acstd_date_dict, thstd_date_dict, blank_name_list)
 
 if linear_data_type == False:
     dir_constructor(input_directory, output_directory, sample_type, number_of_samples, deployment_dir_list)
-    dir_filler(output_directory, input_directory, sample_type)
+    dir_filler(output_directory, input_directory, sample_type, acstd_date_dict, thstd_date_dict, blank_name_list)
 
 #thstd_prepDate = pd.to_datetime(thstd_prepDatestr, dayfirst = DDMMYYY_DateFormat)
 #acstd_prepDate = pd.to_datetime(acstd_prepDatestr, dayfirst = DDMMYYY_DateFormat)

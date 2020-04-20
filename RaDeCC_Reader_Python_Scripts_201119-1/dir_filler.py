@@ -22,7 +22,7 @@ from pathlib import Path
 from get_digits import *
 from file_searcher import *
 
-def dir_filler(rootDir, copyDir, sample_type):
+def dir_filler(rootDir, copyDir, sample_type, acstd_date_dict, thstd_date_dict, blank_name_list):
 
     #Extract name of new directory e.g. 'FRidge_Beta'
     rootsplit = rootDir.parts
@@ -45,25 +45,102 @@ def dir_filler(rootDir, copyDir, sample_type):
         #For each directory name in rootDir split the directory name string into list using '/' as a separator	
         dirName_split = Path(dirName).parts
         dirName_splitsplit = dirName_split[-1].split('_')
-        
-        #If the second last dirName_split list entry starts with rootname and the last entry in the list does not start with sample_type: 
-        if dirName_split[-2][:len(rootname)]==rootname and  sample_type.lower() not in dirName_split[-1].lower():
-            print (dirName, sample_type)
+       # print (dirName_splitsplit)
+        #If the second last dirName_split list entry starts with rootname and the last entry in the list does not start with sample type: 
+        if dirName_split[-2][:len(rootname)]==rootname and sample_type not in dirName_split[-1].lower():
+            #print (dirName_split[-2][:len(rootname)], sample_type)
 
         #For each filename in fileList_copy, convert to all lowercase letters, then search this filename for each directory name. When there is a match,
         #copy the file with that filename from copyDir to the new directory in rootDir and append test_filelist.
             for fname in fileList_copy:
-                if not fname.startswith('.'):
-                    search_str=fname.lower()
-                    #print (search_str)
-                    for i in range(len(search_str)):
-                        if dirName_splitsplit[0].lower() in search_str.lower():
-                            test_filelist.append(fname)
-                            if os.path.exists(rootDir/dirName/fname)==False:
-                                shutil.copy(str(copyDir/fname), str(rootDir/dirName/fname))
+                search_str=fname.lower()
+                #print (search_str)
+                if dirName_splitsplit[0].lower() in search_str.lower() and sample_type.lower() not in search_str:
+                    #print (dirName_splitsplit,search_str, sample_type)
+                    test_filelist.append(fname)
+                        
+                    
+                    if (rootDir/dirName/fname).exists()==False:
+                        #print (fname)
+                        shutil.copy(str(copyDir/fname), str(rootDir/dirName/fname))
+                        
+#############################################################################################################################
+                        '''Acstd mod'''
+#############################################################################################################################
+                        
+                for standard_name in acstd_date_dict.keys():
+                    
+                    if standard_name.lower() in search_str:
+#                        print ( str(rootDir/'acstd_folder'/fname))
+                        
+                        test_filelist.append(fname)
+                        
+                    
+                        if (rootDir/'acstd_folder'/fname).exists()==False:
+                            #print (fname)
+                            shutil.copy(str(copyDir/fname), str(rootDir/'acstd_folder'/fname))
+#############################################################################################################################
+#############################################################################################################################
+                        '''Thstd mod'''
+#############################################################################################################################
+                        
+                for standard_name in thstd_date_dict.keys():
+                    
+                    if standard_name.lower() in search_str:
+#                        print ( str(rootDir/'acstd_folder'/fname))
+                        
+                        test_filelist.append(fname)
+                        
+                    
+                        if (rootDir/'thstd_folder'/fname).exists()==False:
+                            #print (fname)
+                            shutil.copy(str(copyDir/fname), str(rootDir/'thstd_folder'/fname))
+#############################################################################################################################
+#############################################################################################################################
+                        '''Blank mod'''
+#############################################################################################################################
+                        
+                for standard_name in blank_name_list:
+                    
+                    if standard_name.lower() in search_str:
+#                        print ( str(rootDir/'acstd_folder'/fname))
+                        
+                        test_filelist.append(fname)
+                        
+                    
+                        if (rootDir/'blank_folder'/fname).exists()==False:
+                            #print (fname)
+                            shutil.copy(str(copyDir/fname), str(rootDir/'blank_folder'/fname))
+#############################################################################################################################
+
+#    for dirName, subdirList, fileList in os.walk(rootDir):
+#	
+#        #For each directory name in rootDir split the directory name string into list using '/' as a separator	
+#        dirName_split = Path(dirName).parts
+#        dirName_splitsplit = dirName_split[-1].split('_')
+#        
+#        #If the second last dirName_split list entry starts with rootname and the last entry in the list does not start with sample_type: 
+#        if dirName_split[-2][:len(rootname)]==rootname and  sample_type.lower() not in dirName_split[-1].lower():
+#            print (dirName, sample_type)
+#
+#        #For each filename in fileList_copy, convert to all lowercase letters, then search this filename for each directory name. When there is a match,
+#        #copy the file with that filename from copyDir to the new directory in rootDir and append test_filelist.
+#            for fname in fileList_copy:
+#                if not fname.startswith('.'):
+#                    search_str=fname.lower()
+#                    #print (search_str)
+#                    for i in range(len(search_str)):
+#                        if dirName_splitsplit[0].lower() in search_str.lower():
+#                            test_filelist.append(fname)
+#                            if os.path.exists(rootDir/dirName/fname)==False:
+#                                shutil.copy(str(copyDir/fname), str(rootDir/dirName/fname))
+        
+        
+        
+        
                         
         if sample_type.lower() in dirName_split[-2].lower() and sample_type.lower() not in dirName_split[-1].lower():
-            print (dirName_split[-1], dirName_split[-2])
+#            print (dirName_split[-1], dirName_split[-2])
 
             #If the final dirName_split list entry (depth) is less than 10 then add 'xx'.(this is for the unnamed cartridges in saps10)
             #if int (dirName_split[-1][0:-1])<10:
@@ -82,7 +159,7 @@ def dir_filler(rootDir, copyDir, sample_type):
                         searchstr_split = search_str.split('-')
                         if len(searchstr_split) >=3:
                             search_depth = searchstr_split[2]
-                            print (search_depth, dirName_split[-1])
+#                            print (search_depth, dirName_split[-1])
                             
                             #If the depth digits match with depth indicated by the directory name then copy the file to the directory with the corresponding depth
                             #and append test_filelist

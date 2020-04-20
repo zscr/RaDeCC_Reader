@@ -21,6 +21,7 @@ from file_searcher import *
 
 def dir_constructor_linear(output_directory, new_master_dir, sample_type, number_of_samples, deployment_dir_list):
 
+    
     #Original Unsorted folder of files: output_directory 
 
     #Location of new sorted library of files: new_master_dir 

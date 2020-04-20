@@ -22,7 +22,7 @@ from pathlib import Path
 from get_digits import *
 from file_searcher import *
 
-def dir_filler_linear(rootDir, copyDir, sample_type):
+def dir_filler_linear(rootDir, copyDir, sample_type, acstd_date_dict, thstd_date_dict, blank_name_list):
 
     #Extract name of new directory e.g. 'FRidge_Beta'
     rootsplit = rootDir.parts
@@ -64,8 +64,56 @@ def dir_filler_linear(rootDir, copyDir, sample_type):
                     if (rootDir/dirName/fname).exists()==False:
                         #print (fname)
                         shutil.copy(str(copyDir/fname), str(rootDir/dirName/fname))
-                        
 
+#############################################################################################################################
+                        '''Acstd mod'''
+#############################################################################################################################
+                        
+                for standard_name in acstd_date_dict.keys():
+                    
+                    if standard_name.lower() in search_str:
+#                        print ( str(rootDir/'acstd_folder'/fname))
+                        
+                        test_filelist.append(fname)
+                        
+                    
+                        if (rootDir/'acstd_folder'/fname).exists()==False:
+                            #print (fname)
+                            shutil.copy(str(copyDir/fname), str(rootDir/'acstd_folder'/fname))
+#############################################################################################################################
+#############################################################################################################################
+                        '''Thstd mod'''
+#############################################################################################################################
+                        
+                for standard_name in thstd_date_dict.keys():
+                    
+                    if standard_name.lower() in search_str:
+#                        print ( str(rootDir/'acstd_folder'/fname))
+                        
+                        test_filelist.append(fname)
+                        
+                    
+                        if (rootDir/'thstd_folder'/fname).exists()==False:
+                            #print (fname)
+                            shutil.copy(str(copyDir/fname), str(rootDir/'thstd_folder'/fname))
+#############################################################################################################################
+#############################################################################################################################
+                        '''Blank mod'''
+#############################################################################################################################
+                        
+                for standard_name in blank_name_list:
+                    
+                    if standard_name.lower() in search_str:
+#                        print ( str(rootDir/'acstd_folder'/fname))
+                        
+                        test_filelist.append(fname)
+                        
+                    
+                        if (rootDir/'blank_folder'/fname).exists()==False:
+                            #print (fname)
+                            shutil.copy(str(copyDir/fname), str(rootDir/'blank_folder'/fname))
+#############################################################################################################################
+                            
         if sample_type.lower() in dirName_split[-2].lower() and sample_type.lower() in dirName_split[-1].lower():
             #print (dirName_split[-1])
 
