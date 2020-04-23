@@ -247,6 +247,7 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
     lvl1_main_df['vdpm224 (dpm/m^3)'] = vdpm220
     lvl1_main_df['vdpm224_err (dpm/m^3)'] = vdpm220_err
     lvl1_main_df['t1_(mins)'] = t1
+    lvl1_main_df['sampling_to_read_time_(days)']= lvl1_main_df['t1_(mins)']/(24*60)
     lvl1_main_df['vdpm226 (dpm/m^3)'] = vdpm226
     lvl1_main_df['vdpm226_err (dpm/m^3)'] = vdpm226_err
 
