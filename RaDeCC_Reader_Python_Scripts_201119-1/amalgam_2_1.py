@@ -12,11 +12,8 @@ import numpy as np
 import datetime
 import re
 from pathlib import Path
-from detector_efficiencies_2_1 import *
-
-
-
-
+from detector_efficiencies_2_1 import create_effdf
+from radecc_reader_lvl1_2_0 import slope_calculator
 
 
 
@@ -39,9 +36,10 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
                 dirName = Path(dirName)
                 
                 #print(int(log_df[sub_sample_variable].iloc[i]), [int(s) for s in re.findall(r'-?\d+\.?\d*',dirName.split('/')[-1])][0],dirName.split('/')[-1])
-                if int(log_df[sub_sample_variable].iloc[i]) == [int(s) for s in re.findall(r'-?\d+\.?\d*',dirName.parts[-1])][0]:
+                print ('££££££££',log_df[sub_sample_variable].iloc[i], dirName.parts)
+                if log_df[sub_sample_variable].iloc[i]in dirName.parts[-1]:
                     for file in fileList:
-                        #print (file, sample_series, log_df[sub_sample_variable].iloc[i])
+                        print (file, sample_series, log_df[sub_sample_variable].iloc[i])
                         main_samplelist.append(list(log_df.iloc[i])+[os.path.join(dirName, file)])
     else:
         sample_set = list(set(log_df[sample_variable]))

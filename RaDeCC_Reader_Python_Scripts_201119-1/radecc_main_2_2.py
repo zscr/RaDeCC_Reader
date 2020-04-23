@@ -6,14 +6,17 @@ Created on Mon Jul 16 10:41:41 2018
 e"""
 import os
 import pandas as pd
+import numpy as np
 import time
 from pathlib import Path
-from dir_constructor_linear_sampling_v2 import *
-from dir_constructor_v2 import *
-from dir_filler_linear_sampling import *
-from dir_filler import *
-from amalgam_2_1 import *
-from logsheet_reader_2_0 import *
+from dir_constructor_linear_sampling_v2 import dir_constructor_linear 
+from dir_constructor_v2 import dir_constructor
+from dir_filler_linear_sampling import dir_filler_linear
+from dir_filler import dir_filler
+from detector_efficiencies_2_1 import create_effdf
+from amalgam_2_1 import amalgam_2
+from logsheet_reader_2_0 import logsheet_scan
+from create_summary_dataframe import create_summary_dataframe
 #__________________________________________________________________________________________________________________________________________________________
 #__________________________________________________________________________________________________________________________________________________________
 #__________________________________________________________________________________________________________________________________________________________
@@ -193,6 +196,8 @@ if (folder_filepath/output_filename).exists() == False:
     lvl2_main_df.to_csv(folder_filepath/output_filename)
 
 print (lvl2_main_df)
+
+create_summary_dataframe(lvl2_main_df, sample_variable, sub_sample_variable)
 
 end = time.time()
 print ('Calculations completed in ',end-start,'seconds.')

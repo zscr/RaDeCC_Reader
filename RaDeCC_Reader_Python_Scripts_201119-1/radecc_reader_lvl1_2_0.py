@@ -24,6 +24,7 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 from get_digits import *
 
+
 def interval_calculator (list_, runtime):					#This finds the counts within each interval. The range is length of list -1 as the last
     list1 = []										        #value of each list is the summary value. This is excluded by using (len(list_)-1)
     for i in range (len(list_)-1):
