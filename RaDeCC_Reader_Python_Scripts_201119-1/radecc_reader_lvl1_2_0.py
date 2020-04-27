@@ -23,7 +23,7 @@ import datetime
 import matplotlib.pyplot as plt
 from pathlib import Path
 from get_digits import *
-
+from collections import Counter
 
 def interval_calculator (list_, runtime):					#This finds the counts within each interval. The range is length of list -1 as the last
     list1 = []										        #value of each list is the summary value. This is excluded by using (len(list_)-1)
@@ -56,6 +56,7 @@ def slope_calculator (output_directory, arg_file = None, spike_sensitivity = 100
     CPMTot = []
     cntTot = []
     spike_list = []
+    error_list = []
     
     file_name = arg_file
     spike = 0
@@ -72,7 +73,7 @@ def slope_calculator (output_directory, arg_file = None, spike_sensitivity = 100
 
         for line in f:
             line = line.replace('"','')
-            if line[0] == '0'or line[0] == '1':						#Find lines containing data rather than titles
+            if line[0].isnumeric():						#Find lines containing data rather than titles
                 x = line.split()                                    #Split data within each line#Split data within each line#Split data within each line
                 runtimecopy.append(float(x[0]))			            #Append data to appropriate variable lists
                 CPM219copy.append(float(x[1]))
@@ -96,6 +97,7 @@ def slope_calculator (output_directory, arg_file = None, spike_sensitivity = 100
                 if i != len(runtimecopy) - 1:
                     print ('Spike detected and removed in file:',arg_file,'\ncnt219 cnts',cnt219copy[i],'\ncnt220 cnts',cnt220copy[i],'\ntot cnts :', cntTotcopy[i])
                     spike = cntTotcopy[i]
+                    error_list.append('S1')
             else:
                 runtime.append(runtimecopy[i])
                 CPM219.append(CPM219copy[i])
@@ -106,6 +108,42 @@ def slope_calculator (output_directory, arg_file = None, spike_sensitivity = 100
                 cntTot.append(cntTotcopy[i])
          
         f.close()
+#________________________________________________________________________________________________________________________________________________
+#Data_quality_checks_(DIEGO-FELIU et al. 2020)____________________________________________________________________________________________________________
+    CR220219 = np.array(CPM220)/np.array(CPM219)
+    
+    if  acstd not in str(file_name) and thstd not in str(file_name):
+        for i in range(len(CPMTot)):
+            if CPMTot[i] < 200:
+                if CPMTot[i] > 100:
+                    error_list.append('Err224_Tot100')
+                    
+                if CR220219[i] > 10:
+                    error_list.append('Err223_CR10')
+                    
+#                    print ('CR10')
+                if CR220219[i] < 10 and CR220219[i]>4:
+                    if CPM220[i] > 5:
+                        error_list.append('Err223_CPM220_5')
+                        print ('Err223_CPM220_5')
+                
+                if CR220219[i] < 8 and CR220219[i] > 2:
+                    if CPM219[i] > 1:
+                        error_list.append('Err224_CPM219_1')
+                        print ('Err224_CPM219_1')
+                 
+                if CR220219[i] < 2:
+                    error_list.append('Err224_CR2')
+            
+            else:
+                error_list.append('Err223_Tot200')
+            
+        
+        
+    error_list = dict(Counter(error_list))    
+#    error_list = list(set(error_list))
+    
+        
 #________________________________________________________________________________________________________________________________________________
 #END DATETIME____________________________________________________________________________________________________________________________________	
     #calculate the end date and time of the read by adding the read-time to the start datetime
@@ -300,12 +338,12 @@ def slope_calculator (output_directory, arg_file = None, spike_sensitivity = 100
         #plt.show()
         plt.clf()
         
-    cnt219, cnt219_abserr, cnt220, cnt220_abserr, cpm_219, err_219, cpm_220, err_220, cpm_Tot, err_Tot, y219cc, y219cc_err, y220cc, y220cc_err, corr219, corr219_err, corr220, corr220_err,
-
     if runtime[-1] > 10.0:
-        return (date_time, end_date_time, slope[0], slope[4], sum(cnt219), cnt219_abserr, sum(cnt220), cnt220_abserr, cpm_219, err_219, cpm_220, err_220, cpm_Tot, err_Tot, y219cc, y219cc_err, y220cc, y220cc_err, corr219, corr219_err, corr220, corr220_err,  final219, final220, runtime[-1], final219_err, final220_err, cntTot_abserr, errslope_abs, detname, cart_type, read_number, spike)
+        return (date_time, end_date_time, slope[0], slope[4], sum(cnt219), cnt219_abserr, sum(cnt220), cnt220_abserr, cpm_219, err_219, cpm_220, 
+                err_220, cpm_Tot, err_Tot, y219cc, y219cc_err, y220cc, y220cc_err, corr219, corr219_err, corr220, corr220_err,  final219, final220, 
+                runtime[-1], final219_err, final220_err, cntTot_abserr, errslope_abs, detname, cart_type, read_number, spike, error_list)
     else:
-        return (pd.to_datetime('01/01/1900 00:00:00'), pd.to_datetime('01/01/1900 00:00:00'), -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, 'no_read', 'no_read', -999, -999)
+        return (pd.to_datetime('01/01/1900 00:00:00'), pd.to_datetime('01/01/1900 00:00:00'), -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, 'no_read', 'no_read', -999, -999, ['no read'])
  
     
     

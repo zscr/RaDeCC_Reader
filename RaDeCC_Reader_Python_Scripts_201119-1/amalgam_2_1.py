@@ -71,7 +71,7 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
     lvl1_calc_df = pd.DataFrame(lvl1_calc_list, columns = ['Read_Start_Time', 'Read_End_Time', 'Slope', 'stderr_slope', 'cnt219', 'cnt219_abserr', 'cnt220', 'cnt220_abserr', 'cpm_219', 'err_219', 'cpm_220', 'err_220', 'cpm_Tot', 'err_Tot', 'y219cc', 'y219cc_err', 
                                                 'y220cc', 'y220cc_err', 'corr219', 'corr219_err', 'corr220', 'corr220_err','final219', 
                                                        'final220', 'Read_Runtime', 'final219_err', 'final220_err', 'cntTot_abserr', 
-                                                      'errslope_abs', 'Detector_Name', 'Cartridge_Type', 'Read_Number', 'Spike_Value'])
+                                                      'errslope_abs', 'Detector_Name', 'Cartridge_Type', 'Read_Number', 'Spike_Value', 'Error_List'])
     
     lvl1_main_df = pd.concat([temp_df, lvl1_calc_df], axis=1, join_axes=[temp_df.index])
     
@@ -250,6 +250,25 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
     lvl1_main_df['sampling_to_read_time_(days)']= lvl1_main_df['t1_(mins)']/(24*60)
     lvl1_main_df['vdpm226 (dpm/m^3)'] = vdpm226
     lvl1_main_df['vdpm226_err (dpm/m^3)'] = vdpm226_err
+    
+    read_number_list = []
+    for index, row in lvl1_main_df.iterrows():
+        if row['sampling_to_read_time_(days)'] < 5 and row['sampling_to_read_time_(days)'] > 0:
+            read_number_list.append(1)
+        if row['sampling_to_read_time_(days)'] < 18 and row['sampling_to_read_time_(days)'] > 5:
+            read_number_list.append(2)
+        if row['sampling_to_read_time_(days)'] < 57 and row['sampling_to_read_time_(days)'] > 18:
+            read_number_list.append(3)
+        if row['sampling_to_read_time_(days)'] < 180 and row['sampling_to_read_time_(days)'] > 57:
+            read_number_list.append(4)
+        if row['sampling_to_read_time_(days)'] > 180:
+            read_number_list.append(5)
+        if row['sampling_to_read_time_(days)'] < 0:
+            read_number_list.append('Error: Read prior to sampling')
+    
+    print (len(read_number_list), len(lvl1_main_df.dpm224))
+    lvl1_main_df['read_number'] = read_number_list
+        
 
     return(lvl1_main_df)
 

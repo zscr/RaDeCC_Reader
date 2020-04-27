@@ -57,7 +57,7 @@ def create_effdf(output_directory, thstd, acstd, blank, ac_halfLife,
                                                 'cpm_219', 'err_219', 'cpm_220', 'err_220', 'cpm_Tot', 'err_Tot', 'y219cc', 'y219cc_err', 
                                                 'y220cc', 'y220cc_err', 'corr219', 'corr219_err', 'corr220', 'corr220_err','final219', 
                                                        'final220',  'Read_Runtime', 'final219_err', 'final220_err', 'cntTot_abserr', 
-                                                      'errslope_abs', 'Detector_Name', 'Cartridge_Type', 'Read_Number', 'Spike_Value'])
+                                                      'errslope_abs', 'Detector_Name', 'Cartridge_Type', 'Read_Number', 'Spike_Value', 'Error_List'])
     thstd_df['Filename']= fileList
     thstd_df['Standard_name']= standard_name_list
     thstd_df['Standard_manufacture_date'] = standard_manufacture_date_list
@@ -88,7 +88,7 @@ def create_effdf(output_directory, thstd, acstd, blank, ac_halfLife,
                                                 'cpm_219', 'err_219', 'cpm_220', 'err_220', 'cpm_Tot', 'err_Tot', 'y219cc', 'y219cc_err', 
                                                 'y220cc', 'y220cc_err', 'corr219', 'corr219_err', 'corr220', 'corr220_err','final219', 
                                                        'final220',  'Read_Runtime', 'final219_err', 'final220_err', 'cntTot_abserr', 
-                                                      'errslope_abs', 'Detector_Name', 'Cartridge_Type', 'Read_Number', 'Spike_Value'])
+                                                      'errslope_abs', 'Detector_Name', 'Cartridge_Type', 'Read_Number', 'Spike_Value', 'Error_List'])
     acstd_df['Filename']= fileList
     acstd_df['Standard_name']= standard_name_list
     acstd_df['Standard_manufacture_date'] = standard_manufacture_date_list
@@ -116,7 +116,7 @@ def create_effdf(output_directory, thstd, acstd, blank, ac_halfLife,
                                                    'cpm_219', 'err_219', 'cpm_220', 'err_220', 'cpm_Tot', 'err_Tot', 'y219cc', 'y219cc_err', 
                                                 'y220cc', 'y220cc_err', 'corr219', 'corr219_err', 'corr220', 'corr220_err','final219', 
                                                        'final220',  'Read_Runtime', 'final219_err', 'final220_err', 'cntTot_abserr', 
-                                                      'errslope_abs', 'Detector_Name', 'Cartridge_Type', 'Read_Number', 'Spike_Value'])
+                                                      'errslope_abs', 'Detector_Name', 'Cartridge_Type', 'Read_Number', 'Spike_Value', 'Error_List'])
     blank_df['Filename']= fileList
     blank_df['Standard_name']= standard_name_list
     
