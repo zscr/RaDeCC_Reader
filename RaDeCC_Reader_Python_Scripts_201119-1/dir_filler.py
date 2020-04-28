@@ -31,7 +31,9 @@ def dir_filler(rootDir, copyDir, sample_type, acstd_date_dict, thstd_date_dict, 
     #Create list objects
     dir_list = []
     test_filelist = []
-
+    
+    print('\n---Filling Directories---\n')
+    
     #Fill fileList_copy with all the files in the directory to be copied (copyDir)
     for dirName, subdirList, fileList in os.walk(copyDir):
         fileList_copy = fileList
@@ -45,17 +47,17 @@ def dir_filler(rootDir, copyDir, sample_type, acstd_date_dict, thstd_date_dict, 
         #For each directory name in rootDir split the directory name string into list using '/' as a separator	
         dirName_split = Path(dirName).parts
         dirName_splitsplit = dirName_split[-1].split('_')
-       # print (dirName_splitsplit)
+        print (dirName_splitsplit)
         #If the second last dirName_split list entry starts with rootname and the last entry in the list does not start with sample type: 
         if dirName_split[-2][:len(rootname)]==rootname and sample_type not in dirName_split[-1].lower():
-            #print (dirName_split[-2][:len(rootname)], sample_type)
+#            print (dirName_split[-2][:len(rootname)], rootname, sample_type, dirName_split[-1].lower(), dirName_split[-2][:len(rootname)]==rootname and sample_type not in dirName_split[-1].lower())
 
         #For each filename in fileList_copy, convert to all lowercase letters, then search this filename for each directory name. When there is a match,
         #copy the file with that filename from copyDir to the new directory in rootDir and append test_filelist.
             for fname in fileList_copy:
                 search_str=fname.lower()
                 #print (search_str)
-                if dirName_splitsplit[0].lower() in search_str.lower() and sample_type.lower() not in search_str:
+                if dirName_splitsplit[0].lower() in search_str.lower() and sample_type.lower() not in dirName_splitsplit[0].lower():
                     #print (dirName_splitsplit,search_str, sample_type)
                     test_filelist.append(fname)
                         

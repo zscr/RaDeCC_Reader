@@ -10,13 +10,14 @@ import os
 import numpy as np
 from radecc_reader_lvl1_2_0 import *
 
-def logsheet_scan (folder_filepath):
+def logsheet_scan (folder_filepath, sample_variable):
     log_list = []
     for dirName, subdirList, fileList in os.walk(folder_filepath/'logsheet_folder'):
         for file in fileList:
             log_list.append(pd.read_csv(folder_filepath/'logsheet_folder'/file))
             
     log_df =  pd.concat(log_list, sort = False)
+    log_df = log_df.sort_values(sample_variable, ascending = True)
     log_df.to_csv(folder_filepath/'Dataframes'/'Amalgamated_Logsheet.csv')     
     
     return(log_df)

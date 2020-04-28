@@ -184,7 +184,7 @@ eff_df = create_effdf (output_directory, thstd, acstd, blank, ac_halfLife,
                        detector_list, adjustment_coefficient, spike_sensitivity, equilibration_time_variable, DDMMYYY_DateFormat,
                        acstd_start_activity_dict, acstd_date_dict, thstd_start_activity_dict, thstd_date_dict, blank_name_list)
 
-log_df = logsheet_scan(output_directory)
+log_df = logsheet_scan(output_directory, sample_variable)
 
 lvl2_main_df = amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_volume_error, sample_variable, sub_sample_variable, spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank)
 
