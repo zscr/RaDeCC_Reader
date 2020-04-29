@@ -1,0 +1,15 @@
+,Station,Latitude,Longitude,sample_name,Weather,Date,Event No.,Sampler_used,Sampling_Start_Time,Sampling_End_Time,Sample_Depth,Volume_sampled,Volume_error,224xs,223xs,228Ra,error_list
+0,1,41 22.97,13 53.26,StnX001,"Calm, sunny, clouds",12/24/17,11,Sampler001,16:50:00,18:20:00,300,900,1,(224xs) Required reads not available,(223xs) Required reads not available,(228Ra) Required reads not available,[]
+1,1,41 22.97,13 53.26,StnX001,"Calm, sunny, clouds",12/24/17,11,Sampler001,16:50:00,18:20:00,400,900,1,(224xs) Required reads not available,(223xs) Required reads not available,(228Ra) Required reads not available,[]
+2,2,41 21.30,13 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler001,15:10:00,16:40:00,3200a,849,5,0.7107702307451319,0.26705848989507225,(228Ra) Required reads not available,"['multi_reads_averaged', '(223xs) using read 1 instead of 2']"
+3,2,41 21.30,13 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler001,15:10:00,16:40:00,3200b,849,5,0.23926032671283703,0.003431790710671498,(228Ra) Required reads not available,['multi_reads_averaged']
+4,2,42 21.30,14 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler002,15:15:00,16:45:00,3400a,763,5,0.30006609635999926,0.2666297082953123,(228Ra) Required reads not available,[]
+5,2,42 21.30,14 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler002,15:15:00,16:45:00,3400b,763,5,0.1100348222518539,0.014075493495868882,(228Ra) Required reads not available,['(224xs) using read 4 instead of 3']
+6,2,43 21.30,15 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler003,15:12:00,16:42:00,3600a,859,5,0.6831256359346631,3.731333640735764,(228Ra) Required reads not available,[]
+7,2,43 21.30,15 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler003,15:12:00,16:42:00,3600b,859,5,2.0951141603161103,1.4665877286157238,(228Ra) Required reads not available,['(224xs) using read 4 instead of 3']
+8,2,44 21.30,16 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler004,15:15:00,16:45:00,3800a,933,5,0.74168419168795,2.981065952917652,(228Ra) Required reads not available,['multi_reads_averaged']
+9,2,44 21.30,16 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler004,15:15:00,16:45:00,3800b,933,5,0.7581869829291352,2.423425864353626,(228Ra) Required reads not available,['(224xs) using read 4 instead of 3']
+10,2,45 21.30,17 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler005,15:12:00,16:42:00,4000a,840,5,0.5733855204857016,2.6611194685051576,(228Ra) Required reads not available,['multi_reads_averaged']
+11,2,45 21.30,17 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler005,15:12:00,16:42:00,4000b,840,5,0.9906832203801237,1.3970668491357823,(228Ra) Required reads not available,['(224xs) using read 4 instead of 3']
+12,2,46 21.30,18 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler006,15:10:00,16:40:00,4100a,535,5,0.5443188606612365,3.524411537448053,(228Ra) Required reads not available,[]
+13,2,46 21.30,18 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler006,15:10:00,16:40:00,4100b,535,5,-0.2701765168490913,8.809500178735023,(228Ra) Required reads not available,['(224xs) using read 4 instead of 3']

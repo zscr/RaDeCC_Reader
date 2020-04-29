@@ -48,7 +48,7 @@ linear_data_type = False
 spike_sensitivity = 100
 
 #Enter below, the initial equilibration time (minutes) to be deducted from the 222Rn ingrowth slope calculation for the evaluation of 226Ra dpm
-equilibration_time = 100
+equilibration_time = 0
 
 #Enter below, the runtime counting intervals in minutes that were set for the RaDeCC detectors for these sample reads (default = 10 minute intervals)
 time_interval_mins = 10
