@@ -197,7 +197,7 @@ if (folder_filepath/output_filename).exists() == False:
 
 print (lvl2_main_df)
 
-create_summary_dataframe(lvl2_main_df, sample_variable, sub_sample_variable)
+create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_variable)
 
 end = time.time()
 print ('Calculations completed in ',end-start,'seconds.')
