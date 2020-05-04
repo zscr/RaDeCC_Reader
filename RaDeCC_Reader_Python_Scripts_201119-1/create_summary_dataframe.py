@@ -29,6 +29,7 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
     ac227_list = []
     ac227_err_list = []
     fraction_decayed_224_list = []
+    fraction_decayed_223_list = []
     error_list = []
     
     for index, row in summary_df.iterrows():
@@ -75,30 +76,39 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
 
             if len(read1_vdpm224)>1 and len(read3_vdpm224)<1:
                 row_specific_errors.append('(224xs) multiple_1st_reads_averaged')
-                xs224_list.append(np.average(read1_vdpm224)-read3_vdpm224.iloc[0])
+                fraction_decayed_224_list.append(np.exp(-ra224_lambda_days*np.average(read1_days_since_sampling)))
+                sample_xs224_t0_list = []
+                for i in range(len(read1_vdpm224)):
+                    fraction_decayed_since_sampling = np.exp(-ra224_lambda_days*read1_days_since_sampling.iloc[i])
+                    sample_xs224_t0_list.append((read1_vdpm224.iloc[i]-read3_vdpm224.iloc[0])/fraction_decayed_since_sampling)
+                xs224_list.append(np.average(sample_xs224_t0_list))
                 th228_list.append(read3_vdpm224.iloc[0])
                 th228_err_list.append(read3_vdpm224_err.iloc[0])
-                fraction_decayed_224_list.append(np.exp(-ra224_lambda_days*np.average(read1_days_since_sampling)))
                 
             if len(read1_vdpm224)<1 and len(read3_vdpm224)>1:
                 row_specific_errors.append('(224xs, 228Th) multiple_3rd_reads_averaged')
-                xs224_list.append(read1_vdpm224.iloc[0]-np.average(read3_vdpm224))
+                fraction_decayed_224_list.append(np.exp(-ra224_lambda_days*read1_days_since_sampling.iloc[0]))
+                xs224_list.append((read1_vdpm224.iloc[0]-np.average(read3_vdpm224))/fraction_decayed_224_list[-1])
                 th228_list.append(np.average(read3_vdpm224))
                 th228_err_list.append(np.average(read3_vdpm224_err))
-                fraction_decayed_224_list.append(np.exp(-ra224_lambda_days*read1_days_since_sampling.iloc[0]))
+                
                 
             if len(read1_vdpm224)>1 and len(read3_vdpm224)>1:
                 row_specific_errors.append('(224xs, 228Th) multiple_1st_and_3rd_reads_averaged')
-                xs224_list.append(np.average(read1_vdpm224)-np.average(read3_vdpm224))
+                fraction_decayed_224_list.append(np.exp(-ra224_lambda_days*np.average(read1_days_since_sampling)))
+                sample_xs224_t0_list = []
+                for i in range(len(read1_vdpm224)):
+                    fraction_decayed_since_sampling = np.exp(-ra224_lambda_days*read1_days_since_sampling.iloc[i])
+                    sample_xs224_t0_list.append((read1_vdpm224.iloc[i]-np.average(read3_vdpm224))/fraction_decayed_since_sampling)
+                xs224_list.append(np.average(sample_xs224_t0_list))
                 th228_list.append(np.average(read3_vdpm224))
                 th228_err_list.append(np.average(read3_vdpm224_err))
-                fraction_decayed_224_list.append(np.exp(-ra224_lambda_days*np.average(read1_days_since_sampling)))
                 
             else:
-                xs224_list.append(read1_vdpm224.iloc[0]-read3_vdpm224.iloc[0])
+                fraction_decayed_224_list.append(np.exp(-ra224_lambda_days*read1_days_since_sampling.iloc[0]))
+                xs224_list.append((read1_vdpm224.iloc[0]-read3_vdpm224.iloc[0])/fraction_decayed_224_list[-1])
                 th228_list.append(read3_vdpm224.iloc[0])
                 th228_err_list.append(read3_vdpm224_err.iloc[0])
-                fraction_decayed_224_list.append(np.exp(-ra224_lambda_days*read1_days_since_sampling.iloc[0]))
                 
             
                 
@@ -130,30 +140,38 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
             
             if len(read1_vdpm224)>1 and len(read4_vdpm224)<1:
                 row_specific_errors.append('(224xs) multiple_1st_reads_averaged')
-                xs224_list.append(np.average(read1_vdpm224)-read4_vdpm224.iloc[0])
+                fraction_decayed_224_list.append(np.exp(-ra224_lambda_days*np.average(read1_days_since_sampling)))
+                sample_xs224_t0_list = []
+                for i in range(len(read1_vdpm224)):
+                    fraction_decayed_since_sampling = np.exp(-ra224_lambda_days*read1_days_since_sampling.iloc[i])
+                    sample_xs224_t0_list.append((read1_vdpm224.iloc[i]-read4_vdpm224.iloc[0])/fraction_decayed_since_sampling)
+                xs224_list.append(np.average(sample_xs224_t0_list))
                 th228_list.append(read4_vdpm224.iloc[0])
                 th228_err_list.append(read4_vdpm224.iloc[0])
-                fraction_decayed_224_list.append(np.exp(-ra224_lambda_days*np.average(read1_days_since_sampling)))
                 
             if len(read1_vdpm224)<1 and len(read4_vdpm224)>1:
                 row_specific_errors.append('(224xs, 228Th) multiple_4th_reads_averaged')
-                xs224_list.append(read1_vdpm224.iloc[0]-np.average(read4_vdpm224))
+                fraction_decayed_224_list.append(np.exp(-ra224_lambda_days*read1_days_since_sampling.iloc[0]))
+                xs224_list.append((read1_vdpm224.iloc[0]-np.average(read4_vdpm224))/fraction_decayed_224_list[-1])
                 th228_list.append(np.average(read4_vdpm224))
                 th228_err_list.append(np.average(read4_vdpm224_err))
-                fraction_decayed_224_list.append(np.exp(-ra224_lambda_days*read1_days_since_sampling.iloc[0]))
                 
             if len(read1_vdpm224)>1 and len(read4_vdpm224)>1:
                 row_specific_errors.append('(224xs, 228Th) multiple_1st_and_4th_reads_averaged')
-                xs224_list.append(np.average(read1_vdpm224)-np.average(read4_vdpm224))
+                fraction_decayed_224_list.append(np.exp(-ra224_lambda_days*np.average(read1_days_since_sampling)))
+                sample_xs224_t0_list = []
+                for i in range(len(read1_vdpm224)):
+                    fraction_decayed_since_sampling = np.exp(-ra224_lambda_days*read1_days_since_sampling.iloc[i])
+                    sample_xs224_t0_list.append((read1_vdpm224.iloc[i]-np.average(read4_vdpm224))/fraction_decayed_since_sampling)
+                xs224_list.append(np.average(sample_xs224_t0_list))
                 th228_list.append(np.average(read4_vdpm224))
                 th228_err_list.append(np.average(read4_vdpm224_err))
-                fraction_decayed_224_list.append(np.exp(-ra224_lambda_days*np.average(read1_days_since_sampling)))
                 
             else:
-                xs224_list.append(read1_vdpm224.iloc[0]-read4_vdpm224.iloc[0])
+                fraction_decayed_224_list.append(np.exp(-ra224_lambda_days*read1_days_since_sampling.iloc[0]))
+                xs224_list.append((read1_vdpm224.iloc[0]-read4_vdpm224.iloc[0])/fraction_decayed_224_list[-1])
                 th228_list.append(read4_vdpm224.iloc[0])
                 th228_err_list.append(read4_vdpm224_err.iloc[0])
-                fraction_decayed_224_list.append(np.exp(-ra224_lambda_days*read1_days_since_sampling.iloc[0]))
 #####   Reads missing             
         else:
             row_specific_errors.append('(224xs, 228Th) Required reads not available')
@@ -178,6 +196,10 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                     & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
                     & (lvl2_main_df['read_number']==2))
                     , 'vdpm223_err (dpm/m^3)']
+            read2_days_since_sampling = lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) 
+                    & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
+                    & (lvl2_main_df['read_number']==2))
+                    , 'sampling_to_read_time_(days)']
             
             read4_vdpm223 = lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) 
                     & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
@@ -188,31 +210,76 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                     & (lvl2_main_df['read_number']==4))
                     , 'vdpm223_err (dpm/m^3)']
             
-            
+            if len(read2_vdpm223)>1 and len(read4_vdpm223)<1:
+                row_specific_errors.append('(223xs) multiple_2nd_reads_averaged')
+                fraction_decayed_223_list.append(np.exp(-ra223_lambda_days*np.average(read2_days_since_sampling)))
+                sample_xs223_t0_list = []
+                for i in range(len(read2_vdpm223)):
+                    fraction_decayed_since_sampling = np.exp(-ra223_lambda_days*read2_days_since_sampling.iloc[i])
+                    sample_xs223_t0_list.append((read2_vdpm223.iloc[i]-read4_vdpm223.iloc[0])/fraction_decayed_since_sampling)
+                xs223_list.append(np.average(sample_xs223_t0_list))
+                ac227_list.append(read4_vdpm223.iloc[0])
+                ac227_err_list.append(read4_vdpm223.iloc[0])
+                
             if len(read2_vdpm223)<1 and len(read4_vdpm223)>1:
-                row_specific_errors.append('(xs223, 227Ac) multiple_4th_reads_averaged')
-                xs223_list.append(read2_vdpm223.iloc[0]-np.average(read4_vdpm223))
+                row_specific_errors.append('(223xs, 227Ac) multiple_4th_reads_averaged')
+                fraction_decayed_223_list.append(np.exp(-ra223_lambda_days*read2_days_since_sampling.iloc[0]))
+                xs223_list.append((read2_vdpm223.iloc[0]-np.average(read4_vdpm223))/fraction_decayed_223_list[-1])
                 ac227_list.append(np.average(read4_vdpm223))
                 ac227_err_list.append(np.average(read4_vdpm223_err))
                 
-            if len(read2_vdpm223)>1 and len(read4_vdpm223)<1:
-                row_specific_errors.append('(xs223) multiple_2nd_reads_averaged')
-                xs223_list.append(np.average(read2_vdpm223)-read4_vdpm223.iloc[0])
-                ac227_list.append(read4_vdpm223.iloc[0])
-                ac227_err_list.append(read4_vdpm223_err.iloc[0])
-                
             if len(read2_vdpm223)>1 and len(read4_vdpm223)>1:
-                row_specific_errors.append('(xs223, 227Ac) multiple_2nd_and_4th_reads_averaged')
-                xs223_list.append(np.average(read2_vdpm223)-np.average(read4_vdpm223))
+                row_specific_errors.append('(223xs, 227Ac) multiple_2nd_and_4th_reads_averaged')
+                fraction_decayed_223_list.append(np.exp(-ra223_lambda_days*np.average(read2_days_since_sampling)))
+                sample_xs223_t0_list = []
+                for i in range(len(read2_vdpm223)):
+                    fraction_decayed_since_sampling = np.exp(-ra223_lambda_days*read1_days_since_sampling.iloc[i])
+                    sample_xs223_t0_list.append((read2_vdpm223.iloc[i]-np.average(read4_vdpm223))/fraction_decayed_since_sampling)
+                xs223_list.append(np.average(sample_xs223_t0_list))
                 ac227_list.append(np.average(read4_vdpm223))
                 ac227_err_list.append(np.average(read4_vdpm223_err))
                 
             else:
-                xs223_list.append(read2_vdpm223.iloc[0]-read4_vdpm223.iloc[0])
+                fraction_decayed_223_list.append(np.exp(-ra223_lambda_days*read2_days_since_sampling.iloc[0]))
+                xs223_list.append((read2_vdpm223.iloc[0]-read4_vdpm223.iloc[0])/fraction_decayed_223_list[-1])
                 ac227_list.append(read4_vdpm223.iloc[0])
                 ac227_err_list.append(read4_vdpm223_err.iloc[0])
-        
-        
+                
+                
+                
+                
+                
+                
+#                
+#                
+#            if len(read2_vdpm223)<1 and len(read4_vdpm223)>1:
+#                row_specific_errors.append('(xs223, 227Ac) multiple_4th_reads_averaged')
+#                xs223_list.append(read2_vdpm223.iloc[0]-np.average(read4_vdpm223))
+#                ac227_list.append(np.average(read4_vdpm223))
+#                ac227_err_list.append(np.average(read4_vdpm223_err))
+#                fraction_decayed_223_list.append(np.exp(-ra223_lambda_days*read2_days_since_sampling.iloc[0]))
+#                
+#            if len(read2_vdpm223)>1 and len(read4_vdpm223)<1:
+#                row_specific_errors.append('(xs223) multiple_2nd_reads_averaged')
+#                xs223_list.append(np.average(read2_vdpm223)-read4_vdpm223.iloc[0])
+#                ac227_list.append(read4_vdpm223.iloc[0])
+#                ac227_err_list.append(read4_vdpm223_err.iloc[0])
+#                fraction_decayed_223_list.append(np.exp(-ra223_lambda_days*np.average(read1_days_since_sampling)))
+#                
+#            if len(read2_vdpm223)>1 and len(read4_vdpm223)>1:
+#                row_specific_errors.append('(xs223, 227Ac) multiple_2nd_and_4th_reads_averaged')
+#                xs223_list.append(np.average(read2_vdpm223)-np.average(read4_vdpm223))
+#                ac227_list.append(np.average(read4_vdpm223))
+#                ac227_err_list.append(np.average(read4_vdpm223_err))
+#                fraction_decayed_223_list.append(np.exp(-ra223_lambda_days*np.average(read1_days_since_sampling)))
+#                
+#            else:
+#                xs223_list.append(read2_vdpm223.iloc[0]-read4_vdpm223.iloc[0])
+#                ac227_list.append(read4_vdpm223.iloc[0])
+#                ac227_err_list.append(read4_vdpm223_err.iloc[0])
+#                fraction_decayed_223_list.append(np.exp(-ra223_lambda_days*read2_days_since_sampling.iloc[0]))
+#        
+#        
         
 #####   Read1 - Read4        
         elif 1 in read_number_set and 4 in read_number_set:
@@ -227,6 +294,10 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                     & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
                     & (lvl2_main_df['read_number']==1))
                     , 'vdpm223_err (dpm/m^3)']
+            read1_days_since_sampling = lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) 
+                    & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
+                    & (lvl2_main_df['read_number']==1))
+                    , 'sampling_to_read_time_(days)']
             
             read4_vdpm223 = lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) 
                     & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
@@ -237,29 +308,70 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                     & (lvl2_main_df['read_number']==4))
                     , 'vdpm223_err (dpm/m^3)']
             
-
+            if len(read1_vdpm223)>1 and len(read4_vdpm223)<1:
+                row_specific_errors.append('(223xs) multiple_1st_reads_averaged')
+                fraction_decayed_223_list.append(np.exp(-ra223_lambda_days*np.average(read1_days_since_sampling)))
+                sample_xs223_t0_list = []
+                for i in range(len(read1_vdpm223)):
+                    fraction_decayed_since_sampling = np.exp(-ra223_lambda_days*read1_days_since_sampling.iloc[i])
+                    sample_xs223_t0_list.append((read1_vdpm223.iloc[i]-read4_vdpm223.iloc[0])/fraction_decayed_since_sampling)
+                xs223_list.append(np.average(sample_xs223_t0_list))
+                ac227_list.append(read4_vdpm223.iloc[0])
+                ac227_err_list.append(read4_vdpm223.iloc[0])
+                
             if len(read1_vdpm223)<1 and len(read4_vdpm223)>1:
-                row_specific_errors.append('(xs223, 227Ac) multiple_4th_reads_averaged')
-                xs223_list.append(read1_vdpm223.iloc[0]-np.average(read4_vdpm223))
+                row_specific_errors.append('(223xs, 227Ac) multiple_4th_reads_averaged')
+                fraction_decayed_223_list.append(np.exp(-ra223_lambda_days*read1_days_since_sampling.iloc[0]))
+                xs223_list.append((read1_vdpm223.iloc[0]-np.average(read4_vdpm223))/fraction_decayed_223_list[-1])
                 ac227_list.append(np.average(read4_vdpm223))
                 ac227_err_list.append(np.average(read4_vdpm223_err))
                 
-            if len(read1_vdpm223)>1 and len(read4_vdpm223)<1:
-                row_specific_errors.append('(xs223) multiple_1st_reads_averaged')
-                xs223_list.append(np.average(read1_vdpm223)-read4_vdpm223.iloc[0])
-                ac227_list.append(read4_vdpm223.iloc[0])
-                ac227_err_list.append(read4_vdpm223_err.iloc[0])
-                
             if len(read1_vdpm223)>1 and len(read4_vdpm223)>1:
-                row_specific_errors.append('(xs223, 227Ac) multiple_1st_and_4th_reads_averaged')
-                xs223_list.append(np.average(read1_vdpm223)-np.average(read4_vdpm223))
+                row_specific_errors.append('(223xs, 227Ac) multiple_1st_and_4th_reads_averaged')
+                fraction_decayed_223_list.append(np.exp(-ra223_lambda_days*np.average(read1_days_since_sampling)))
+                sample_xs223_t0_list = []
+                for i in range(len(read1_vdpm223)):
+                    fraction_decayed_since_sampling = np.exp(-ra223_lambda_days*read1_days_since_sampling.iloc[i])
+                    sample_xs223_t0_list.append((read1_vdpm223.iloc[i]-np.average(read4_vdpm223))/fraction_decayed_since_sampling)
+                xs223_list.append(np.average(sample_xs223_t0_list))
                 ac227_list.append(np.average(read4_vdpm223))
                 ac227_err_list.append(np.average(read4_vdpm223_err))
                 
             else:
-                xs223_list.append(read1_vdpm223.iloc[0]-read4_vdpm223.iloc[0])
+                fraction_decayed_223_list.append(np.exp(-ra223_lambda_days*read1_days_since_sampling.iloc[0]))
+                xs223_list.append((read1_vdpm223.iloc[0]-read4_vdpm223.iloc[0])/fraction_decayed_223_list[-1])
                 ac227_list.append(read4_vdpm223.iloc[0])
                 ac227_err_list.append(read4_vdpm223_err.iloc[0])
+                
+#                
+#                
+#
+#            if len(read1_vdpm223)<1 and len(read4_vdpm223)>1:
+#                row_specific_errors.append('(xs223, 227Ac) multiple_4th_reads_averaged')
+#                xs223_list.append(read1_vdpm223.iloc[0]-np.average(read4_vdpm223))
+#                ac227_list.append(np.average(read4_vdpm223))
+#                ac227_err_list.append(np.average(read4_vdpm223_err))
+#                fraction_decayed_223_list.append(np.exp(-ra223_lambda_days*read1_days_since_sampling.iloc[0]))
+#                
+#            if len(read1_vdpm223)>1 and len(read4_vdpm223)<1:
+#                row_specific_errors.append('(xs223) multiple_1st_reads_averaged')
+#                xs223_list.append(np.average(read1_vdpm223)-read4_vdpm223.iloc[0])
+#                ac227_list.append(read4_vdpm223.iloc[0])
+#                ac227_err_list.append(read4_vdpm223_err.iloc[0])
+#                fraction_decayed_223_list.append(np.exp(-ra223_lambda_days*np.average(read1_days_since_sampling)))
+#                
+#            if len(read1_vdpm223)>1 and len(read4_vdpm223)>1:
+#                row_specific_errors.append('(xs223, 227Ac) multiple_1st_and_4th_reads_averaged')
+#                xs223_list.append(np.average(read1_vdpm223)-np.average(read4_vdpm223))
+#                ac227_list.append(np.average(read4_vdpm223))
+#                ac227_err_list.append(np.average(read4_vdpm223_err))
+#                fraction_decayed_223_list.append(np.exp(-ra223_lambda_days*np.average(read1_days_since_sampling)))
+#                
+#            else:
+#                xs223_list.append(read1_vdpm223.iloc[0]-read4_vdpm223.iloc[0])
+#                ac227_list.append(read4_vdpm223.iloc[0])
+#                ac227_err_list.append(read4_vdpm223_err.iloc[0])
+#                fraction_decayed_223_list.append(np.exp(-ra223_lambda_days*read1_days_since_sampling.iloc[0]))
 
 #####   Reads missing                
         else:
@@ -267,6 +379,7 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
             ac227_list.append(-999)
             ac227_err_list.append(-999)
             xs223_list.append(-999)
+            fraction_decayed_223_list.append(-999)
         
 ###########################################################################################################################################
 ###########################################################################################################################################
@@ -281,24 +394,27 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
 ###########################################################################################################################################
         error_list.append(row_specific_errors)
         
-    summary_df['224xs'] = xs224_list
+    summary_df['224xs_t0'] = xs224_list
     summary_df['Fraction_of_original_224_remaining'] = fraction_decayed_224_list
+#    summary_df['224xs_t0'] = summary_df['224xs']/summary_df['Fraction_of_original_224_remaining']
     summary_df['228Th'] = th228_list
     summary_df['228Th_err'] = th228_err_list
-    summary_df['223xs'] = xs223_list
+    summary_df['223xs_t0'] = xs223_list
+    summary_df['Fraction_of_original_223_remaining'] = fraction_decayed_223_list
+#    summary_df['223xs_t0'] = summary_df['223xs']/summary_df['Fraction_of_original_223_remaining']
     summary_df['227Ac'] = ac227_list
     summary_df['227Ac_err'] = ac227_err_list
     summary_df['228Ra'] = ra228_list
     summary_df['error_list'] = error_list
     
-    cols = list(log_df.columns) + ['224xs',	'Fraction_of_original_224_remaining', '228Th',	 '228Th_err', 
-                                   '223xs', '227Ac',	'227Ac_err', 
+    cols = list(log_df.columns) + ['224xs_t0',	'Fraction_of_original_224_remaining', '228Th',	 '228Th_err', 
+                                   '223xs_t0', 'Fraction_of_original_223_remaining', '227Ac',	'227Ac_err', 
                                    '228Ra', 'error_list' ]
     summary_df = summary_df[cols]
     
-    summary_df.to_csv('/Users/seanselzer/Documents/GitHub/RaDeCC_Reader/Example_Output_Folder/Dataframes/summary_df.csv')
+    summary_df.to_csv('/Users/seanselzer/Documents/GitHub/RaDeCC_Reader/Example_Output_Folder/Dataframes/summary_df_testing.csv')
     
     
     return(summary_df)
 
-#print (create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_variable))
+print (create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_variable))
