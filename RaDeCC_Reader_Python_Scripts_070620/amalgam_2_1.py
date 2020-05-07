@@ -21,7 +21,7 @@ from radecc_reader_lvl1_2_0 import slope_calculator
 
 #____________________________________________________________________________________________________________________________________________________________
 
-def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_volume_error, sample_variable, sub_sample_variable, spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank ):
+def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_volume_error, sample_variable, sub_sample_variable, spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, sample_mid_date, linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank ):
     main_samplelist = []
     
     print('\n---Creating sample results dataframe---\n')
@@ -77,7 +77,7 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
     
 #    print(pd.to_datetime(log_df.Date+' '+log_df[sample_mid_time], dayfirst = True))
     
-    lvl1_main_df['Mid_Sample_Datetime'] = pd.to_datetime(lvl1_main_df.Date+' '+lvl1_main_df[sample_mid_time], dayfirst = DDMMYYY_DateFormat)
+    lvl1_main_df['Mid_Sample_Datetime'] = pd.to_datetime(lvl1_main_df[sample_mid_date]+' '+lvl1_main_df[sample_mid_time], dayfirst = DDMMYYY_DateFormat)
 #    print(lvl1_main_df['Mid_Sample_Datetime']-pd.to_datetime(log_df.Date+' '+log_df[sample_mid_time], dayfirst = True))
     lvl1_main_df['Mid_Read_Datetime'] = pd.to_datetime(lvl1_main_df['Read_Start_Time'], dayfirst=DDMMYYY_DateFormat) + pd.to_timedelta(lvl1_main_df['Read_Runtime']/2, unit='m')
     

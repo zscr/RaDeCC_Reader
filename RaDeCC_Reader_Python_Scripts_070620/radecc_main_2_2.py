@@ -100,6 +100,7 @@ sample_variable = 'sample_name'
 #Confirm the exact names of the columns in the logsheet which correspond to the following variables:
 #The name of the column in the logsheet(s) that contains the start time of sampling for each sample/sub_sample.
 sample_mid_time = 'Sampling_Start_Time'
+sample_mid_date = 'Date'
 
 #The sub sample variable could be depth for a string of depth profiles or time for time-series at a string of locations.
 #sub_sample_variable is the name of the column in the logsheet(s) that contains the value of the sub sample variable for each sub sample
@@ -186,7 +187,7 @@ eff_df = create_effdf (output_directory, thstd, acstd, blank, ac_halfLife,
 
 log_df = logsheet_scan(output_directory, sample_variable)
 
-lvl2_main_df = amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_volume_error, sample_variable, sub_sample_variable, spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank)
+lvl2_main_df = amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_volume_error, sample_variable, sub_sample_variable, spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, sample_mid_date, linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank)
 
 folder_filepath = output_directory/'Dataframes'
 if folder_filepath.exists() == False:
@@ -197,7 +198,7 @@ if (folder_filepath/output_filename).exists() == False:
 
 print (lvl2_main_df)
 
-create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_variable)
+create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_variable, output_directory)
 
 end = time.time()
 print ('Calculations completed in ',end-start,'seconds.')

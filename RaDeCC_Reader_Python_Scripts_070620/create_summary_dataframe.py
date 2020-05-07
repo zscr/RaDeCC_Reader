@@ -13,7 +13,7 @@ from xs_calculator import xs_calculator
 
 
 
-def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_variable):
+def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_variable, output_directory):
     
     half_life223 = 11.43 #days
     half_life224 = 3.65 #days
@@ -36,6 +36,8 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
     fraction_decayed_224_list = []
     fraction_decayed_223_list = []
     error_list = []
+    ra226_list = []
+    ra226_err_list = []
     
     
 #   Index list for xs_calculator ##################################################################################################################
@@ -167,6 +169,8 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
             fraction_decayed_223_list.append(error_flag)
         
 
+
+
 ###########################################################################################################################################
 #       228Ra calculations    (under construction)  
 ###########################################################################################################################################
@@ -178,34 +182,94 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
             ra228_list.append('(228Ra) Required reads not available')
         
 ###########################################################################################################################################
+        
+    
+###########################################################################################################################################
+#       226Ra calculations    (under construction)  
+###########################################################################################################################################
+        ra226_row_list = list(lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) &
+                                 (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)), 'vdpm226 (dpm/m^3)'])
+        ra226_err_row_list = list(lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) &
+                                 (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)), 'vdpm226_err (dpm/m^3)'])
+        
+        upper_limit_226_err = np.average(ra226_err_row_list)+np.std(ra226_err_row_list)
+        lower_limit_226_err = np.average(ra226_err_row_list)-np.std(ra226_err_row_list)
+        print (upper_limit_226_err, lower_limit_226_err)
+        
+        
+        
+        if len(ra226_row_list)==0 :
+            ra226_list.append(error_flag)
+            row_specific_errors.append('No_226_Value calculated')
+        else:
+            
+            upper_limit_226 = np.average(ra226_row_list)+np.std(ra226_row_list)
+            lower_limit_226 = np.average(ra226_row_list)-np.std(ra226_row_list)
+            ra226_outliers_removed_list = [i for i in ra226_row_list if i < upper_limit_226 and i > lower_limit_226]
+            
+            
+            if len(ra226_outliers_removed_list)>1:
+                ra226_list.append(np.average(ra226_outliers_removed_list))
+            if len(ra226_outliers_removed_list)==1:
+                ra226_list.append(np.average(ra226_outliers_removed_list))
+                row_specific_errors.append('Only one 226-Ra value averaged')
+            if len(ra226_outliers_removed_list)<1:
+                ra226_list.append(np.average(error_flag))
+                row_specific_errors.append('226-Ra values non-concordant')
+                
+        if len(ra226_err_row_list)==0 :
+            ra226_err_list.append(error_flag)
+            row_specific_errors.append('No_226_err_Value calculated')
+        else:
+            
+            upper_limit_226_err = np.average(ra226_err_row_list)+np.std(ra226_err_row_list)
+            lower_limit_226_err = np.average(ra226_err_row_list)-np.std(ra226_err_row_list)
+            ra226_err_outliers_removed_list = [i for i in ra226_err_row_list if i < upper_limit_226_err and i > lower_limit_226_err]
+            #print (ra226_err_outliers_removed_list)
+            
+            if len(ra226_err_outliers_removed_list)>1:
+                ra226_err_list.append(np.average(ra226_err_outliers_removed_list))
+            if len(ra226_err_outliers_removed_list)==1:
+                ra226_err_list.append(np.average(ra226_err_outliers_removed_list))
+                row_specific_errors.append('Only one 226-Ra_err value averaged')
+            if len(ra226_err_outliers_removed_list)<1:
+                ra226_err_list.append(error_flag)
+                row_specific_errors.append('226-Ra_err values non-concordant')
+            
+            
+    
+        
+########################################################################################################################################### 
         error_list.append(row_specific_errors)
-    
-    
-    
     
     summary_df['224xs'] = xs224_list    
     summary_df['224xs_err'] = xs224_err_list    
     summary_df['224xs_t0'] = xs224_t0_list
+    summary_df['224xs_t0_err'] = (summary_df['224xs_t0']*summary_df['224xs_err'])/summary_df['224xs']
     summary_df['Fraction_of_original_224_remaining'] = fraction_decayed_224_list
     summary_df['228Th'] = th228_list
     summary_df['228Th_err'] = th228_err_list
-    summary_df['223xs'] = xs223_list    
+    summary_df['223xs'] = xs223_list 
+    summary_df['223xs_err'] = xs223_err_list 
     summary_df['223xs_t0'] = xs223_t0_list
+    summary_df['223xs_t0_err'] = (summary_df['223xs_t0']*summary_df['223xs_err'])/summary_df['223xs']
     summary_df['Fraction_of_original_223_remaining'] = fraction_decayed_223_list
-#    summary_df['223xs_t0'] = summary_df['223xs']/summary_df['Fraction_of_original_223_remaining']
     summary_df['227Ac'] = ac227_list
     summary_df['227Ac_err'] = ac227_err_list
     summary_df['228Ra'] = ra228_list
     summary_df['error_list'] = error_list
+    summary_df['226Ra'] = ra226_list
+    summary_df['226Ra_err'] = ra226_err_list
     
-    cols = list(log_df.columns) + ['224xs','224xs_err', '224xs_t0',	'Fraction_of_original_224_remaining', '228Th',	 '228Th_err', 
-                                   '223xs','223xs_t0', 'Fraction_of_original_223_remaining', '227Ac',	'227Ac_err', 
-                                   '228Ra', 'error_list' ]
+    
+    cols = list(log_df.columns) + ['224xs','224xs_err', '224xs_t0', '224xs_t0_err',	'Fraction_of_original_224_remaining', '228Th',	 '228Th_err', 
+                                   '223xs','223xs_err', '223xs_t0', '223xs_t0_err', 'Fraction_of_original_223_remaining', '227Ac',	'227Ac_err', 
+                                   '226Ra', '226Ra_err', '228Ra', 'error_list' ]
     summary_df = summary_df[cols]
     
-    summary_df.to_csv('/Users/seanselzer/Documents/GitHub/RaDeCC_Reader/Example_Output_Folder/Dataframes/summary_df_testing.csv')
+    summary_df.to_csv(output_directory/'Dataframes'/'summary_df_testing.csv')
     
     
     return(summary_df)
 
-print (create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_variable))
+#print (create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_variable,output_directory))
