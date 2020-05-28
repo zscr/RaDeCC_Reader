@@ -15,8 +15,8 @@ The script then searches the folder of all sample reads for each deployment. It 
 
 
 import os, shutil
-from deployment_lister import *
-from file_searcher import *
+from deployment_lister import deployment_lister
+from file_searcher import file_searcher
     
 
 def dir_constructor(output_directory, new_master_dir, sample_type, number_of_samples, deployment_dir_list):

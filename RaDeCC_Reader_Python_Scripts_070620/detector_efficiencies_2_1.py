@@ -23,7 +23,7 @@ import os
 import numpy as np
 import math
 import pandas as pd
-from radecc_reader_lvl1_2_0 import *
+from radecc_reader_lvl1_2_0 import slope_calculator, cc_calculator, interval_calculator
 
 
 def create_effdf(output_directory, thstd, acstd, blank, ac_halfLife, 

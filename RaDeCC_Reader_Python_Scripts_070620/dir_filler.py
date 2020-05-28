@@ -19,8 +19,6 @@ not copied.
 # Import the os module, for the os.walk function
 import os, shutil
 from pathlib import Path
-from get_digits import *
-from file_searcher import *
 
 def dir_filler(rootDir, copyDir, sample_type, acstd_date_dict, thstd_date_dict, blank_name_list):
 

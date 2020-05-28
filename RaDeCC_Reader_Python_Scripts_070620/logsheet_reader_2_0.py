@@ -8,7 +8,7 @@ Created on Mon Jan 21 15:27:09 2019
 import pandas as pd
 import os
 import numpy as np
-from radecc_reader_lvl1_2_0 import *
+from radecc_reader_lvl1_2_0 import slope_calculator, cc_calculator, interval_calculator
 
 def logsheet_scan (folder_filepath, sample_variable):
     log_list = []
