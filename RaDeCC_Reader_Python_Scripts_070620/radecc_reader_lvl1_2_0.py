@@ -22,8 +22,9 @@ import pandas as pd
 import datetime
 import matplotlib.pyplot as plt
 from pathlib import Path
-from get_digits import *
+from get_digits import get_digits
 from collections import Counter
+
 
 def interval_calculator (list_, runtime):					#This finds the counts within each interval. The range is length of list -1 as the last
     list1 = []										        #value of each list is the summary value. This is excluded by using (len(list_)-1)
@@ -90,7 +91,7 @@ def slope_calculator (output_directory, arg_file = None, spike_sensitivity = 100
             # Find and extract the start date and time of the read from the radecc read file
             if line[0:5] == 'Start':
                 date_time = pd.to_datetime(line [10:], dayfirst = DDMMYYY_DateFormat)
-        
+
         #Find and remove spikes in counts (here a spike is defined by a count that is more than 100 counts higher than the last count period as default)      
         for i in range (len(cntTotcopy)):
             if (cnt219copy[i]-cnt219copy[i-1])>spike_sensitivity or (cnt220copy[i]-cnt220copy[i-1])>spike_sensitivity or (cntTotcopy[i]-cntTotcopy[i-1])>spike_sensitivity:
@@ -228,28 +229,26 @@ def slope_calculator (output_directory, arg_file = None, spike_sensitivity = 100
     cpm_Tot = np.sum(cntTot)/runtime[-1]
     cntTot_abserr = err_Tot*cpm_Tot
     
-    y_ = (cpm_Tot-cpm_220-cpm_219)
-   
+    y_220 = (cpm_Tot-cpm_220-cpm_219)
+    y_220_err = (np.sqrt((cntTot_abserr)**2+(cnt220_abserr)**2+(cnt219_abserr)**2))
     
-    y219cc = ((y_**2)*0.000093)/(1-(y_*0.000093))
-    
-    y220cc = ((y_**2)*0.01)/(1-(y_*0.01))
+    y220cc = ((y_220**2)*0.01)/(1-(y_220*0.01))
+    y220cc_err = y_220_err*(((2*0.01*y_220)-(0.01*y_220)**2)/(1-0.01*y_220)**2)
 
+    corr220 = cpm_220 - y220cc
+    corr220_err = np.sqrt(cnt220_abserr**2 +y220cc_err**2)
     
-    y_err = (np.sqrt((cntTot_abserr)**2+(cnt220_abserr)**2+(cnt219_abserr)**2))
-    
-    y219cc_err = y_err*(((2*0.000093*y_)-(0.000093*y_)**2)/(1-0.000093*y_)**2)
-    
-    y220cc_err = y_err*(((2*0.01*y_)-(0.01*y_)**2)/(1-0.01*y_)**2)
-    
-  
+    y_219 = (cpm_Tot-corr220-cpm_219)
+    y_219_err = (np.sqrt((cntTot_abserr)**2+(corr220_err)**2+(cnt219_abserr)**2))
+
+    y219cc = ((y_219**2)*0.000093)/(1-(y_219*0.000093))
+    y219cc_err = y_219_err*(((2*0.000093*y_219)-(0.000093*y_219)**2)/(1-0.000093*y_219)**2)
+
     corr219 = cpm_219 - y219cc
     corr219_err = np.sqrt(cnt219_abserr**2 +y219cc_err**2)
     
     
-    corr220 = cpm_220 - y220cc
     
-    corr220_err = np.sqrt(cnt220_abserr**2 +y220cc_err**2)
     
     
     

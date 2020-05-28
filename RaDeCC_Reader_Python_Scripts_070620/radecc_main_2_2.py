@@ -31,9 +31,9 @@ from create_summary_dataframe import create_summary_dataframe
 # e.g. /Users/username/Desktop/Project_X/raw_data
 input_directory = Path('/Users/seanselzer/Documents/GitHub/RaDeCC_Reader/Raw_Data_Example')
 #*output_directory*: This is filepath of the folder in which you would like the output to be placed.   e.g. Filepath: /Users/username/Desktop/Project_X/Output_Data
-output_directory = Path('/Users/seanselzer/Documents/GitHub/RaDeCC_Reader/Example_Output_Folder')
+output_directory = Path('/Users/seanselzer/Documents/GitHub/RaDeCC_Reader/Results_Folder_'+time.strftime("%Y-%m-%d_%H%M%S"))
 #*output_filename* : the name you would like to give the ouput file.   e.g. project_x_output.csv
-output_filename = 'Example_Results_Dataframe.csv'
+output_filename = 'Example_Results_Dataframe_'+time.strftime("%Y-%m-%d_%H%M%S")+'.csv'
 
 #Date Format: If the dates in read files and logsheets are DD/MM/YYYY (day first) then input 'True' else for MM/DD/YYYY input 'False'
 DDMMYYY_DateFormat = True
@@ -88,8 +88,8 @@ blank_name_list = ['exposure', 'analytical']
 adjustment_coefficient = 0.45
 adjustment_coefficient_uncertainty = 0.05
 
-#detector_list: list all detectors used for the analysis of the sample set in the form: ['detector_1', 'detector_2', ..., 'detector_n']
-detector_list = ['detector1', 'detector2']
+#detector_dict: list all detectors used for the analysis of the sample set in the form: ['detector_1', 'detector_2', ..., 'detector_n']
+detector_dict = {'detector1':0.000186, 'detector2':0.000187}
 
 #__________________________________________________________________________________________________________________________________________________________
 """Information for logsheet reader"""
@@ -179,15 +179,17 @@ if linear_data_type == False:
 ra223_lambda = (np.log(2)/(half_life223*24*60))
 ra224_lambda = (np.log(2)/(half_life224*24*60))
 
-detector_list.append('No_Read')
+detector_dict.update({'No_Read':-999})
 
 eff_df = create_effdf (output_directory, thstd, acstd, blank, ac_halfLife, 
-                       detector_list, adjustment_coefficient, spike_sensitivity, equilibration_time_variable, DDMMYYY_DateFormat,
+                       list(detector_dict.keys()), adjustment_coefficient, spike_sensitivity, equilibration_time_variable, DDMMYYY_DateFormat,
                        acstd_start_activity_dict, acstd_date_dict, thstd_start_activity_dict, thstd_date_dict, blank_name_list)
 
 log_df = logsheet_scan(output_directory, sample_variable)
 
-lvl2_main_df = amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_volume_error, sample_variable, sub_sample_variable, spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, sample_mid_date, linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank)
+lvl2_main_df = amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_volume_error, sample_variable, sub_sample_variable, 
+                            spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, sample_mid_date, 
+                            linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank, detector_dict)
 
 folder_filepath = output_directory/'Dataframes'
 if folder_filepath.exists() == False:

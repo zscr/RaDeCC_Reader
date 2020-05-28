@@ -43,7 +43,7 @@ def xs_calculator (lvl2_main_df, sample_variable, sub_sample_variable, row_sampl
                     & (lvl2_main_df['read_number']==read_b))
                     , isotope_column_string_err]
             
-            if len(reada_vdpm)>1 and len(readb_vdpm)<1:
+            if len(reada_vdpm)>1 and len(readb_vdpm)==1:
                 row_specific_error = (isotope, ': multiple_'+str(read_a)+'_reads_averaged')
                 remaining_fraction_of_isotope = np.exp(-isotope_lambda_days*np.average(reada_days_since_sampling))
                 sample_xs_list = []
@@ -61,7 +61,7 @@ def xs_calculator (lvl2_main_df, sample_variable, sub_sample_variable, row_sampl
                 parent_activity = readb_vdpm.iloc[0]
                 parent_activity_err = readb_vdpm.iloc[0]
                 
-            if len(reada_vdpm)<1 and len(readb_vdpm)>1:
+            if len(reada_vdpm)==1 and len(readb_vdpm)>1:
                 row_specific_error = (isotope,', ', parent,': multiple_'+str(read_b)+'_reads_averaged')
                 remaining_fraction_of_isotope = np.exp(-isotope_lambda_days*reada_days_since_sampling.iloc[0])
                 xs = reada_vdpm.iloc[0]-np.average(readb_vdpm)
@@ -87,7 +87,7 @@ def xs_calculator (lvl2_main_df, sample_variable, sub_sample_variable, row_sampl
                 parent_activity = np.average(readb_vdpm)
                 parent_activity_err = np.average(readb_vdpm_err)
                 
-            else:
+            if len(reada_vdpm)==1 and len(readb_vdpm)==1:
                 row_specific_error = None
                 remaining_fraction_of_isotope = np.exp(-isotope_lambda_days*reada_days_since_sampling.iloc[0])
                 xs = reada_vdpm.iloc[0]-readb_vdpm.iloc[0]

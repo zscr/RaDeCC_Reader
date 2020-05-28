@@ -41,6 +41,7 @@ def create_effdf(output_directory, thstd, acstd, blank, ac_halfLife,
     standard_start_activity_list = []
     
     print('\n---Calculating efficiencies---\n')
+    print (detector_list)
     
     for dirName, subdirList, fileList in os.walk(output_directory/(thstd+'_folder')):
         if len(fileList)!= 0:

@@ -9,6 +9,8 @@ Created on Tue Apr 21 11:59:11 2020
 import pandas as pd
 import numpy as np
 import copy
+import time
+from pathlib import Path
 from xs_calculator import xs_calculator
 
 
@@ -17,8 +19,13 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
     
     half_life223 = 11.43 #days
     half_life224 = 3.65 #days
+    half_life_th228 = 1.9*365 #days
+    half_life_ra228 = 5.7*365 #days
+
     ra223_lambda_days = (np.log(2)/(half_life223))
     ra224_lambda_days = (np.log(2)/(half_life224))
+    th228_lambda_days = (np.log(2)/(half_life_th228))
+    ra228_lambda_days = (np.log(2)/(half_life_ra228))
     
     summary_df = copy.deepcopy(log_df)
     
@@ -176,8 +183,83 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
 ###########################################################################################################################################
         
         if 4 in read_number_set and 5 in read_number_set:
-            ra228_list.append('228Ra is go')
-        
+            
+            read4_vdpm = lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) 
+                    & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
+                    & (lvl2_main_df['read_number']==4))
+                    , 'vdpm224 (dpm/m^3)']
+            read4_datetime = lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) 
+                    & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
+                    & (lvl2_main_df['read_number']==4))
+                    , 'Mid_Read_Datetime']
+            
+            read5_vdpm = lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) 
+                    & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
+                    & (lvl2_main_df['read_number']==5))
+                    , 'vdpm224 (dpm/m^3)']
+            read5_datetime = lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) 
+                    & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
+                    & (lvl2_main_df['read_number']==5))
+                    , 'Mid_Read_Datetime']
+
+            
+            if len(read4_vdpm)>1 and len(read5_vdpm)==1:
+                # print ('>=')
+                timedelta_read4_to_read5_list = []
+                time_read4_to_read5_list = []
+                for i in range(len(read4_datetime)):
+                    timedelta_read4_to_read5_list.append(read5_datetime.iloc[0]-read4_datetime.iloc[i])
+                    time_read4_to_read5_list.append(timedelta_read4_to_read5_list[-1].days + (timedelta_read4_to_read5_list[-1].seconds/(24*60*60)))
+                time_read4_to_read5 = np.average(time_read4_to_read5_list)
+                # print(time_read4_to_read5)
+                ra228_list.append(
+                                    read5_vdpm.iloc[0] - (np.average(read4_vdpm) - np.exp(-th228_lambda_days* (time_read4_to_read5)/(1.499* np.exp((-ra228_lambda_days*time_read4_to_read5)-(-th228_lambda_days*time_read4_to_read5)))))
+                                    )
+                row_specific_errors.append('Multiple 4th reads Averaged')
+            
+            if len(read4_vdpm)==1 and len(read5_vdpm)>1:
+                # print ('=>')
+                
+                timedelta_read4_to_read5_list = []
+                time_read4_to_read5_list = []
+                for i in range(len(read5_datetime)):
+                    timedelta_read4_to_read5_list.append(read5_datetime.iloc[i]-read4_datetime.iloc[0])
+                    time_read4_to_read5_list.append(timedelta_read4_to_read5_list[-1].days + (timedelta_read4_to_read5_list[-1].seconds/(24*60*60)))
+                time_read4_to_read5 = np.average(time_read4_to_read5_list)
+                # print(time_read4_to_read5)
+                ra228_list.append(
+                                    np.average(read5_vdpm) - (read4_vdpm.iloc[0] - np.exp(-th228_lambda_days* (time_read4_to_read5)/(1.499* np.exp((-ra228_lambda_days*time_read4_to_read5)-(-th228_lambda_days*time_read4_to_read5)))))
+                                    )
+                row_specific_errors.append('Multiple 5th reads Averaged')
+            
+            if len(read4_vdpm)>1 and len(read5_vdpm)>1:
+                # print ('>>')
+                timedelta_read4_to_read5_list = []
+                time_read4_to_read5_list = []
+                for i in range(len(read5_datetime)):
+                    for j in range(len(read4_datetime)):
+                        timedelta_read4_to_read5_list.append(read5_datetime.iloc[i]-read4_datetime.iloc[j])
+                        time_read4_to_read5_list.append(timedelta_read4_to_read5_list[-1].days + (timedelta_read4_to_read5_list[-1].seconds/(24*60*60)))
+                
+                time_read4_to_read5 = np.average(time_read4_to_read5_list)
+                
+                # print(time_read4_to_read5)
+                ra228_list.append(
+                                    np.average(read5_vdpm) - (np.average(read4_vdpm) - np.exp(-th228_lambda_days* (time_read4_to_read5)/(1.499* np.exp((-ra228_lambda_days*time_read4_to_read5)-(-th228_lambda_days*time_read4_to_read5)))))
+                                    )
+                row_specific_errors.append('Multiple 4th and 5th reads averaged')
+            
+            if len(read4_vdpm)==1 and len(read5_vdpm)==1:
+                # print ('==')
+                timedelta_read4_to_read5 = read5_datetime.iloc[0]-read4_datetime.iloc[0]
+                time_read4_to_read5 = timedelta_read4_to_read5.days + (timedelta_read4_to_read5.seconds/(24*60*60))
+                # print(time_read4_to_read5)
+                ra228_list.append(
+                                    read5_vdpm.iloc[0] - (read4_vdpm.iloc[0] - np.exp(-th228_lambda_days* (time_read4_to_read5)/(1.499* np.exp((-ra228_lambda_days*time_read4_to_read5)-(-th228_lambda_days*time_read4_to_read5)))))
+                                    )
+
+
+                
         else:
             ra228_list.append('(228Ra) Required reads not available')
         
@@ -194,7 +276,7 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
         
         upper_limit_226_err = np.average(ra226_err_row_list)+np.std(ra226_err_row_list)
         lower_limit_226_err = np.average(ra226_err_row_list)-np.std(ra226_err_row_list)
-        print (upper_limit_226_err, lower_limit_226_err)
+        
         
         
         
@@ -267,9 +349,9 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                                    '226Ra', '226Ra_err', '228Ra', 'error_list' ]
     summary_df = summary_df[cols]
     
-    summary_df.to_csv(output_directory/'Dataframes'/'summary_df_testing.csv')
+    summary_df.to_csv(output_directory/Path('Dataframes/summary_df_testing_'+time.strftime("%Y-%m-%d_%H%M%S")+'.csv'))
     
     
     return(summary_df)
 
-#print (create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_variable,output_directory))
+# print (create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_variable,output_directory))

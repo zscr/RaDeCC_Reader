@@ -21,7 +21,10 @@ from radecc_reader_lvl1_2_0 import slope_calculator
 
 #____________________________________________________________________________________________________________________________________________________________
 
-def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_volume_error, sample_variable, sub_sample_variable, spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, sample_mid_date, linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank ):
+def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_volume_error, sample_variable, sub_sample_variable, 
+                spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, sample_mid_date, 
+                linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank, detector_dict ):
+    
     main_samplelist = []
     
     print('\n---Creating sample results dataframe---\n')
@@ -81,7 +84,11 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
 #    print(lvl1_main_df['Mid_Sample_Datetime']-pd.to_datetime(log_df.Date+' '+log_df[sample_mid_time], dayfirst = True))
     lvl1_main_df['Mid_Read_Datetime'] = pd.to_datetime(lvl1_main_df['Read_Start_Time'], dayfirst=DDMMYYY_DateFormat) + pd.to_timedelta(lvl1_main_df['Read_Runtime']/2, unit='m')
     
+    detector_226_calibration_values_list = []
     
+    for detector in lvl1_main_df.Detector_Name:
+        detector_226_calibration_values_list.append(detector_dict[detector])
+    lvl1_main_df['Detector 226 Calibration Factor'] = detector_226_calibration_values_list
     
     blankcorr219 = []
     blankcorr219_err =[]
@@ -159,9 +166,9 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
             ###############################################################################
             
             #dpm226 calculation 
-            vdpm226.append(((lvl1_main_df['Slope'][i]/0.000186)/float(lvl1_main_df[sample_volume][i]))*1000)
+            vdpm226.append(((lvl1_main_df['Slope'][i]/lvl1_main_df['Detector 226 Calibration Factor'][i])/float(lvl1_main_df[sample_volume][i]))*1000)
             #dpm226_err calculation 
-            vdpm226_err.append(np.sqrt(((lvl1_main_df['stderr_slope'][i]/0.000186)/float(lvl1_main_df[sample_volume][i]))**2 + (((lvl1_main_df['Slope'][i]/0.000186)*float(lvl1_main_df[sample_volume_error][i]))/(float(lvl1_main_df[sample_volume][i])**2))**2)*1000)
+            vdpm226_err.append(np.sqrt(((lvl1_main_df['stderr_slope'][i]/lvl1_main_df['Detector 226 Calibration Factor'][i])/float(lvl1_main_df[sample_volume][i]))**2 + (((lvl1_main_df['Slope'][i]/lvl1_main_df['Detector 226 Calibration Factor'][i])*float(lvl1_main_df[sample_volume_error][i]))/(float(lvl1_main_df[sample_volume][i])**2))**2)*1000)
             
             
             #Time difference between sampling datetime and read datetime (t1 in Garcia-Solsona)
