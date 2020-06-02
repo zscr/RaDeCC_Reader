@@ -4,7 +4,7 @@ from tkinter import filedialog as fd
 import pandas as pd
 import os
 import time
-
+import copy
 
 
 def popupmsg(msg):
@@ -35,24 +35,35 @@ class App:
 
     def __init__ (self, master):
 
+        self.padx_variable = 20
         ###### Select Saved file Button ##################################################################
         self.load_saved_fields_button = Button(text="Load Saved Entries", command= lambda: self.find_saved_fields_file(1,0) )
         self.load_saved_fields_button.grid(column = 0, row = 0)
+        self.load_saved_fields_variable = StringVar()
+        self.load_saved_fields_entry = Entry(textvariable = self.load_saved_fields_variable)
+        self.load_saved_fields_entry.grid(column = 1, row = 0)
         ######################################################################################
         ###### Choose Input Directory Button ########################################################
         self.input_directory_button = Button(
             master, text="Choose Input Directory...", bg='blue', command=self.find_directory)
         self.input_directory_button.grid(column = 0, row = 1)
+        self.input_directory_variable = StringVar()
+        self.input_directory_entry = Entry(textvariable = self.input_directory_variable)
+        self.input_directory_entry.grid(column = 1, row = 1)
         ######################################################################################
         ###### Select Logsheet Button ##################################################################
         self.load_logsheet = Button(text="Select Logsheet File", command= lambda: self.find_logfile(1,2))
         self.load_logsheet.grid(column = 0, row = 2)
+        self.load_logsheet_variable = StringVar()
+        self.load_logsheet_entry = Entry(textvariable = self.load_logsheet_variable)
+        self.load_logsheet_entry.grid(column = 1, row = 2)
         #########################################################################################
         
         ###### Check Inputs Button ##################################################################
         self.check_inputs = Button(text="Check Inputs", fg='green', command=self.check_all_inputs)
         self.check_inputs.grid(column = 2, row = 0)
         ######################################################################################
+        
         
 
         ###### Choose DDMMYYYY Format ########################################################        
@@ -146,17 +157,20 @@ class App:
     def find_saved_fields_file(self, column_number, row_number):
         self.saved_fields_file_to_load = fd.askopenfilename()
         self.saved_fields_file_to_load_as_df = pd.read_csv(self.saved_fields_file_to_load)
+        self.load_saved_fields_variable.set(self.saved_fields_file_to_load)
         # print (list(self.saved_fields_file_to_load_as_df.columns))
-        self.saved_fields_file_to_load_label = Label(text = self.saved_fields_file_to_load)
-        self.saved_fields_file_to_load_label.grid(column = column_number, row = row_number)
+        # self.saved_fields_file_to_load_label = Label(text = self.saved_fields_file_to_load)
+        # self.saved_fields_file_to_load_label.grid(column = column_number, row = row_number)
         """Set self.variables from saved_fields_file_to_load_as_df"""
         self.chosen_query_directory = self.saved_fields_file_to_load_as_df.Input_Directory[0]
-        self.input_directory_text = Label(text = self.chosen_query_directory)
-        self.input_directory_text.grid(column = 1, row = 1)
+        self.input_directory_variable.set(self.chosen_query_directory)
+        # self.input_directory_text = Label(text = self.chosen_query_directory)
+        # self.input_directory_text.grid(column = 1, row = 1)
 
         self.logfile_to_load = self.saved_fields_file_to_load_as_df.Logsheet_Filepath[0]
-        self.logfile_to_load_label = Label(text = self.logfile_to_load)
-        self.logfile_to_load_label.grid(column = 1, row = 2)
+        self.load_logsheet_variable.set(self.logfile_to_load)
+        # self.logfile_to_load_label = Label(text = self.logfile_to_load)
+        # self.logfile_to_load_label.grid(column = 1, row = 2)
 
         self.date_format_variable.set(self.saved_fields_file_to_load_as_df.DDMMYY_Format[0])
         self.subsample_check_variable.set(self.saved_fields_file_to_load_as_df.sub_sample_variable[0])
@@ -174,29 +188,29 @@ class App:
         self.adjustment_coefficient_variable.set(self.saved_fields_file_to_load_as_df.adjustment_coefficient[0])
         self.adjustment_coefficient_uncertainty_variable.set(self.saved_fields_file_to_load_as_df.adjustment_coefficient_uncertainty[0])
         
-    def check_number_inputs(self, number_variable, row_number):
+    def check_number_inputs(self, number_variable, column_number, row_number):
         
         try:
             number_variable.get()
-            check_label = Label(text = 'OK', fg='green', padx = 100)
-            check_label.grid(column = 2, row = row_number)
+            check_label = Label(text = 'OK', fg='green', padx = self.padx_variable)
+            check_label.grid(column = column_number, row = row_number)
             return(True)
         except TclError: # if the conversion fails due to it containing letters
             check_label = Label(text = 'Number Required', fg='red')
-            check_label.grid(column = 2, row = row_number)
+            check_label.grid(column = column_number, row = row_number)
             return(False)
 
     def check_string_inputs(self, string_variable, row_number, column_number):
         allowed_chars = list('ABCDEFGHIJKLMNOPQRSTUWXYZabcdefghijklmnopqrstuwxyz0123456789_')
         if  len(set(allowed_chars+list(string_variable.get()))) == 61 and len(list(string_variable.get())) != 0 :
             # print (len(set(allowed_chars+list(string_variable.get()))))
-            check_label = Label(text = 'OK', fg='green', padx = 100)
+            check_label = Label(text = 'OK', fg='green', padx = self.padx_variable)
             check_label.grid(column = column_number, row = row_number)
             return(True)
         
         if  len(set(allowed_chars+list(string_variable.get()))) == 61 and len(list(string_variable.get())) == 0 :
             # print (len(set(allowed_chars+list(string_variable.get()))))
-            check_label = Label(text = 'Required Field', fg='red', padx = 100)
+            check_label = Label(text = 'Required Field', fg='red', padx = self.padx_variable)
             check_label.grid(column = column_number, row = row_number)
             return(False)
 
@@ -213,16 +227,16 @@ class App:
             saved_fields_file_to_load_check = True
         except:
             saved_fields_file_to_load_check = False
-            self.saved_fields_file_to_load_text = Label(text = 'Please select', fg = 'red')
-            self.saved_fields_file_to_load_text.grid(column = 1, row = 0)
+            self.load_saved_fields_variable.set('Please select...')
+            
 
         try: 
             list(self.chosen_query_directory)
             chosen_query_directory_check = True
         except:
             chosen_query_directory_check = False
-            self.input_directory_text = Label(text = 'Please select', fg = 'red')
-            self.input_directory_text.grid(column = 1, row = 1)
+            self.input_directory_variable.set('Please select...')
+            
         
         """Logsheet Select Check"""
         try: 
@@ -230,18 +244,18 @@ class App:
             logfile_to_load_check = True
         except:
             logfile_to_load_check = False
-            self.logfile_to_load_text = Label(text = 'Please select', fg = 'red')
-            self.logfile_to_load_text.grid(column = 1, row = 2)
+            self.load_logsheet_variable.set('Please select...')
+            
 
         """Number checks"""
-        equilibration_time_variable_check = self.check_number_inputs(self.equilibration_time_variable , 6)
-        number_of_samples_variable_check = self.check_number_inputs(self.number_of_samples_variable , 8)
-        no_of_thstds_variable_check = self.check_number_inputs(self.no_of_thstds_variable , 10)
-        no_of_acstds_variable_check = self.check_number_inputs(self.no_of_acstds_variable , 12)
-        no_of_blanks_variable_check = self.check_number_inputs(self.no_of_blanks_variable , 14)
-        no_of_detectors_variable_check = self.check_number_inputs(self.no_of_detectors_variable , 15)
-        adjustment_coefficient_variable_check = self.check_number_inputs(self.adjustment_coefficient_variable , 16)
-        adjustment_coefficient_uncertainty_variable_check = self.check_number_inputs(self.adjustment_coefficient_uncertainty_variable , 17)
+        equilibration_time_variable_check = self.check_number_inputs(self.equilibration_time_variable , column_number=2, row_number=6)
+        number_of_samples_variable_check = self.check_number_inputs(self.number_of_samples_variable ,column_number=2, row_number=8)
+        no_of_thstds_variable_check = self.check_number_inputs(self.no_of_thstds_variable ,column_number=2, row_number=10)
+        no_of_acstds_variable_check = self.check_number_inputs(self.no_of_acstds_variable ,column_number=2, row_number=12)
+        no_of_blanks_variable_check = self.check_number_inputs(self.no_of_blanks_variable ,column_number=2, row_number=14)
+        no_of_detectors_variable_check = self.check_number_inputs(self.no_of_detectors_variable ,column_number=2, row_number=15)
+        adjustment_coefficient_variable_check = self.check_number_inputs(self.adjustment_coefficient_variable ,column_number=2, row_number=16)
+        adjustment_coefficient_uncertainty_variable_check = self.check_number_inputs(self.adjustment_coefficient_uncertainty_variable ,column_number=2, row_number=17)
         
         """String checks"""
         # output_directory_variable_check = self.check_string_inputs(self.output_directory_variable, 2)
@@ -272,11 +286,11 @@ class App:
             
             self.save_previous_inputs_button = Button(text = "Save Field Inputs", command = lambda : self.save_previous_inputs())
             self.save_previous_inputs_button.grid(column = 2, row = 3)
-            self.run_button = Button(text="Run RaDeCC Reader", fg='green', command= lambda : self.open_window_2())
+            self.run_button = Button(text="Continue", fg='green', command= lambda : self.create_new_entries())
             self.run_button.grid(column = 2, row = 18)
         
         if False in check_list:
-            self.run_button = Button(text="Run RaDeCC Reader", fg='grey', command=lambda : popupmsg('Errors apparent'))
+            self.run_button = Button(text="Continue", fg='grey', command=lambda : popupmsg('Errors apparent'))
             self.run_button.grid(column = 2, row = 18)
 
     def save_previous_inputs(self):
@@ -306,10 +320,122 @@ class App:
         print ('Saved')
         
         return()
-    def open_window_2(self):
-        window_2 = Tk()
-        label = Label(window_2, text = 'This is window 2')
-        label.grid()
+
+    def create_new_entries(self):
+        # window_2 = Tk()
+        # window_2.title('RaDeCC Reader')
+        # label = Label(window_2, text = 'This is window 2')
+        # label.grid()
+        extra_padding = 10
+
+        self.th228_standard_name_label = Label(text = 'Thorium_228 Standard Name:', fg = 'black', padx = self.padx_variable)
+        self.th228_standard_name_label.grid(column = 4, row = 0)
+        '''Create a list of [[entry_widget, entry_widget_variable],...]'''
+        self.th228_standard_name_widget_list = self.make_entry_widget_list( column_number = 4, start_row = 1, number_of_widgets =  self.no_of_thstds_variable.get(), var_type = 'String')
+        # print('###############',type(self.th228_standard_name_widget_list[0].get()))
+        
+        self.th228_standard_manufacture_date_label = Label(text = 'Manufacture Date:', fg = 'black', padx = self.padx_variable+extra_padding)
+        self.th228_standard_manufacture_date_label.grid(column = 5, row = 0)
+        '''Create a list of [[entry_widget, entry_widget_variable],...]'''
+        self.th228_standard_manufacture_date_widget_list = self.make_entry_widget_list(column_number = 5, start_row = 1, number_of_widgets =  self.no_of_thstds_variable.get(), var_type = 'String')
+        
+        self.th228_standard_start_activity_label = Label(text = 'Start Activity (dpm):', fg = 'black', padx = self.padx_variable+extra_padding)
+        self.th228_standard_start_activity_label.grid(column = 6, row = 0)
+        '''Create a list of [[entry_widget, entry_widget_variable],...]'''
+        self.th228_standard_start_activity_widget_list = self.make_entry_widget_list(column_number = 6, start_row = 1, number_of_widgets =  self.no_of_thstds_variable.get(), var_type = 'Int')
+        
+        self.ac227_entries_start_row = self.no_of_thstds_variable.get()+1
+        
+        self.ac227_standard_name_label = Label(text = 'Actinium-227 Standard Name:', fg = 'black', padx = self.padx_variable+extra_padding)
+        self.ac227_standard_name_label.grid(column = 4, row = self.ac227_entries_start_row)
+        self.ac227_standard_name_widget_list = self.make_entry_widget_list(column_number = 4, start_row = self.ac227_entries_start_row+1, number_of_widgets =  self.no_of_acstds_variable.get(), var_type = 'String')
+        
+        self.ac227_standard_manufacture_date_label = Label(text = 'Manufacture Date:', fg = 'black', padx = self.padx_variable+extra_padding)
+        self.ac227_standard_manufacture_date_label.grid(column = 5, row = self.no_of_thstds_variable.get()+1)
+        self.ac227_standard_manufacture_date_widget_list = self.make_entry_widget_list(column_number = 5, start_row = self.ac227_entries_start_row+1, number_of_widgets =  self.no_of_acstds_variable.get(), var_type = 'String')
+        
+        self.ac227_standard_start_activity_label = Label(text = 'Start Activity (dpm):', fg = 'black', padx = self.padx_variable+extra_padding)
+        self.ac227_standard_start_activity_label.grid(column = 6, row = self.no_of_thstds_variable.get()+1)
+        self.ac227_standard_start_activity_widget_list = self.make_entry_widget_list(column_number = 6, start_row = self.ac227_entries_start_row+1, number_of_widgets =  self.no_of_acstds_variable.get(), var_type = 'Int')
+        
+        self.blank_entries_start_row = self.ac227_entries_start_row+self.no_of_acstds_variable.get()+1
+        self.blank_standard_name_label = Label(text = 'Blank Standard Name:', fg = 'black', padx = self.padx_variable+extra_padding)
+        self.blank_standard_name_label.grid(column = 4, row = self.blank_entries_start_row)
+        self.blank_standard_name_widget_list = self.make_entry_widget_list(column_number = 4, start_row = self.blank_entries_start_row+1, number_of_widgets =  self.no_of_blanks_variable.get(), var_type = 'String')
+
+        ###### Check Inputs Button No.2 ##################################################################
+        self.check_inputs = Button(text="Check Inputs", fg='green', 
+                                    command= lambda: self.check_all_new_entries())
+        self.check_inputs.grid(column = 7, row = 0)
+        ######################################################################################
+
+    def make_entry_widget_list(self, column_number, start_row, number_of_widgets, var_type):
+        entry_list = []
+        variable_list = []
+        widget_list = []
+        for i in range(start_row, start_row+number_of_widgets):
+
+            if var_type == 'String':
+                variable_list.append(StringVar())
+            if var_type == 'Int':
+                variable_list.append(IntVar())
+            # variable_list.append(StringVar())
+            entry_list.append( Entry(textvariable = variable_list[-1], width = 21))
+            entry_list[-1].grid(column = column_number, row = i)
+            widget_list.append([entry_list[-1],variable_list[-1]])
+
+        return(widget_list)
+    
+    def check_widget_list_set (self, list_of_name_widgets, list_of_date_widgets, column_number, row_number):
+        check_list = []
+        name_check_list = []
+        for i in range(len(list_of_name_widgets)):
+                name_check_list.append(self.check_string_inputs(string_variable = list_of_name_widgets[i][1], row_number = row_number, column_number = column_number))
+        name_check_boolean = all(name_check_list)
+        date_check_boolean = self.date_string_list_check(self.th228_standard_manufacture_date_widget_list, row_number = row_number+1, column_number = column_number)
+
+    def date_string_list_check (self, date_list_to_check, column_number, row_number):
+        
+        if  'N/A' not in date_list_to_check:
+            check_list = []
+            for i in range(len(date_list_to_check)):
+            
+                if '/' in date_list_to_check[i][1].get():
+                    try:
+                        pd.to_datetime(date_list_to_check[i][1].get())
+                        check_list.append(True)
+                    except:
+                        check_list.append(False)
+                else:
+                    check_list.append(False)
+        
+            if all(check_list) == True:
+                check_label = Label(text = 'OK', fg='green', padx = self.padx_variable)
+                check_label.grid(column = column_number, row = row_number)
+                return(True)
+            else:
+                check_label = Label(text = 'Date Error', fg='red', padx = self.padx_variable)
+                check_label.grid(column = column_number, row = row_number)
+                return(False)
+        # if :
+        #     check_label = Label(text = '    ', padx = self.padx_variable)
+        #     check_label.grid(column = column_number, row = row_number)
+        #     return(True)
+
+    def check_all_new_entries (self):
+
+        """Check Thorium-228 standard Entries"""
+        self.check_widget_list_set(self.th228_standard_name_widget_list, self.th228_standard_manufacture_date_widget_list, 
+                                                                                column_number = 7, row_number = 1)
+        """Check Actinium-227 standard Entries"""
+        self.check_widget_list_set(self.ac227_standard_name_widget_list, self.ac227_standard_manufacture_date_widget_list, 
+                                                                                column_number = 7, row_number = self.ac227_entries_start_row+1)
+        """Check Blank Entries"""
+        self.check_widget_list_set(self.blank_standard_name_widget_list, 'N/A', 
+                                                                                column_number = 7, row_number = self.blank_entries_start_row+1)
+
+
+
 
 # popup = Tk()
 # popup.wm_title('RaDeCC Reader')
