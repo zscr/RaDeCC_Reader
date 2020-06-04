@@ -205,7 +205,7 @@ class App:
         allowed_chars = list('ABCDEFGHIJKLMNOPQRSTUWXYZabcdefghijklmnopqrstuwxyz0123456789_')
         if  len(set(allowed_chars+list(string_variable.get()))) == 61 and len(list(string_variable.get())) != 0 :
             # print (len(set(allowed_chars+list(string_variable.get()))))
-            check_label = Label(text = 'OK', fg='green', padx = self.padx_variable)
+            check_label = Label(text = 'OK', fg='green', padx = self.padx_variable+6)
             check_label.grid(column = column_number, row = row_number)
             return(True)
         
@@ -342,31 +342,31 @@ class App:
         self.th228_standard_name_label = Label(text = 'Thorium_228 Standard Name:', fg = 'black', padx = self.padx_variable)
         self.th228_standard_name_label.grid(column = 4, row = self.th228_entries_start_row)
         '''Create a list of [[entry_widget, entry_widget_variable],...]'''
-        self.th228_standard_name_widget_list = self.make_entry_widget_list( column_number = 4, start_row = 1, number_of_widgets =  self.no_of_thstds_variable.get(), var_type = 'String')
+        self.th228_standard_name_widget_list = self.make_entry_widget_list( column_number = 4, start_row = self.th228_entries_start_row+1, number_of_widgets =  self.no_of_thstds_variable.get(), var_type = 'String')
         # print('###############',type(self.th228_standard_name_widget_list[0].get()))
         
         self.th228_standard_manufacture_date_label = Label(text = 'Manufacture Date:', fg = 'black', padx = self.padx_variable+extra_padding+3)
         self.th228_standard_manufacture_date_label.grid(column = 5, row = self.th228_entries_start_row)
         '''Create a list of [[entry_widget, entry_widget_variable],...]'''
-        self.th228_standard_manufacture_date_widget_list = self.make_entry_widget_list(column_number = 5, start_row = 1, number_of_widgets =  self.no_of_thstds_variable.get(), var_type = 'String')
+        self.th228_standard_manufacture_date_widget_list = self.make_entry_widget_list(column_number = 5, start_row = self.th228_entries_start_row+1, number_of_widgets =  self.no_of_thstds_variable.get(), var_type = 'String')
         
         self.th228_standard_start_activity_label = Label(text = 'Start Activity (dpm):', fg = 'black', padx = self.padx_variable+extra_padding)
         self.th228_standard_start_activity_label.grid(column = 6, row = self.th228_entries_start_row)
         '''Create a list of [[entry_widget, entry_widget_variable],...]'''
-        self.th228_standard_start_activity_widget_list = self.make_entry_widget_list(column_number = 6, start_row = 1, number_of_widgets =  self.no_of_thstds_variable.get(), var_type = 'Double')
+        self.th228_standard_start_activity_widget_list = self.make_entry_widget_list(column_number = 6, start_row = self.th228_entries_start_row+1, number_of_widgets =  self.no_of_thstds_variable.get(), var_type = 'Double')
         
-        self.ac227_entries_start_row = self.no_of_thstds_variable.get()+1
+        self.ac227_entries_start_row = self.th228_entries_start_row+self.no_of_thstds_variable.get()+1
         
         self.ac227_standard_name_label = Label(text = 'Actinium-227 Standard Name:', fg = 'black', padx = self.padx_variable+extra_padding)
         self.ac227_standard_name_label.grid(column = 4, row = self.ac227_entries_start_row)
         self.ac227_standard_name_widget_list = self.make_entry_widget_list(column_number = 4, start_row = self.ac227_entries_start_row+1, number_of_widgets =  self.no_of_acstds_variable.get(), var_type = 'String')
         
         self.ac227_standard_manufacture_date_label = Label(text = 'Manufacture Date:', fg = 'black', padx = self.padx_variable+extra_padding+3)
-        self.ac227_standard_manufacture_date_label.grid(column = 5, row = self.no_of_thstds_variable.get()+1)
+        self.ac227_standard_manufacture_date_label.grid(column = 5, row = self.ac227_entries_start_row)
         self.ac227_standard_manufacture_date_widget_list = self.make_entry_widget_list(column_number = 5, start_row = self.ac227_entries_start_row+1, number_of_widgets =  self.no_of_acstds_variable.get(), var_type = 'String')
         
         self.ac227_standard_start_activity_label = Label(text = 'Start Activity (dpm):', fg = 'black', padx = self.padx_variable+extra_padding)
-        self.ac227_standard_start_activity_label.grid(column = 6, row = self.no_of_thstds_variable.get()+1)
+        self.ac227_standard_start_activity_label.grid(column = 6, row = self.ac227_entries_start_row)
         self.ac227_standard_start_activity_widget_list = self.make_entry_widget_list(column_number = 6, start_row = self.ac227_entries_start_row+1, number_of_widgets =  self.no_of_acstds_variable.get(), var_type = 'Double')
         
         self.blank_entries_start_row = self.ac227_entries_start_row+self.no_of_acstds_variable.get()+1
@@ -454,20 +454,50 @@ class App:
 
         """Check Thorium-228 standard Entries"""
         th228_standard_entries_boolean = self.check_widget_list_set(self.th228_standard_name_widget_list, self.th228_standard_manufacture_date_widget_list, 
-                                                                                column_number = 7, row_number = 1)
+                                                                                column_number = 7, row_number = self.th228_entries_start_row)
+        th228_standard_start_activities_boolean_list = []
+        for i in range(len(self.th228_standard_start_activity_widget_list)):
+            th228_standard_start_activities_boolean_list.append(self.check_number_inputs(number_variable=self.th228_standard_start_activity_widget_list[i][1], column_number=7, row_number=self.th228_entries_start_row+2))
+        if False in th228_standard_start_activities_boolean_list:
+            check_label = check_label = Label(text = 'Number Required', fg='red')
+            check_label.grid(column = 7, row =self.th228_entries_start_row+2)
+        
         """Check Actinium-227 standard Entries"""
         ac227_standard_entries_boolean = self.check_widget_list_set(self.ac227_standard_name_widget_list, self.ac227_standard_manufacture_date_widget_list, 
-                                                                                column_number = 7, row_number = self.ac227_entries_start_row+1)
+                                                                                column_number = 7, row_number = self.ac227_entries_start_row)
+        ac227_standard_start_activities_boolean_list = []
+        for i in range(len(self.ac227_standard_start_activity_widget_list)):
+            ac227_standard_start_activities_boolean_list.append(self.check_number_inputs(number_variable=self.ac227_standard_start_activity_widget_list[i][1], column_number=7, row_number=self.ac227_entries_start_row+2))
+        if False in ac227_standard_start_activities_boolean_list:
+            check_label = check_label = Label(text = 'Number Required', fg='red')
+            check_label.grid(column = 7, row =self.ac227_entries_start_row+2)
         """Check Blank Entries"""
         blank_entries_boolean = self.check_widget_list_set(self.blank_standard_name_widget_list, 'N/A', 
                                                                                 column_number = 7, row_number = self.blank_entries_start_row+1)
+        if blank_entries_boolean is False:
+            check_label = Label(text = 'Text Error', fg='red', padx = self.padx_variable)
+            check_label.grid(column = 7, row =self.blank_entries_start_row+1)
+
         """Detector Entries"""
         detector_names_boolean_list = []
+        detector_calibration_values_boolean_list = []
         for i in range(len(self.detector_name_widget_list)):
             detector_names_boolean_list.append(self.check_string_inputs(string_variable = self.detector_name_widget_list[i][1], 
                                                                                 row_number = self.detector_entries_start_row+1, column_number = 7))
-
-        all_new_entries_boolean = all([th228_standard_entries_boolean, ac227_standard_entries_boolean,blank_entries_boolean,detector_names_boolean_list])
+            detector_calibration_values_boolean_list.append(self.check_number_inputs(number_variable=self.detector_calibration_values_widget_list[i][1], 
+                                                                                column_number = 7, row_number=self.detector_entries_start_row+2))
+        if False in detector_names_boolean_list:
+            check_label = check_label = Label(text = 'Error(s)', fg='red')
+            check_label.grid(column = 7, row =self.detector_entries_start_row+1)
+        if False in detector_calibration_values_boolean_list:
+            check_label = check_label = Label(text = 'Error(s)', fg='red')
+            check_label.grid(column = 7, row =self.detector_entries_start_row+2)
+        detector_entries_boolean = all(detector_names_boolean_list+detector_calibration_values_boolean_list)
+        all_new_entries_boolean = all([th228_standard_entries_boolean, 
+                                        th228_standard_start_activities_boolean_list,
+                                        ac227_standard_entries_boolean,blank_entries_boolean,
+                                        ac227_standard_start_activities_boolean_list,
+                                        detector_entries_boolean])
 
         if all_new_entries_boolean is True:
             
@@ -485,12 +515,28 @@ class App:
             self.save_previous_inputs_button_2 = Button(text = "Save Field Inputs", command = lambda : self.save_previous_inputs())
             self.save_previous_inputs_button_2.grid(column = 7, row = self.detector_entries_start_row+self.no_of_detectors_variable.get()+1)
             #################################################################################################
-            print('yay.')
+
+            ###### Run Program Button ##################################################################
+            self.run_button = Button(text = "Run RaDeCC Reader", fg = 'green', command = lambda : print('yay.'))
+            self.run_button.grid(column = 7, row = self.detector_entries_start_row+self.no_of_detectors_variable.get()+2)
+            #################################################################################################
+            
+
+            
 
 
 
         if all_new_entries_boolean is False:
             print('nay.', [th228_standard_entries_boolean, ac227_standard_entries_boolean,blank_entries_boolean,detector_names_boolean_list])
+            ###### Save Inputs Button No.2 ##################################################################
+            self.save_previous_inputs_error_label = Label(text = "Input Error(s)", fg = 'red', padx = self.padx_variable)
+            self.save_previous_inputs_error_label.grid(column = 7, row = self.detector_entries_start_row+self.no_of_detectors_variable.get()+1)
+            #################################################################################################
+
+            ###### Run Program Button ##################################################################
+            self.run_error_button = Button(text = "Run RaDeCC Reader", fg = 'grey')
+            self.run_error_button.grid(column = 7, row = self.detector_entries_start_row+self.no_of_detectors_variable.get()+2)
+            #################################################################################################
 
     def load_new_entries (self):
         df = self.saved_fields_file_to_load_as_df
