@@ -42,6 +42,14 @@ def xs_calculator (lvl2_main_df, sample_variable, sub_sample_variable, row_sampl
                     & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
                     & (lvl2_main_df['read_number']==read_b))
                     , isotope_column_string_err]
+            reada_errors = lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) 
+                    & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
+                    & (lvl2_main_df['read_number']==read_a))
+                    , 'Error_List']
+            readb_errors = lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) 
+                    & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
+                    & (lvl2_main_df['read_number']==read_b))
+                    , 'Error_List']
             
             if len(reada_vdpm)>1 and len(readb_vdpm)==1:
                 row_specific_error = (isotope, ': multiple_'+str(read_a)+'_reads_averaged')
@@ -95,6 +103,11 @@ def xs_calculator (lvl2_main_df, sample_variable, sub_sample_variable, row_sampl
                 xs_t0 = (reada_vdpm.iloc[0]-readb_vdpm.iloc[0])/remaining_fraction_of_isotope
                 parent_activity = readb_vdpm.iloc[0]
                 parent_activity_err = readb_vdpm_err.iloc[0]
+            
+        ###############################################################################################################################
+        # Bring Diego-Feliu Errors through from results dataframe to summary dataframe.
+        ###############################################################################################################################
+            read_errors = {'Read'+str(read_a) : list(reada_errors.iloc[0].keys()),'Read'+str(read_b):list(readb_errors.iloc[0].keys())}
                 
-            return(xs, xs_err, remaining_fraction_of_isotope, xs_t0, parent_activity, parent_activity_err, row_specific_error)
+            return(xs, xs_err, remaining_fraction_of_isotope, xs_t0, parent_activity, parent_activity_err, row_specific_error, read_errors)
    

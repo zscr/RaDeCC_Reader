@@ -43,6 +43,7 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
     fraction_decayed_224_list = []
     fraction_decayed_223_list = []
     error_list = []
+    read_error_list = []
     ra226_list = []
     ra226_err_list = []
     
@@ -55,11 +56,13 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
     parent_activity = 4
     parent_activity_err = 5
     row_errors = 6
+    read_errors = 7
     
     error_flag = -999
     
     for index, row in summary_df.iterrows():
         row_specific_errors = []
+        read_specific_errors = {}
         
         row_sample_variable = row[sample_variable]
         row_sub_sample_variable = row[sub_sample_variable]
@@ -90,6 +93,7 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
             th228_list.append(xs_calc_results[parent_activity])
             th228_err_list.append(xs_calc_results[parent_activity_err])
             row_specific_errors.append(xs_calc_results[row_errors])
+            read_specific_errors.update(xs_calc_results[read_errors])
 
                 
 #####   Read1 - Read4    ##################################################################################################################  
@@ -109,10 +113,12 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
             th228_list.append(xs_calc_results[parent_activity])
             th228_err_list.append(xs_calc_results[parent_activity_err])
             row_specific_errors.append(xs_calc_results[row_errors])
+            read_specific_errors.update(xs_calc_results[read_errors])
 
 #####   Reads missing      ##################################################################################################################       
         else:
             row_specific_errors.append('(224xs, 228Th) Required reads not available')
+            read_specific_errors.update({'(224xs, 228Th)': 'Required reads not available'})
             xs224_list.append(error_flag)
             xs224_err_list.append(error_flag)
             xs224_t0_list.append(error_flag)
@@ -142,6 +148,7 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
             ac227_list.append(xs_calc_results[parent_activity])
             ac227_err_list.append(xs_calc_results[parent_activity_err])
             row_specific_errors.append(xs_calc_results[row_errors])
+            read_specific_errors.update(xs_calc_results[read_errors])
             
 
         
@@ -162,12 +169,14 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
             ac227_list.append(xs_calc_results[parent_activity])
             ac227_err_list.append(xs_calc_results[parent_activity_err])
             row_specific_errors.append(xs_calc_results[row_errors])
+            read_specific_errors.update(xs_calc_results[read_errors])
             
 
 
 #####   Reads missing       ##################################################################################################################         
         else:
             row_specific_errors.append('(223xs,227Ac) Required reads not available')
+            read_specific_errors.update({'(223xs,227Ac)': 'Required reads not available'})
             ac227_list.append(error_flag)
             ac227_err_list.append(error_flag)
             xs223_list.append(error_flag)
@@ -201,6 +210,15 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                     & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
                     & (lvl2_main_df['read_number']==5))
                     , 'Mid_Read_Datetime']
+            
+            read4_errors = lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) 
+                    & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
+                    & (lvl2_main_df['read_number']==4))
+                    , 'Error_List']
+            read5_errors = lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) 
+                    & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
+                    & (lvl2_main_df['read_number']==5))
+                    , 'Error_List']
 
             
             if len(read4_vdpm)>1 and len(read5_vdpm)==1:
@@ -216,6 +234,7 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                                     read5_vdpm.iloc[0] - (np.average(read4_vdpm) - np.exp(-th228_lambda_days* (time_read4_to_read5)/(1.499* np.exp((-ra228_lambda_days*time_read4_to_read5)-(-th228_lambda_days*time_read4_to_read5)))))
                                     )
                 row_specific_errors.append('Multiple 4th reads Averaged')
+                # read_specific_errors.update(xs_calc_results[read_errors])
             
             if len(read4_vdpm)==1 and len(read5_vdpm)>1:
                 # print ('=>')
@@ -231,6 +250,7 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                                     np.average(read5_vdpm) - (read4_vdpm.iloc[0] - np.exp(-th228_lambda_days* (time_read4_to_read5)/(1.499* np.exp((-ra228_lambda_days*time_read4_to_read5)-(-th228_lambda_days*time_read4_to_read5)))))
                                     )
                 row_specific_errors.append('Multiple 5th reads Averaged')
+                # read_specific_errors.update(xs_calc_results[read_errors])
             
             if len(read4_vdpm)>1 and len(read5_vdpm)>1:
                 # print ('>>')
@@ -248,6 +268,7 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                                     np.average(read5_vdpm) - (np.average(read4_vdpm) - np.exp(-th228_lambda_days* (time_read4_to_read5)/(1.499* np.exp((-ra228_lambda_days*time_read4_to_read5)-(-th228_lambda_days*time_read4_to_read5)))))
                                     )
                 row_specific_errors.append('Multiple 4th and 5th reads averaged')
+                # read_specific_errors.update(xs_calc_results[read_errors])
             
             if len(read4_vdpm)==1 and len(read5_vdpm)==1:
                 # print ('==')
@@ -257,11 +278,15 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                 ra228_list.append(
                                     read5_vdpm.iloc[0] - (read4_vdpm.iloc[0] - np.exp(-th228_lambda_days* (time_read4_to_read5)/(1.499* np.exp((-ra228_lambda_days*time_read4_to_read5)-(-th228_lambda_days*time_read4_to_read5)))))
                                     )
-
+            ###############################################################################################################################
+            # Bring Diego-Feliu Errors through from results dataframe to summary dataframe.
+            ###############################################################################################################################
+            read_specific_errors.update({'Read4' : list(read4_errors.iloc[0].keys()),'Read5' :list(read5_errors.iloc[0].keys())})
 
                 
         else:
             ra228_list.append('(228Ra) Required reads not available')
+            read_specific_errors.update({'(228Ra)': 'Required reads not available'})
         
 ###########################################################################################################################################
         
@@ -283,6 +308,7 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
         if len(ra226_row_list)==0 :
             ra226_list.append(error_flag)
             row_specific_errors.append('No_226_Value calculated')
+            
         else:
             
             upper_limit_226 = np.average(ra226_row_list)+np.std(ra226_row_list)
@@ -295,13 +321,16 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
             if len(ra226_outliers_removed_list)==1:
                 ra226_list.append(np.average(ra226_outliers_removed_list))
                 row_specific_errors.append('Only one 226-Ra value averaged')
+                
             if len(ra226_outliers_removed_list)<1:
                 ra226_list.append(np.average(error_flag))
                 row_specific_errors.append('226-Ra values non-concordant')
                 
+                
         if len(ra226_err_row_list)==0 :
             ra226_err_list.append(error_flag)
             row_specific_errors.append('No_226_err_Value calculated')
+            
         else:
             
             upper_limit_226_err = np.average(ra226_err_row_list)+np.std(ra226_err_row_list)
@@ -314,15 +343,20 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
             if len(ra226_err_outliers_removed_list)==1:
                 ra226_err_list.append(np.average(ra226_err_outliers_removed_list))
                 row_specific_errors.append('Only one 226-Ra_err value averaged')
+                
             if len(ra226_err_outliers_removed_list)<1:
                 ra226_err_list.append(error_flag)
                 row_specific_errors.append('226-Ra_err values non-concordant')
+                
             
             
     
         
 ########################################################################################################################################### 
         error_list.append(row_specific_errors)
+        read_error_list.append(read_specific_errors)
+
+        # print (len(error_list), len(read_error_list), len(xs224_list))
     
     summary_df['224xs'] = xs224_list    
     summary_df['224xs_err'] = xs224_err_list    
@@ -339,14 +373,15 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
     summary_df['227Ac'] = ac227_list
     summary_df['227Ac_err'] = ac227_err_list
     summary_df['228Ra'] = ra228_list
-    summary_df['error_list'] = error_list
+    summary_df['xs_calc_errors'] = error_list
+    summary_df['read_errors'] = read_error_list
     summary_df['226Ra'] = ra226_list
     summary_df['226Ra_err'] = ra226_err_list
     
     
     cols = list(log_df.columns) + ['224xs','224xs_err', '224xs_t0', '224xs_t0_err',	'Fraction_of_original_224_remaining', '228Th',	 '228Th_err', 
                                    '223xs','223xs_err', '223xs_t0', '223xs_t0_err', 'Fraction_of_original_223_remaining', '227Ac',	'227Ac_err', 
-                                   '226Ra', '226Ra_err', '228Ra', 'error_list' ]
+                                   '226Ra', '226Ra_err', '228Ra', 'xs_calc_errors', 'read_errors' ]
     summary_df = summary_df[cols]
     
     summary_df.to_csv(output_directory/Path('Dataframes/summary_df_testing_'+time.strftime("%Y-%m-%d_%H%M%S")+'.csv'))

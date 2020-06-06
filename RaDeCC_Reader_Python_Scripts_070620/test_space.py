@@ -16,6 +16,15 @@ print(lista)
 lista[0][1] = 5
 print(lista)
 
+def test_function():
+    var_a = 'yes'
+    var_b = 'no'
+    return(var_a, var_b)
+
+test_results = test_function()
+print (test_results[1])
+
+
 
 
 
