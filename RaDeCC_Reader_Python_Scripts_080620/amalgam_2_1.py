@@ -132,12 +132,12 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
             #dpm219 calculation 
             dpm219.append(float(blankcorr219[-1]/eff_df.Average_E219[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]))
             #dpm219 error 
-            dpm219_err.append(float((np.sqrt((blankcorr219_err[-1]/eff_df.Average_E219[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()])**2 + ((lvl1_main_df['final219'][i]*eff_df.Standard_Deviation_E219[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()])/eff_df.Average_E219[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]**2)**2))/dpm219[-1]))
+            dpm219_err.append(float((np.sqrt((blankcorr219_err[-1]/eff_df.Average_E219[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()])**2 + ((lvl1_main_df['final219'][i]*eff_df.Standard_Deviation_E219[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()])/eff_df.Average_E219[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]**2)**2))))
                 
             #dpm220 calculation 
             dpm220.append(float(blankcorr220[-1]/eff_df.Average_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]))
             #dpm219 error 
-            dpm220_err.append(float((np.sqrt((blankcorr220_err[-1]/eff_df.Average_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()])**2 + ((lvl1_main_df['final220'][i]*eff_df.Standard_Deviation_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()])/eff_df.Average_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]**2)**2))/dpm220[-1]))
+            dpm220_err.append(float((np.sqrt((blankcorr220_err[-1]/eff_df.Average_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()])**2 + ((lvl1_main_df['final220'][i]*eff_df.Standard_Deviation_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()])/eff_df.Average_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]**2)**2))))
             
             ##############################################
             #dpm219_thstdonly calculation using 
