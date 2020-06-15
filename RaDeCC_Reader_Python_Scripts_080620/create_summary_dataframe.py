@@ -231,7 +231,7 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                 time_read4_to_read5 = np.average(time_read4_to_read5_list)
                 # print(time_read4_to_read5)
                 ra228_list.append(
-                                    read5_vdpm.iloc[0] - (np.average(read4_vdpm) - np.exp(-th228_lambda_days* (time_read4_to_read5)/(1.499* np.exp((-ra228_lambda_days*time_read4_to_read5)-(-th228_lambda_days*time_read4_to_read5)))))
+                                    read5_vdpm.iloc[0] - (np.average(read4_vdpm) - np.exp(-th228_lambda_days* (time_read4_to_read5)/(1.499* (np.exp(-ra228_lambda_days*time_read4_to_read5)-np.exp(-th228_lambda_days*time_read4_to_read5)))))
                                     )
                 row_specific_errors.append('Multiple 4th reads Averaged')
                 # read_specific_errors.update(xs_calc_results[read_errors])
