@@ -55,7 +55,7 @@ def dir_filler_linear(rootDir, copyDir, sample_type, acstd_date_dict, thstd_date
             for fname in fileList_copy:
                 search_str=fname.lower()
                 #print (search_str)
-                if dirName_splitsplit[0].lower() in search_str.lower() and sample_type.lower() not in search_str:
+                if dirName_splitsplit[0].lower() in search_str.lower() and sample_type.lower() not in dirName_split[-1].lower():
                     #print (dirName_splitsplit,search_str, sample_type)
                     test_filelist.append(fname)
                         
