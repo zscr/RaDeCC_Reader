@@ -70,7 +70,7 @@ number_of_samples = 30
 
 #Specify, if different from the below, the identifiers used for each of the standards and the blank below:
 # 228-Thorium Standard:
-thstd = 'thstd'
+
 thstd_date_dict = {'green':'13/10/2014 00:00:00', 'yellow':'13/10/2014 00:00:00'}
 thstd_start_activity_dict = {'green':12.20454, 'yellow':12.20454}
 
@@ -80,7 +80,6 @@ acstd_date_dict = {'red':'13/10/2014 00:00:00', 'blue':'13/10/2014 00:00:00'}
 acstd_start_activity_dict = {'red':10.49429, 'blue':10.49429}
 
 # Blank:
-blank = 'blank'
 blank_name_list = ['exposure', 'analytical']
 
 
@@ -147,7 +146,9 @@ sample_volume_error = 'Volume_error'
 #__________________________________________________________________________________________________________________________________________________________
 start = time.time()
 
-acstd = 'acstd'
+acstd = 'actinium_standard'
+thstd = 'thorium_standard'
+blank = 'blank'
 
 # 227-Actinium half-life (years):
 ac_halfLife = 21.772 #YEARS
@@ -167,11 +168,11 @@ deployment_dir_list.append('logsheet')
 
 if linear_data_type == True:
     dir_constructor_linear(input_directory, output_directory, sample_type, number_of_samples, deployment_dir_list)
-    dir_filler_linear(output_directory, input_directory, sample_type, acstd_date_dict, thstd_date_dict, blank_name_list)
+    dir_filler_linear(output_directory, input_directory, sample_type, acstd_date_dict, thstd_date_dict, blank_name_list, acstd, thstd, blank)
 
 if linear_data_type == False:
     dir_constructor(input_directory, output_directory, sample_type, number_of_samples, deployment_dir_list)
-    dir_filler(output_directory, input_directory, sample_type, acstd_date_dict, thstd_date_dict, blank_name_list)
+    dir_filler(output_directory, input_directory, sample_type, acstd_date_dict, thstd_date_dict, blank_name_list, acstd, thstd, blank)
 
 #thstd_prepDate = pd.to_datetime(thstd_prepDatestr, dayfirst = DDMMYYY_DateFormat)
 #acstd_prepDate = pd.to_datetime(acstd_prepDatestr, dayfirst = DDMMYYY_DateFormat)

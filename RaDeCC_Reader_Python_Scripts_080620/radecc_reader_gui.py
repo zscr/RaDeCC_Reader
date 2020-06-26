@@ -38,26 +38,40 @@ class App:
 
         self.padx_variable = 20
         ###### Select Saved file Button ##################################################################
+        self.load_saved_fields_button_row = 0
         self.load_saved_fields_button = Button(text="Load Saved Entries", command= lambda: self.find_saved_fields_file(1,0) )
-        self.load_saved_fields_button.grid(column = 0, row = 0)
+        self.load_saved_fields_button.grid(column = 0, row = self.load_saved_fields_button_row)
         self.load_saved_fields_variable = StringVar()
         self.load_saved_fields_entry = Entry(textvariable = self.load_saved_fields_variable)
-        self.load_saved_fields_entry.grid(column = 1, row = 0)
+        self.load_saved_fields_entry.grid(column = 1, row = self.load_saved_fields_button_row)
         ######################################################################################
+        
         ###### Choose Input Directory Button ########################################################
+        self.input_directory_button_row = 1
         self.input_directory_button = Button(
-            master, text="Choose Input Directory...", bg='blue', command=self.find_directory)
-        self.input_directory_button.grid(column = 0, row = 1)
+            master, text="Choose Input Directory...", bg='blue', command=self.find_input_directory)
+        self.input_directory_button.grid(column = 0, row = self.input_directory_button_row)
         self.input_directory_variable = StringVar()
         self.input_directory_entry = Entry(textvariable = self.input_directory_variable)
-        self.input_directory_entry.grid(column = 1, row = 1)
+        self.input_directory_entry.grid(column = 1, row = self.input_directory_button_row)
+
+        ###### Choose Output Directory Button ########################################################
+        self.output_directory_button_row = 2
+        self.output_directory_button = Button(
+            master, text="Choose Output Directory...", bg='blue', command=self.find_output_directory)
+        self.output_directory_button.grid(column = 0, row = self.output_directory_button_row )
+        self.output_directory_variable = StringVar()
+        self.output_directory_entry = Entry(textvariable = self.output_directory_variable)
+        self.output_directory_entry.grid(column = 1, row = self.output_directory_button_row )
         ######################################################################################
+        
         ###### Select Logsheet Button ##################################################################
-        self.load_logsheet = Button(text="Select Logsheet File", command= lambda: self.find_logfile(1,2))
-        self.load_logsheet.grid(column = 0, row = 2)
+        self.load_logsheet_row = 3
+        self.load_logsheet = Button(text="Select Logsheet File", command= lambda: self.find_logfile(1,self.load_logsheet_row))
+        self.load_logsheet.grid(column = 0, row = self.load_logsheet_row )
         self.load_logsheet_variable = StringVar()
         self.load_logsheet_entry = Entry(textvariable = self.load_logsheet_variable)
-        self.load_logsheet_entry.grid(column = 1, row = 2)
+        self.load_logsheet_entry.grid(column = 1, row = self.load_logsheet_row)
         #########################################################################################
         
         ###### Check Inputs Button ##################################################################
@@ -72,88 +86,101 @@ class App:
             master,
             text = 'DDMMYYYY Format for Read Files and Logsheets:'
         )
-        self.date_format_label.grid(column = 0, row = 3, sticky=W)
+        self.date_format_label.grid(column = 0, row = 4, sticky=W)
 
         self.date_format_variable = IntVar()
         c = Checkbutton(
             master,
             variable=self.date_format_variable,
             )
-        c.grid(column = 1, row = 3)
+        c.grid(column = 1, row = 4)
 
         ###### Are there sub-samples? ########################################################
         self.subsample_check_label = Label(
             master,
             text = 'Tick if dataset contains sub-samples:'
         )
-        self.subsample_check_label.grid(column = 0, row = 4, sticky=W)
+        self.subsample_check_label.grid(column = 0, row = 5, sticky=W)
 
         self.subsample_check_variable = IntVar()
         c = Checkbutton(
             master,
             variable=self.subsample_check_variable,
             )
-        c.grid(column = 1, row = 4)
+        c.grid(column = 1, row = 5)
 
         ###### Spike_sensitivity ########################################################
         self.spike_sensitivity_label = Label(
             text = 'Spike sensitivity:'
         )
-        self.spike_sensitivity_label.grid(column = 0, row = 5, sticky=W)
+        self.spike_sensitivity_label.grid(column = 0, row = 6, sticky=W)
         self.spike_sensitivity_scale = Scale(master, from_=0, to=100, orient=HORIZONTAL)
-        self.spike_sensitivity_scale.grid(column = 1, row = 5)
+        self.spike_sensitivity_scale.grid(column = 1, row = 6)
 
         ###### Equilibration time (minutes) ##############################################
-        self.equilibration_time_variable = make_labelled_entry(IntVar(),'Equilibration time (no. of read file intervals):', 6)
+        self.equilibration_time_variable_row = 7
+        self.equilibration_time_variable = make_labelled_entry(IntVar(),'Equilibration time (no. of read file intervals):', self.equilibration_time_variable_row)
         
         ###### Enter sample type name ##############################################
-        self.sample_type_name_variable = make_labelled_entry(StringVar(),'Sample type name:', 7)
+        self.sample_type_name_variable_row = 8
+        self.sample_type_name_variable = make_labelled_entry(StringVar(),'Sample type name:', self.sample_type_name_variable_row)
         
         ###### Number of Samples ##############################################
-        self.number_of_samples_variable = make_labelled_entry(IntVar(),'Number of Samples:', 8)
+        self.number_of_samples_variable_row = 9
+        self.number_of_samples_variable = make_labelled_entry(IntVar(),'Number of Samples:', self.number_of_samples_variable_row)
 
         ###### Thorium-228 Standard File Identifier ##############################################
-        self.thstd_identifier_variable = make_labelled_entry(StringVar(),'Thorium-228 Standard File Identifier:', 9)
+        # self.thstd_identifier_variable = make_labelled_entry(StringVar(),'Thorium-228 Standard File Identifier:', 9)
 
         ###### Number of Thorium-228 Standards ##############################################
-        self.no_of_thstds_variable = make_labelled_entry(IntVar(),'Number of Thorium-228 Standards:', 10)
+        self.no_of_thstds_variable_row = 10
+        self.no_of_thstds_variable = make_labelled_entry(IntVar(),'Number of Thorium-228 Standards:', self.no_of_thstds_variable_row)
         
         ###### Actinium-227 Standard File Identifier ##############################################
-        self.acstd_identifier_variable = make_labelled_entry(StringVar(),'Actinium-227 Standard File Identifier:', 11)
+        # self.acstd_identifier_variable = make_labelled_entry(StringVar(),'Actinium-227 Standard File Identifier:', 11)
 
         ###### Number of Actinium-227 Standards ##############################################
-        self.no_of_acstds_variable = make_labelled_entry(IntVar(),'Number of Actinium-227 Standards:', 12)
+        self.no_of_acstds_variable_row = 11
+        self.no_of_acstds_variable = make_labelled_entry(IntVar(),'Number of Actinium-227 Standards:', self.no_of_acstds_variable_row)
 
         ###### Blank Standard File Identifier ##############################################
-        self.blank_identifier_variable = make_labelled_entry(StringVar(),'Blank Standard File Identifier:', 13)
+        # self.blank_identifier_variable = make_labelled_entry(StringVar(),'Blank Standard File Identifier:', 13)
 
         ###### Number of Actinium-227 Standards ##############################################
-        self.no_of_blanks_variable = make_labelled_entry(IntVar(),'Number of Blank Standards:', 14)
+        self.no_of_blanks_variable_row = 12
+        self.no_of_blanks_variable = make_labelled_entry(IntVar(),'Number of Blank Standards:', self.no_of_blanks_variable_row)
 
         ###### Number of Detectors ##############################################
-        self.no_of_detectors_variable = make_labelled_entry(IntVar(),'Number of Detectors:', 15)
+        self.no_of_detectors_variable_row = 13
+        self.no_of_detectors_variable = make_labelled_entry(IntVar(),'Number of Detectors:', self.no_of_detectors_variable_row)
     
         ###### Adjustment Coefficient ##############################################
-        self.adjustment_coefficient_variable = make_labelled_entry(DoubleVar(),'Adjustment Coefficient:', 16)
+        self.adjustment_coefficient_variable_row = 14
+        self.adjustment_coefficient_variable = make_labelled_entry(DoubleVar(),'Adjustment Coefficient:', self.adjustment_coefficient_variable_row)
 
         ###### Adjustment Coefficient Uncertainty ##############################################
-        self.adjustment_coefficient_uncertainty_variable = make_labelled_entry(DoubleVar(),'Adjustment Coefficient Uncertainty:', 17)
+        self.adjustment_coefficient_uncertainty_variable_row = 15
+        self.adjustment_coefficient_uncertainty_variable = make_labelled_entry(DoubleVar(),'Adjustment Coefficient Uncertainty:', self.adjustment_coefficient_uncertainty_variable_row)
 
-    def find_directory(self):
+    def find_input_directory(self):
     
-        self.chosen_query_directory = fd.askdirectory(mustexist = True)
-        print (self.chosen_query_directory)
-        self.input_directory_text = Label(
-            text = self.chosen_query_directory
-        )
-        self.input_directory_text.grid(column = 1, row = 1)
+        self.chosen_query_input_directory = fd.askdirectory(mustexist = True)
+        print (self.chosen_query_input_directory)
+        self.input_directory_variable.set(self.chosen_query_input_directory)
+
+    def find_output_directory(self):
     
+        self.chosen_query_output_directory = fd.askdirectory(mustexist = True)
+        print (self.chosen_query_output_directory)
+        self.output_directory_variable.set(self.chosen_query_output_directory)
+
     def find_logfile(self, column_number, row_number):
         self.logfile_to_load = fd.askopenfilename()
-        self.logfile_to_load_as_df = pd.read_csv(self.logfile_to_load)
-        # print (list(self.logfile_to_load_as_df.columns))
-        self.logfile_to_load_label = Label(text = self.logfile_to_load)
-        self.logfile_to_load_label.grid(column = column_number, row = row_number)
+        try:
+            self.logfile_to_load_as_df = pd.read_csv(self.logfile_to_load)
+            self.load_logsheet_variable.set(self.logfile_to_load)
+        except:
+            self.load_logsheet_variable.set('Error: Select another file')
     
     def find_saved_fields_file(self, column_number, row_number):
         self.saved_fields_file_to_load = fd.askopenfilename()
@@ -163,9 +190,12 @@ class App:
         # self.saved_fields_file_to_load_label = Label(text = self.saved_fields_file_to_load)
         # self.saved_fields_file_to_load_label.grid(column = column_number, row = row_number)
         """Set self.variables from saved_fields_file_to_load_as_df"""
-        self.chosen_query_directory = self.saved_fields_file_to_load_as_df.Input_Directory[0]
-        self.input_directory_variable.set(self.chosen_query_directory)
-        # self.input_directory_text = Label(text = self.chosen_query_directory)
+        self.chosen_query_input_directory = self.saved_fields_file_to_load_as_df.Input_Directory[0]
+        self.input_directory_variable.set(self.chosen_query_input_directory)
+        
+        self.chosen_query_output_directory = self.saved_fields_file_to_load_as_df.Output_Directory[0]
+        self.output_directory_variable.set(self.chosen_query_output_directory)
+        # self.input_directory_text = Label(text = self.chosen_query_input_directory)
         # self.input_directory_text.grid(column = 1, row = 1)
 
         self.logfile_to_load = self.saved_fields_file_to_load_as_df.Logsheet_Filepath[0]
@@ -179,11 +209,11 @@ class App:
         self.equilibration_time_variable.set(self.saved_fields_file_to_load_as_df.Equilibration_time[0])
         self.sample_type_name_variable.set(self.saved_fields_file_to_load_as_df.sample_type_name[0])
         self.number_of_samples_variable.set(self.saved_fields_file_to_load_as_df.number_of_samples[0])
-        self.thstd_identifier_variable.set(self.saved_fields_file_to_load_as_df.thorium_228_identifier[0])
+        # self.thstd_identifier_variable.set(self.saved_fields_file_to_load_as_df.thorium_228_identifier[0])
         self.no_of_thstds_variable.set(self.saved_fields_file_to_load_as_df.number_of_thorium_stds[0])
-        self.acstd_identifier_variable.set(self.saved_fields_file_to_load_as_df.actinium_227_identifier[0])
+        # self.acstd_identifier_variable.set(self.saved_fields_file_to_load_as_df.actinium_227_identifier[0])
         self.no_of_acstds_variable.set(self.saved_fields_file_to_load_as_df.number_of_actinium_stds[0])
-        self.blank_identifier_variable.set(self.saved_fields_file_to_load_as_df.blank_identifier[0])
+        # self.blank_identifier_variable.set(self.saved_fields_file_to_load_as_df.blank_identifier[0])
         self.no_of_blanks_variable.set(self.saved_fields_file_to_load_as_df.number_of_blanks[0])
         self.no_of_detectors_variable.set(self.saved_fields_file_to_load_as_df.number_of_detectors[0])
         self.adjustment_coefficient_variable.set(self.saved_fields_file_to_load_as_df.adjustment_coefficient[0])
@@ -221,7 +251,7 @@ class App:
             return(False)
  
     def check_all_inputs (self):
-        """Input Directory Check"""
+        
         """ saved_fields_file_to_load Check"""
         try: 
             list(self.saved_fields_file_to_load)
@@ -230,43 +260,49 @@ class App:
             saved_fields_file_to_load_check = False
             self.load_saved_fields_variable.set('Please select...')
             
-
+        """Input Directory Check"""
         try: 
-            list(self.chosen_query_directory)
-            chosen_query_directory_check = True
+            chosen_query_input_directory_check = os.path.exists(self.chosen_query_input_directory)
         except:
-            chosen_query_directory_check = False
+            chosen_query_input_directory_check = False
             self.input_directory_variable.set('Please select...')
+        
+        """Output Directory Check"""
+        try: 
+            chosen_query_output_directory_check = os.path.exists(self.chosen_query_output_directory)
+        except:
+            chosen_query_output_directory_check = False
+            self.output_directory_variable.set('Please select...')
             
         
         """Logsheet Select Check"""
         try: 
-            list(self.logfile_to_load)
-            logfile_to_load_check = True
+            logfile_to_load_check = os.path.exists(self.logfile_to_load)
         except:
             logfile_to_load_check = False
             self.load_logsheet_variable.set('Please select...')
             
 
         """Number checks"""
-        equilibration_time_variable_check = self.check_number_inputs(self.equilibration_time_variable , column_number=2, row_number=6)
-        number_of_samples_variable_check = self.check_number_inputs(self.number_of_samples_variable ,column_number=2, row_number=8)
-        no_of_thstds_variable_check = self.check_number_inputs(self.no_of_thstds_variable ,column_number=2, row_number=10)
-        no_of_acstds_variable_check = self.check_number_inputs(self.no_of_acstds_variable ,column_number=2, row_number=12)
-        no_of_blanks_variable_check = self.check_number_inputs(self.no_of_blanks_variable ,column_number=2, row_number=14)
-        no_of_detectors_variable_check = self.check_number_inputs(self.no_of_detectors_variable ,column_number=2, row_number=15)
-        adjustment_coefficient_variable_check = self.check_number_inputs(self.adjustment_coefficient_variable ,column_number=2, row_number=16)
-        adjustment_coefficient_uncertainty_variable_check = self.check_number_inputs(self.adjustment_coefficient_uncertainty_variable ,column_number=2, row_number=17)
+        equilibration_time_variable_check = self.check_number_inputs(self.equilibration_time_variable , column_number=2, row_number=self.equilibration_time_variable_row)
+        number_of_samples_variable_check = self.check_number_inputs(self.number_of_samples_variable ,column_number=2, row_number=self.number_of_samples_variable_row)
+        no_of_thstds_variable_check = self.check_number_inputs(self.no_of_thstds_variable ,column_number=2, row_number= self.no_of_thstds_variable_row)
+        no_of_acstds_variable_check = self.check_number_inputs(self.no_of_acstds_variable ,column_number=2, row_number=self.no_of_acstds_variable_row)
+        no_of_blanks_variable_check = self.check_number_inputs(self.no_of_blanks_variable ,column_number=2, row_number=self.no_of_blanks_variable_row)
+        no_of_detectors_variable_check = self.check_number_inputs(self.no_of_detectors_variable ,column_number=2, row_number=self.no_of_detectors_variable_row)
+        adjustment_coefficient_variable_check = self.check_number_inputs(self.adjustment_coefficient_variable ,column_number=2, row_number=self.adjustment_coefficient_variable_row)
+        adjustment_coefficient_uncertainty_variable_check = self.check_number_inputs(self.adjustment_coefficient_uncertainty_variable ,column_number=2, row_number=self.adjustment_coefficient_uncertainty_variable_row)
         
         """String checks"""
         # output_directory_variable_check = self.check_string_inputs(self.output_directory_variable, 2)
         # input_directory_text_check = self.check_string_inputs(self.input_directory_text, 0, 2)
-        sample_type_name_variable_check = self.check_string_inputs(self.sample_type_name_variable, 7, 2)
-        thstd_identifier_variable_check = self.check_string_inputs(self.thstd_identifier_variable, 9, 2)
-        acstd_identifier_variable_check = self.check_string_inputs(self.acstd_identifier_variable, 11, 2)
-        blank_identifier_variable_check = self.check_string_inputs(self.blank_identifier_variable, 13, 2)
+        sample_type_name_variable_check = self.check_string_inputs(self.sample_type_name_variable, self.sample_type_name_variable_row, 2)
+        # thstd_identifier_variable_check = self.check_string_inputs(self.thstd_identifier_variable, 9, 2)
+        # acstd_identifier_variable_check = self.check_string_inputs(self.acstd_identifier_variable, 11, 2)
+        # blank_identifier_variable_check = self.check_string_inputs(self.blank_identifier_variable, 13, 2)
 
-        check_list = [chosen_query_directory_check,
+        check_list = [chosen_query_input_directory_check,
+                        chosen_query_output_directory_check,
                         logfile_to_load_check,
                         equilibration_time_variable_check,
                         number_of_samples_variable_check,
@@ -276,9 +312,6 @@ class App:
                         adjustment_coefficient_variable_check,
                         adjustment_coefficient_uncertainty_variable_check,
                         sample_type_name_variable_check,
-                        thstd_identifier_variable_check,
-                        acstd_identifier_variable_check,
-                        blank_identifier_variable_check,
                         no_of_detectors_variable_check]
         
         # popupmsg(str(check_list))
@@ -297,8 +330,9 @@ class App:
     def save_previous_inputs(self):
 
         save_dict = {
-            'Input_Directory':[self.chosen_query_directory],
-            'Loaded_Fields_File': [self.saved_fields_file_to_load],
+            'Input_Directory':[self.chosen_query_input_directory],
+            'Output_Directory':[self.chosen_query_output_directory],
+            # 'Loaded_Fields_File': [self.saved_fields_file_to_load],
             'Logsheet_Filepath': [self.logfile_to_load],
             'DDMMYY_Format': [self.date_format_variable.get()],
             'sub_sample_variable':[self.subsample_check_variable.get()],
@@ -306,11 +340,11 @@ class App:
             'Equilibration_time':[self.equilibration_time_variable.get()],
             'sample_type_name':[self.sample_type_name_variable.get()],
             'number_of_samples':[self.number_of_samples_variable.get()],
-            'thorium_228_identifier':[self.thstd_identifier_variable.get()],
+            
             'number_of_thorium_stds':[self.no_of_thstds_variable.get()],
-            'actinium_227_identifier':[self.acstd_identifier_variable.get()],
+            
             'number_of_actinium_stds':[self.no_of_acstds_variable.get()],
-            'blank_identifier':[self.blank_identifier_variable.get()],
+            
             'number_of_blanks':[self.no_of_blanks_variable.get()],
             'number_of_detectors':[self.no_of_detectors_variable.get()],
             'adjustment_coefficient':[self.adjustment_coefficient_variable.get()],
@@ -323,7 +357,7 @@ class App:
             'detector_calibration_values_dict':[self.detector_dict]
         }
         save_df = pd.DataFrame.from_dict(save_dict, orient = 'columns')
-        save_df.to_csv(os.path.join(self.chosen_query_directory,'radecc_reader_entries_'+time.strftime("%H%M%S_%Y-%m-%d")+'.csv'))
+        save_df.to_csv(os.path.join(self.chosen_query_output_directory,'RR_GUI_entries_'+time.strftime("%H%M%S_%Y-%m-%d")+'.csv'))
         print ('Saved')
         
         return()
@@ -517,7 +551,7 @@ class App:
             #################################################################################################
 
             ###### Run Program Button ##################################################################
-            self.run_button = Button(text = "Run RaDeCC Reader", fg = 'green', command = lambda : print('yay.'))
+            self.run_button = Button(text = "Run RaDeCC Reader", fg = 'green', command = lambda : print(self.logfile_to_load_as_df.columns()))
             self.run_button.grid(column = 7, row = self.detector_entries_start_row+self.no_of_detectors_variable.get()+2)
             #################################################################################################
             

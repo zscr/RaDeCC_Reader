@@ -21,7 +21,7 @@ import os, shutil
 from pathlib import Path
 
 
-def dir_filler_linear(rootDir, copyDir, sample_type, acstd_date_dict, thstd_date_dict, blank_name_list):
+def dir_filler_linear(rootDir, copyDir, sample_type, acstd_date_dict, thstd_date_dict, blank_name_list, acstd, thstd, blank):
 
     #Extract name of new directory e.g. 'FRidge_Beta'
     rootsplit = rootDir.parts
@@ -76,9 +76,9 @@ def dir_filler_linear(rootDir, copyDir, sample_type, acstd_date_dict, thstd_date
                         test_filelist.append(fname)
                         
                     
-                        if (rootDir/'acstd_folder'/fname).exists()==False:
+                        if (rootDir/(acstd+'_folder')/fname).exists()==False:
                             #print (fname)
-                            shutil.copy(str(copyDir/fname), str(rootDir/'acstd_folder'/fname))
+                            shutil.copy(str(copyDir/fname), str(rootDir/acstd+'_folder'/fname))
 #############################################################################################################################
 #############################################################################################################################
                         '''Thstd mod'''
@@ -92,9 +92,9 @@ def dir_filler_linear(rootDir, copyDir, sample_type, acstd_date_dict, thstd_date
                         test_filelist.append(fname)
                         
                     
-                        if (rootDir/'thstd_folder'/fname).exists()==False:
+                        if (rootDir/(thstd+'_folder')/fname).exists()==False:
                             #print (fname)
-                            shutil.copy(str(copyDir/fname), str(rootDir/'thstd_folder'/fname))
+                            shutil.copy(str(copyDir/fname), str(rootDir/(thstd+'_folder')/fname))
 #############################################################################################################################
 #############################################################################################################################
                         '''Blank mod'''
@@ -108,9 +108,9 @@ def dir_filler_linear(rootDir, copyDir, sample_type, acstd_date_dict, thstd_date
                         test_filelist.append(fname)
                         
                     
-                        if (rootDir/'blank_folder'/fname).exists()==False:
+                        if (rootDir/(blank+'_folder')/fname).exists()==False:
                             #print (fname)
-                            shutil.copy(str(copyDir/fname), str(rootDir/'blank_folder'/fname))
+                            shutil.copy(str(copyDir/fname), str(rootDir/(blank+'_folder')/fname))
 #############################################################################################################################
                             
         if sample_type.lower() in dirName_split[-2].lower() and sample_type.lower() in dirName_split[-1].lower():

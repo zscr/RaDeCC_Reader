@@ -44,11 +44,11 @@ def dir_constructor(output_directory, new_master_dir, sample_type, number_of_sam
         if os.path.exists(new_master_dir/(deployment+'_folder')) == True:
             print ('Directory exists: ', new_master_dir/(deployment+'_folder'))
             
-    saps_list = deployment_lister(sample_type, number_of_samples)
+    sample_list = deployment_lister(sample_type, number_of_samples)
 
     #For each deployment in the newly created list, search through each directory entry for the deployment name, if this is found then extract the depth
     #and append to a list of depths for that deployment
-    for deployment in saps_list:
+    for deployment in sample_list:
 
         depth_list = []
         search_str = deployment
