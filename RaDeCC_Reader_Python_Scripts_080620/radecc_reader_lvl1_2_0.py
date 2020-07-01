@@ -84,13 +84,13 @@ def slope_calculator (output_directory, arg_file = None, spike_sensitivity = 100
             line = line.replace('"','')
             if line[0].isnumeric():						#Find lines containing data rather than titles
                 x = line.split()                                    #Split data within each line#Split data within each line#Split data within each line
-                runtimecopy.append(float(x[0]))			            #Append data to appropriate variable lists
-                CPM219copy.append(float(x[1]))
-                cnt219copy.append(int(x[2]))
-                CPM220copy.append(float(x[3]))
-                cnt220copy.append(int(x[4]))
-                CPMTotcopy.append(float(x[5]))
-                cntTotcopy.append(float(x[6]))
+                runtimecopy.append(float(x[0].replace(",", "")))			            #Append data to appropriate variable lists
+                CPM219copy.append(float(x[1].replace(",", "")))
+                cnt219copy.append(int(x[2].replace(",", "")))
+                CPM220copy.append(float(x[3].replace(",", "")))
+                cnt220copy.append(int(x[4].replace(",", "")))
+                CPMTotcopy.append(float(x[5].replace(",", "")))
+                cntTotcopy.append(float(x[6].replace(",", "")))
                 
                 
         
