@@ -36,6 +36,7 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
     xs224_t0_list = []
     xs223_t0_list = []
     ra228_list = []
+    ra228_err_list = []
     th228_list = []
     th228_err_list = []
     ac227_list = []
@@ -188,7 +189,7 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
 
 
 ###########################################################################################################################################
-#       228Ra calculations    (under construction)  
+#       228Ra calculations      
 ###########################################################################################################################################
         
         if 4 in read_number_set and 5 in read_number_set:
@@ -197,6 +198,10 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                     & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
                     & (lvl2_main_df['read_number']==4))
                     , 'vdpm224 (dpm/m^3)']
+            read4_vdpm_err = lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) 
+                    & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
+                    & (lvl2_main_df['read_number']==4))
+                    , 'vdpm224_err (dpm/m^3)']
             read4_datetime = lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) 
                     & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
                     & (lvl2_main_df['read_number']==4))
@@ -206,6 +211,10 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                     & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
                     & (lvl2_main_df['read_number']==5))
                     , 'vdpm224 (dpm/m^3)']
+            read5_vdpm_err = lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) 
+                    & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
+                    & (lvl2_main_df['read_number']==5))
+                    , 'vdpm224_err (dpm/m^3)']
             read5_datetime = lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) 
                     & (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)
                     & (lvl2_main_df['read_number']==5))
@@ -233,6 +242,9 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                 ra228_list.append(
                                     read5_vdpm.iloc[0] - (np.average(read4_vdpm) - np.exp(-th228_lambda_days* (time_read4_to_read5)/(1.499* (np.exp(-ra228_lambda_days*time_read4_to_read5)-np.exp(-th228_lambda_days*time_read4_to_read5)))))
                                     )
+                ra228_err_list.append(
+                    np.sqrt(read5_vdpm_err.iloc[0]**2 + np.average(read4_vdpm_err)**2)
+                )
                 row_specific_errors.append('Multiple 4th reads Averaged')
                 # read_specific_errors.update(xs_calc_results[read_errors])
             
@@ -249,6 +261,9 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                 ra228_list.append(
                                     np.average(read5_vdpm) - (read4_vdpm.iloc[0] - np.exp(-th228_lambda_days* (time_read4_to_read5)/(1.499* np.exp((-ra228_lambda_days*time_read4_to_read5)-(-th228_lambda_days*time_read4_to_read5)))))
                                     )
+                ra228_err_list.append(
+                    np.sqrt(np.average(read5_vdpm_err)**2 + read4_vdpm_err.iloc[0]**2)
+                )
                 row_specific_errors.append('Multiple 5th reads Averaged')
                 # read_specific_errors.update(xs_calc_results[read_errors])
             
@@ -267,6 +282,10 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                 ra228_list.append(
                                     np.average(read5_vdpm) - (np.average(read4_vdpm) - np.exp(-th228_lambda_days* (time_read4_to_read5)/(1.499* np.exp((-ra228_lambda_days*time_read4_to_read5)-(-th228_lambda_days*time_read4_to_read5)))))
                                     )
+                
+                ra228_err_list.append(
+                    np.sqrt(np.average(read5_vdpm_err)**2 + np.average(read4_vdpm_err)**2)
+                )
                 row_specific_errors.append('Multiple 4th and 5th reads averaged')
                 # read_specific_errors.update(xs_calc_results[read_errors])
             
@@ -278,6 +297,9 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                 ra228_list.append(
                                     read5_vdpm.iloc[0] - (read4_vdpm.iloc[0] - np.exp(-th228_lambda_days* (time_read4_to_read5)/(1.499* np.exp((-ra228_lambda_days*time_read4_to_read5)-(-th228_lambda_days*time_read4_to_read5)))))
                                     )
+                ra228_err_list.append(
+                    np.sqrt(read5_vdpm_err.iloc[0]**2 + read4_vdpm_err.iloc[0]**2)
+                )
             ###############################################################################################################################
             # Bring Diego-Feliu Errors through from results dataframe to summary dataframe.
             ###############################################################################################################################
@@ -286,13 +308,14 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                 
         else:
             ra228_list.append('(228Ra) Required reads not available')
-            read_specific_errors.update({'(228Ra)': 'Required reads not available'})
+            ra228_err_list.append('(228Ra) Required reads not available')
+            # read_specific_errors.update({'(228Ra)': 'Required reads not available'})
         
 ###########################################################################################################################################
         
     
 ###########################################################################################################################################
-#       226Ra calculations    (under construction)  
+#       226Ra calculations      
 ###########################################################################################################################################
         ra226_row_list = list(lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) &
                                  (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)), 'vdpm226 (dpm/m^3)'])
@@ -373,6 +396,7 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
     summary_df['227Ac'] = ac227_list
     summary_df['227Ac_err'] = ac227_err_list
     summary_df['228Ra'] = ra228_list
+    summary_df['228Ra_err'] = ra228_err_list
     summary_df['xs_calc_errors'] = error_list
     summary_df['read_errors'] = read_error_list
     summary_df['226Ra'] = ra226_list
@@ -381,7 +405,7 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
     
     cols = list(log_df.columns) + ['224xs','224xs_err', '224xs_t0', '224xs_t0_err',	'Fraction_of_original_224_remaining', '228Th',	 '228Th_err', 
                                    '223xs','223xs_err', '223xs_t0', '223xs_t0_err', 'Fraction_of_original_223_remaining', '227Ac',	'227Ac_err', 
-                                   '226Ra', '226Ra_err', '228Ra', 'xs_calc_errors', 'read_errors' ]
+                                   '226Ra', '226Ra_err', '228Ra', '228Ra_err', 'xs_calc_errors', 'read_errors' ]
     summary_df = summary_df[cols]
     
     summary_df.to_csv(output_directory/Path('Dataframes/summary_df_testing_'+time.strftime("%Y-%m-%d_%H%M%S")+'.csv'))

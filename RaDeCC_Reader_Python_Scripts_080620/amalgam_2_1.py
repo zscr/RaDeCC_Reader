@@ -23,7 +23,7 @@ from radecc_reader_lvl1_2_0 import slope_calculator
 
 def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_volume_error, sample_variable, sub_sample_variable, 
                 spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, sample_mid_date, 
-                linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank, detector_dict ):
+                linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank, detector_dict, detector_226_efficiencies_dict ):
     
     main_samplelist = []
     
@@ -85,13 +85,16 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
     lvl1_main_df['Mid_Read_Datetime'] = pd.to_datetime(lvl1_main_df['Read_Start_Time'], dayfirst=DDMMYYY_DateFormat) + pd.to_timedelta(lvl1_main_df['Read_Runtime']/2, unit='m')
     
     detector_226_calibration_values_list = []
-    
+    detector_226_efficiencies_list = []
     for detector in lvl1_main_df.Detector_Name:
         if detector in detector_dict.keys():
             detector_226_calibration_values_list.append(detector_dict[detector])
+            detector_226_efficiencies_list.append(detector_226_efficiencies_dict[detector])
         else:
             detector_226_calibration_values_list.append(-999)
+            detector_226_efficiencies_list.append(-999)
     lvl1_main_df['Detector 226 Calibration Factor'] = detector_226_calibration_values_list
+    lvl1_main_df['Detector 226 Efficiency'] = detector_226_efficiencies_list
     
     blankcorr219 = []
     blankcorr219_err =[]
@@ -164,11 +167,15 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
                 #dpm219_thstdonly_err Volume corrections error
                 vdpm219_thstdonly_err.append(np.sqrt((dpm219_thstdonly_err[-1]/float(lvl1_main_df[sample_volume][i]))**2 + ((dpm219_thstdonly[-1]*float(lvl1_main_df[sample_volume_error][i]))/(float(lvl1_main_df[sample_volume][i])**2))**2)*1000)
             
-                #dpm226 calculation 
-                vdpm226.append(((lvl1_main_df['Slope'][i]/lvl1_main_df['Detector 226 Calibration Factor'][i])/float(lvl1_main_df[sample_volume][i]))*1000)
-                #dpm226_err calculation 
-                vdpm226_err.append(np.sqrt(((lvl1_main_df['stderr_slope'][i]/lvl1_main_df['Detector 226 Calibration Factor'][i])/float(lvl1_main_df[sample_volume][i]))**2 + (((lvl1_main_df['Slope'][i]/lvl1_main_df['Detector 226 Calibration Factor'][i])*float(lvl1_main_df[sample_volume_error][i]))/(float(lvl1_main_df[sample_volume][i])**2))**2)*1000)
-            
+                if lvl1_main_df['Slope'][i] > -999:
+                    #dpm226 calculation 
+                    vdpm226.append(((lvl1_main_df['Slope'][i]/lvl1_main_df['Detector 226 Calibration Factor'][i])/float(lvl1_main_df[sample_volume][i]))*1000)
+                    vdpm226[-1] = vdpm226[-1]/float(lvl1_main_df['Detector 226 Efficiency'][i])
+                    #dpm226_err calculation 
+                    vdpm226_err.append(np.sqrt(((lvl1_main_df['stderr_slope'][i]/lvl1_main_df['Detector 226 Calibration Factor'][i])/float(lvl1_main_df[sample_volume][i]))**2 + (((lvl1_main_df['Slope'][i]/lvl1_main_df['Detector 226 Calibration Factor'][i])*float(lvl1_main_df[sample_volume_error][i]))/(float(lvl1_main_df[sample_volume][i])**2))**2)*1000)
+                else:
+                    vdpm226.append(-999)
+                    vdpm226_err.append(-999)
             else:
                 vdpm219.append(-999)
                 vdpm219_err.append(-999)

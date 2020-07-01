@@ -99,7 +99,7 @@ def slope_calculator (output_directory, arg_file = None, spike_sensitivity = 100
             # Find and extract the start date and time of the read from the radecc read file
             if line[0:5] == 'Start':
                 date_time = pd.to_datetime(line [10:], dayfirst = DDMMYYY_DateFormat)
-
+        interval_length_mins = int(runtimecopy[1])
         #Find and remove spikes in counts (here a spike is defined by a count that is more than 100 counts higher than the last count period as default)
         spike_dict = {}
         for i in range (len(cntTotcopy)):
@@ -159,7 +159,10 @@ def slope_calculator (output_directory, arg_file = None, spike_sensitivity = 100
             
         
         
-    error_list = dict(Counter(error_list))    
+    error_list = dict(Counter(error_list))
+    for key in error_list.keys():
+         if key != 'S1':
+            error_list[key] = str(int(error_list[key]/len(CPMTot)*100))+'%'
 #    error_list = list(set(error_list))
     
         
@@ -209,24 +212,26 @@ def slope_calculator (output_directory, arg_file = None, spike_sensitivity = 100
 #________________________________________________________________________________________________________________________________________________
 #CALCULATE LINEAR REGRESSION OF CPMTot_corr______________________________________________________________________________________________________
     if thstd in str(file_name) or acstd in str(file_name) or blank in str(file_name):
-        if len(runtime[:]) == len(CPMTot_corr[:]) and len(CPMTot_corr[:])>3:
-            slope = sci.linregress(runtime[:], CPMTot_corr[:])
+        if len(runtime[:]) == len(CPMTot_interval[:]) and float(runtime[-1]) > 590:
+            slope = sci.linregress(runtime[:], CPMTot_interval[:])
         else:
             print ('\n***ERROR***\nThe read file ',arg_file,'does not contain enough data points to perform a linear regression: 222Rn ingrowth slope set to 999\n')
-            slope = [999,999,999,999,999]
+            error_list['Err226_short_read'] = True
+            slope = [-999,-999,-999,-999,-999]
     else:
-        if len(runtime[equilibration_time_variable:]) == len(CPMTot_corr[equilibration_time_variable:]) and len(CPMTot_corr[equilibration_time_variable:])>3:
-            slope = sci.linregress(runtime[equilibration_time_variable:], CPMTot_corr[equilibration_time_variable:])
+        if len(runtime[equilibration_time_variable:]) == len(CPMTot_interval[equilibration_time_variable:]) and float(runtime[-1]) > 590:
+            slope = sci.linregress(runtime[equilibration_time_variable:], CPMTot_interval[equilibration_time_variable:])
         else:
             print ('\n***ERROR***\nThe read file ',arg_file,'does not contain enough data points to perform a linear regression: 222Rn ingrowth slope set to 999\n')
-            slope = [999,999,999,999,999]
-
+            error_list['Err226_short_read'] = True
+            slope = [-999,-999,-999,-999,-999]
+    
 #________________________________________________________________________________________________________________________________________________
 #Propagation of Uncertainties___________________________________________________________________________________________
     cntTot = add_on_summary_line(cntTot)
     cnt219 = add_on_summary_line(cnt219)
     cnt220 = add_on_summary_line(cnt220)
-
+    # runtime = add_on_summary_line(runtime)
 
     if  np.sum(cnt219) == 0:
         err_219 = 0
@@ -241,14 +246,14 @@ def slope_calculator (output_directory, arg_file = None, spike_sensitivity = 100
     
     err_Tot = np.sqrt(np.sum(cnt220))/np.sum(cnt220)
     
-    cpm_219 = np.sum(cnt219)/runtime[-1]
+    cpm_219 = np.sum(cnt219)/(runtime[-1]-(interval_length_mins*len(spike_dict.keys())))
     
     cnt219_abserr = err_219*cpm_219
     
-    cpm_220 = np.sum(cnt220)/runtime[-1]
+    cpm_220 = np.sum(cnt220)/(runtime[-1]-(interval_length_mins*len(spike_dict.keys())))
     cnt220_abserr = err_220*cpm_220
     
-    cpm_Tot = np.sum(cntTot)/runtime[-1]
+    cpm_Tot = np.sum(cntTot)/(runtime[-1]-(interval_length_mins*len(spike_dict.keys())))
     cntTot_abserr = err_Tot*cpm_Tot
     
     y_220 = (cpm_Tot-cpm_220-cpm_219)
@@ -368,8 +373,10 @@ def slope_calculator (output_directory, arg_file = None, spike_sensitivity = 100
             plt.xlabel('Read Time (mins)')
             plt.ylabel('Counts')
             plt.savefig(base_dir/(str(sample_dir)+'_plots')/('Spike_Plot_'+str(read_name)), dpi = 250, bbox_inches = 'tight')
+    if cpm_Tot > 10:
+        error_list['Err226_cpm<10'] = True
+     
 
-        
     if runtime[-1] > 10.0:
         return (date_time, end_date_time, slope[0], slope[4], sum(cnt219), cnt219_abserr, sum(cnt220), cnt220_abserr, cpm_219, err_219, cpm_220, 
                 err_220, cpm_Tot, err_Tot, y219cc, y219cc_err, y220cc, y220cc_err, corr219, corr219_err, corr220, corr220_err,  final219, final220, 

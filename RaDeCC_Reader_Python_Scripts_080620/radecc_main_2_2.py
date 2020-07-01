@@ -89,6 +89,7 @@ adjustment_coefficient_uncertainty = 0.05
 
 #detector_dict: list all detectors used for the analysis of the sample set in the form: ['detector_1', 'detector_2', ..., 'detector_n']
 detector_dict = {'detector1':0.000186, 'detector2':0.000187}
+detector_226_efficiencies_dict = {'detector1':1, 'detector2':1}
 
 #__________________________________________________________________________________________________________________________________________________________
 """Information for logsheet reader"""
@@ -190,7 +191,7 @@ log_df = logsheet_scan(output_directory, sample_variable)
 
 lvl2_main_df = amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_volume_error, sample_variable, sub_sample_variable, 
                             spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, sample_mid_date, 
-                            linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank, detector_dict)
+                            linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank, detector_dict, detector_226_efficiencies_dict)
 
 folder_filepath = output_directory/'Dataframes'
 if folder_filepath.exists() == False:
