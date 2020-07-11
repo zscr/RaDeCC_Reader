@@ -27,7 +27,7 @@ from collections import Counter
 
 
 def interval_calculator (list_, runtime):					#This finds the counts within each interval. The range is length of list -1 as the last
-    list1 = []										        #value of each list is the summary value. This is excluded by using (len(list_)-1)
+    list1 = []										        #value of each list is the summary value. 
     if len(list_) >2:
         for i in range (len(list_)-1):
             if i == 0:
@@ -219,21 +219,22 @@ def slope_calculator (output_directory, detector_dict, arg_file = None, spike_se
 #________________________________________________________________________________________________________________________________________________
 #CALCULATE LINEAR REGRESSION OF CPMTot_corr______________________________________________________________________________________________________
     if thstd in str(file_name) or acstd in str(file_name) or blank in str(file_name):
-        if len(runtime[:]) == len(CPMTot_interval[:]) and float(runtime[-1]) > 590:
-            slope = sci.linregress(runtime[:], CPMTot_interval[:])
-            # slope_220 = sci.linregress(runtime[:], CPM220_interval[:])
-            # if slope_220[0]<-0.0001:
-            #     print ('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',slope_220[0])
-        else:
+        # if len(runtime[:]) == len(CPMTot_interval[:]):
+        #     slope = sci.linregress(runtime[:], CPMTot_interval[:])
+        #     error_list['Standard_read'] = True
+        #     # slope_220 = sci.linregress(runtime[:], CPM220_interval[:])
+        #     # if slope_220[0]<-0.0001:
+        #     #     print ('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',slope_220[0])
+        # else:
             # print ('\n***ERROR***\nThe read file ',arg_file,'does not contain enough data points to perform a linear regression: 222Rn ingrowth slope set to 999\n')
-            error_list['Err226_short_read'] = True
-            slope = [-999,-999,-999,-999,-999]
+        error_list['Standard_read'] = True
+        slope = [-999,-999,-999,-999,-999]
     else:
-        if len(runtime[equilibration_time_variable:]) == len(CPMTot_interval[equilibration_time_variable:]) and float(runtime[-1]) > 590:
-            slope = sci.linregress(runtime[equilibration_time_variable:], CPMTot_interval[equilibration_time_variable:])
+        if len(runtime[equilibration_time_variable:-1]) == len(CPMTot_interval[equilibration_time_variable:-1]) and float(runtime[-1]) > 590:
+            slope = sci.linregress(runtime[equilibration_time_variable:-1], CPMTot_interval[equilibration_time_variable:-1])
             # slope_220 = sci.linregress(runtime[:], CPM220_interval[:])
             # if slope_220[0]<-0.0001:
-            #     print ('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',slope_220[0])
+            # print ('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',slope_220[0])
         else:
             # print ('\n***ERROR***\nThe read file ',arg_file,'does not contain enough data points to perform a linear regression: 222Rn ingrowth slope set to 999\n')
             error_list['Err226_short_read'] = True
@@ -357,48 +358,51 @@ def slope_calculator (output_directory, detector_dict, arg_file = None, spike_se
     
     if (base_dir/sample_dir/read_name).exists() == False:
         
-        
-        #fig = plt.figure()
-        ax = plt.subplot(111)
-        
-        ax.plot(runtime[:], CPMTot[:], '-')
-        ax.scatter(runtime[:], CPMTot[:], label = 'Total CPM')
-        
-        if len(runtime[equilibration_time_variable:]) == len(CPMTot_interval[equilibration_time_variable:]) and len(CPMTot_corr[equilibration_time_variable:])>3:
-        
-            ax.plot(runtime[0:equilibration_time_variable], CPMTot_interval[0:equilibration_time_variable], '-')
-            ax.scatter(runtime[0:equilibration_time_variable], CPMTot_interval[0:equilibration_time_variable], label = 'Total CPM (Equilibration Time)')
-        
-        ax.plot(runtime[:], CPM220[:], '-')
-        ax.scatter(runtime[:], CPM220[:], label = '220 CPM')
-        
-        ax.plot(runtime[:], CPM219[:], '-')
-        ax.scatter(runtime[:], CPM219[:], label = '219 CPM')
-        
-        
-        ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), shadow=True, ncol=2)
-        
-        plt.title(read_name)
-        plt.xlabel('Read Time (mins)')
-        plt.ylabel('Counts per minute (cpm)')
-        plt.savefig(base_dir/(str(sample_dir)+'_plots')/read_name, dpi = 250, bbox_inches = 'tight')
-        #plt.show()
-        plt.clf()
-
-        if len(spike_dict.keys())>0:
+        if len(runtime)>3:
+            #fig = plt.figure()
+            # CPMTot_interval[-1] = CPMTot_interval[-1]-np.sum(CPMTot_interval[:-1])
             ax = plt.subplot(111)
         
-            ax.plot(runtimecopy[:-1], cntTotcopy[:-1], '-')
-            ax.scatter(runtimecopy[:-1], cntTotcopy[:-1], label = 'Total Counts')
+            CPMTot_lineplot = ax.plot(runtime[:-1], CPMTot_interval[:-1], '-', label = 'Total CPM line')
+            CPMTot_scatter = ax.scatter(runtime[:-1], CPMTot_interval[:-1], label = 'Total CPM')
+        
+        # if len(runtime[equilibration_time_variable:]) == len(CPMTotcopy[equilibration_time_variable:]) and len(CPMTot_corr[equilibration_time_variable:])>3:
+        
+        #     ax.plot(runtime[0:equilibration_time_variable], CPMTotcopy[0:equilibration_time_variable], '-')
+        #     ax.scatter(runtime[0:equilibration_time_variable], CPMTotcopy[0:equilibration_time_variable], label = 'Total CPM (Equilibration Time)')
+        
+            CPM220_line_plot = ax.plot(runtime[:-1], CPM220_interval[:-1], '-', label = '220 CPM line')
+            CPM220_scatter = ax.scatter(runtime[:-1], CPM220_interval[:-1], label = '220 CPM')
+        
+            CPM219_line_plot = ax.plot(runtime[:-1], CPM219_interval[:-1], '-', label = '219 CPM line')
+            CPM219_scatter = ax.scatter(runtime[:-1], CPM219_interval[:-1], label = '219 CPM')
+ 
+            ax.legend((CPMTot_scatter,CPM220_scatter, CPM219_scatter),('Total CPM', '220 CPM', '219 CPM'),
+                    loc='upper center', bbox_to_anchor=(0.5, -0.15), 
+                    shadow=True, ncol=2)
+        
+            plt.title(read_name)
+            plt.xlabel('Read Time (mins)')
+            plt.ylabel('Counts per minute (cpm)')
+            plt.savefig(base_dir/(str(sample_dir)+'_plots')/read_name, dpi = 250, bbox_inches = 'tight')
+            # plt.show()
+            plt.clf()
 
-            ax.scatter(spike_dict.keys(), spike_dict.values(), label = 'Removed Spike')
+        if len(spike_dict.keys())>0:
+            ax1 = plt.subplot(111)
+        
+            total_counts_line = ax1.plot(runtimecopy[:-1], cntTotcopy[:-1], '-', label = 'Total Counts line')
+            total_counts_scatter = ax1.scatter(runtimecopy[:-1], cntTotcopy[:-1], label = 'Total Counts')
+
+            spike_scatter = ax1.scatter(spike_dict.keys(), spike_dict.values(), label = 'Removed Spike')
             
-            ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), shadow=True, ncol=2)
+            ax1.legend((total_counts_scatter, spike_scatter),('Total Counts line', 'Removed Spike'),loc='upper center', bbox_to_anchor=(0.5, -0.15), shadow=True, ncol=2)
         
             plt.title('Spike_Plot_'+read_name)
             plt.xlabel('Read Time (mins)')
             plt.ylabel('Counts')
             plt.savefig(base_dir/(str(sample_dir)+'_plots')/('Spike_Plot_'+str(read_name)), dpi = 250, bbox_inches = 'tight')
+            plt.clf()
     if cpm_Tot > 10:
         error_list['Err226_cpm<10'] = True
      

@@ -22,7 +22,7 @@ from radecc_reader_lvl1_2_0 import slope_calculator
 #____________________________________________________________________________________________________________________________________________________________
 
 def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_volume_error, sample_variable, sub_sample_variable, 
-                spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, sample_mid_date, 
+                spike_sensitivity, equilibration_time_variable, output_directory, sample_mid_time, sample_mid_date, 
                 linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank, detector_dict, detector_226_efficiencies_dict ):
     
     main_samplelist = []

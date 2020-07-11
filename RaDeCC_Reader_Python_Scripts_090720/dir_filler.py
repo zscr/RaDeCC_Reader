@@ -22,7 +22,7 @@ from pathlib import Path
 
 
 
-def dir_filler(output_directory, input_directory, acstd_date_dict, thstd_date_dict, blank_name_list, acstd, thstd, blank, log_df, logfile_directory, linear_data_type, sample_variable, sub_sample_variable):
+def dir_filler(output_directory, input_directory, acstd_date_dict, thstd_start_activity_dict, blank_name_list, acstd, thstd, blank, log_df, logfile_directory, linear_data_type, sample_variable, sub_sample_variable):
 
     list_of_input_files = os.listdir(input_directory)
     list_of_files_copied = []
@@ -40,7 +40,7 @@ def dir_filler(output_directory, input_directory, acstd_date_dict, thstd_date_di
                 shutil.copy(input_directory/filename, output_directory/blank/filename)
                 list_of_files_copied.append(filename)
         # thorium standards
-        for thstd_name in thstd_date_dict.keys():
+        for thstd_name in thstd_start_activity_dict.keys():
             # print(thstd_name.lower() in filename.lower())
             if thstd_name.lower() in filename.lower():
                 shutil.copy(input_directory/filename, output_directory/thstd/filename)

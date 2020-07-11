@@ -29,7 +29,7 @@ from radecc_reader_lvl1_2_0 import slope_calculator, cc_calculator, interval_cal
 
 def create_effdf(output_directory, thstd, acstd, blank, ac_halfLife, 
                  detector_list, spike_sensitivity, equilibration_time_variable, DDMMYYY_DateFormat, 
-                 acstd_start_activity_dict, acstd_date_dict, thstd_start_activity_dict, thstd_date_dict, blank_name_list, detector_dict, detector_adjustment_coefficients_dict):
+                 acstd_start_activity_dict, acstd_date_dict, thstd_start_activity_dict, blank_name_list, detector_dict, detector_adjustment_coefficients_dict):
     thstdList = []
     acstdList = []
     blankstdList = []
@@ -38,7 +38,7 @@ def create_effdf(output_directory, thstd, acstd, blank, ac_halfLife,
     #Make dataframe of thstd reads
     #____________________________________________________________________________________________________________________________________________________________________
     standard_name_list = []
-    standard_manufacture_date_list = []
+    # standard_manufacture_date_list = []
     standard_start_activity_list = []
     
     print('\n---Calculating efficiencies---\n')
@@ -48,11 +48,11 @@ def create_effdf(output_directory, thstd, acstd, blank, ac_halfLife,
         if len(fileList)!= 0:
             for file in fileList:
                 thstdList.append(slope_calculator(output_directory , detector_dict, output_directory/(thstd)/file, spike_sensitivity, equilibration_time_variable, DDMMYYY_DateFormat, thstd, acstd, blank))
-                for thstd_name in thstd_date_dict.keys():
+                for thstd_name in thstd_start_activity_dict.keys():
                     if thstd_name.lower() in file.lower():
                         # print (thstd_name)
                         standard_name_list.append(thstd_name)
-                        standard_manufacture_date_list.append(pd.to_datetime(thstd_date_dict[thstd_name], dayfirst = DDMMYYY_DateFormat))
+                        # standard_manufacture_date_list.append(pd.to_datetime(thstd_date_dict[thstd_name], dayfirst = DDMMYYY_DateFormat))
                         standard_start_activity_list.append(thstd_start_activity_dict[thstd_name])
                         
 
@@ -65,7 +65,7 @@ def create_effdf(output_directory, thstd, acstd, blank, ac_halfLife,
     # print(len(fileList), len(standard_name_list))
     thstd_df['Filename']= fileList
     thstd_df['Standard_name']= standard_name_list
-    thstd_df['Standard_manufacture_date'] = standard_manufacture_date_list
+    # thstd_df['Standard_manufacture_date'] = standard_manufacture_date_list
     thstd_df['Standard_start_activity'] = standard_start_activity_list
     thstd_df['E220'] = thstd_df.final220/thstd_df['Standard_start_activity']
     

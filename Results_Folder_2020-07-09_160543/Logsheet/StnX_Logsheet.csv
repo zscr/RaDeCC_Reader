@@ -1,0 +1,17 @@
+﻿Station,Latitude,Longitude,sample_name,Weather,Date,Event No.,Sampler_used,Sampling_Start_Time,Sampling_End_Time,Sample_Depth,Volume_sampled,Volume_error
+1,41 22.97,13 53.26,StnX001,"Calm, sunny, clouds",12/24/17,11,Sampler001,16:50:00,18:20:00,300,900,1
+1,41 22.97,13 53.26,StnX001,"Calm, sunny, clouds",12/24/17,11,Sampler001,16:50:00,18:20:00,400,900,1
+2,41 21.30,13 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler001,14:45:00,16:55:00,3200a,849,5
+2,41 21.30,13 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler001,14:45:00,16:55:00,3200b,849,5
+2,42 21.30,14 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler002,14:45:00,16:55:00,3400a,763,5
+2,42 21.30,14 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler002,14:45:00,16:55:00,3400b,763,5
+2,43 21.30,15 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler003,14:45:00,16:55:00,3600a,859,5
+2,43 21.30,15 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler003,14:45:00,16:55:00,3600b,0,5
+2,43 21.30,15 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler003,14:45:00,16:55:00,3600filt,0,5
+2,44 21.30,16 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler004,14:45:00,16:55:00,3800a,933,5
+2,44 21.30,16 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler004,14:45:00,16:55:00,3800b,933,5
+2,45 21.30,17 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler005,14:45:00,16:55:00,4000a,840,5
+2,45 21.30,17 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler005,14:45:00,16:55:00,4000b,840,5
+2,45 21.30,17 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler005,14:45:00,16:55:00,4000filt,840,5
+2,46 21.30,18 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler006,14:45:00,16:55:00,4100a,535,5
+2,46 21.30,18 57.78,StnX009,"Calm, sunny, clouds",17/01/2018,12,Sampler006,14:45:00,16:55:00,4100b,535,5

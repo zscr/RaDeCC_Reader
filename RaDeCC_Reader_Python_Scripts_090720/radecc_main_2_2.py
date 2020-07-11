@@ -61,9 +61,9 @@ time_interval_mins = 10
 #__________________________________________________________________________________________________________________________________________________________
 
 #*sample_type*: This is the sample naming convention e.g. if your first sample is sample001 and your second is sample002 then sample_type is 'sample'
-sample_type = 'StnX'
+# sample_type = 'StnX'
 #*number_of_samples*: The is the number of samples (not sub-samples) (1-999) 
-number_of_samples = 30
+# number_of_samples = 30
 
 
 #__________________________________________________________________________________________________________________________________________________________
@@ -73,12 +73,12 @@ number_of_samples = 30
 #Specify, if different from the below, the identifiers used for each of the standards and the blank below:
 # 228-Thorium Standard:
 
-thstd_date_dict = {'green':'13/10/2014 00:00:00', 'yellow':'13/10/2014 00:00:00'}
+# thstd_date_dict = {'green':'13/10/2014 00:00:00', 'yellow':'13/10/2014 00:00:00'}
 thstd_start_activity_dict = {'green':12.20454, 'yellow':12.20454}
 
 # 227-Actinium Standard:
 
-acstd_date_dict = {'red':'13/10/2014 00:00:00', 'blue':'13/10/2014 00:00:00'}
+acstd_date_dict = {'red':'09/10/2014 ', 'blue':'13/10/2014 00:00:00'}
 acstd_start_activity_dict = {'red':10.49429, 'blue':10.49429}
 
 # Blank:
@@ -87,7 +87,7 @@ blank_name_list = ['exposure', 'analytical']
 
 
 adjustment_coefficient = 0.45
-adjustment_coefficient_uncertainty = 0.05
+# adjustment_coefficient_uncertainty = 0.05
 
 #detector_dict: list all detectors used for the analysis of the sample set in the form: ['detector_1', 'detector_2', ..., 'detector_n']
 detector_dict = {'detector1':0.000186, 'detector2':0.000187}
@@ -171,7 +171,7 @@ folder_names_list.append('Logsheet')
 
 log_df = pd.read_csv(logfile_directory)
 dir_constructor(output_directory, log_df, sample_variable, sub_sample_variable, linear_data_type, folder_names_list)
-dir_filler(output_directory, input_directory, acstd_date_dict, thstd_date_dict, blank_name_list, acstd, thstd, blank, log_df, logfile_directory, linear_data_type, sample_variable, sub_sample_variable)
+dir_filler(output_directory, input_directory, acstd_date_dict, thstd_start_activity_dict, blank_name_list, acstd, thstd, blank, log_df, logfile_directory, linear_data_type, sample_variable, sub_sample_variable)
 
 #thstd_prepDate = pd.to_datetime(thstd_prepDatestr, dayfirst = DDMMYYY_DateFormat)
 #acstd_prepDate = pd.to_datetime(acstd_prepDatestr, dayfirst = DDMMYYY_DateFormat)
@@ -185,12 +185,12 @@ detector_adjustment_coefficients_dict.update({'No_Read':-999})
 
 eff_df = create_effdf (output_directory, thstd, acstd, blank, ac_halfLife, 
                        list(detector_dict.keys()), spike_sensitivity, equilibration_time_variable, DDMMYYY_DateFormat,
-                       acstd_start_activity_dict, acstd_date_dict, thstd_start_activity_dict, thstd_date_dict, blank_name_list, detector_dict, detector_adjustment_coefficients_dict)
+                       acstd_start_activity_dict, acstd_date_dict, thstd_start_activity_dict, blank_name_list, detector_dict, detector_adjustment_coefficients_dict)
 
 # log_df = logsheet_scan(output_directory, sample_variable)
 
 lvl2_main_df = amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_volume_error, sample_variable, sub_sample_variable, 
-                            spike_sensitivity, equilibration_time_variable, output_directory, sample_type, sample_mid_time, sample_mid_date, 
+                            spike_sensitivity, equilibration_time_variable, output_directory, sample_mid_time, sample_mid_date, 
                             linear_data_type, DDMMYYY_DateFormat, thstd, acstd, blank, detector_dict, detector_226_efficiencies_dict, )
 
 folder_filepath = output_directory/'Dataframes'

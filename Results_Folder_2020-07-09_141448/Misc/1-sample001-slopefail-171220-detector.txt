@@ -1,0 +1,16 @@
+C:\Users\Desktop\Expedition_1\Standards and Calibration\1-Sample001-300A-171220-detector1.txt
+Start Time 12/20/2017  20:41:48
+Runtime  CPM219   Cnt219   CPM220   Cnt220   CPMTot   CntTot
+0010.00  000.000  0000000  000.000  0000000  000.300  0000003
+0020.02  000.000  0000000  000.000  0000000  000.400  0000005
+
+Group 2 Stopped 12/21/2017  13:34:24
+ 
+Count Summary
+C:\RaDeCC\Data\RaDeCC.sum
+Runtime  CPM219   Cnt219  CPM220   Cnt220  CPMTot   CntTot
+1012.60  000.000  000000  000.014  000014  000.428  000433
+System Number 2
+(219:Delay= 0.01 Window= 5.6)(220:Delay= 5.61 Window= 600)
+Eff Last Updated  15Jan13  219= Uset  220= Uset  Tot= Uset
+
