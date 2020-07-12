@@ -52,7 +52,7 @@ def add_on_summary_line(cnt_list):
     #print(cnt_list[-1], cnt_list_with_summary_values[-1])
     return(cnt_list_with_summary_values)
 
-def slope_calculator (output_directory, detector_dict, arg_file = None, spike_sensitivity = 100, equilibration_time_variable = 0, DDMMYYY_DateFormat = True, thstd = 'thstd', acstd = 'acstd', blank = 'blank'):
+def slope_calculator (output_directory, detector_dict, arg_file = None, spike_sensitivity = 1e6, equilibration_time_variable = 0, DDMMYYY_DateFormat = True, thstd = 'thstd', acstd = 'acstd', blank = 'blank'):
     runtimecopy = []
     CPM219copy = []
     cnt219copy = []

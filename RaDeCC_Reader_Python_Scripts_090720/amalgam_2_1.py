@@ -251,10 +251,10 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
             ###############################################################################
             
             if float(lvl1_main_df[sample_volume][i]) > 0:
-                vdpm226.append(((lvl1_main_df['Slope'][i]/0.000186)/float(lvl1_main_df[sample_volume][i]))*1000)
+                vdpm226.append(-999)
                 if vdpm226[-1]<0:
                     vdpm226[-1] = 0
-                vdpm226_err.append(np.sqrt(((lvl1_main_df['stderr_slope'][i]/0.000186)/float(lvl1_main_df[sample_volume][i]))**2 + (((lvl1_main_df['Slope'][i]/0.000186)*float(lvl1_main_df[sample_volume_error][i]))/(float(lvl1_main_df[sample_volume][i])**2))**2)*1000)
+                vdpm226_err.append(-999)
             else:
                 vdpm226.append(-999)
                 vdpm226_err.append(-999)
