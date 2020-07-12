@@ -120,6 +120,7 @@ class App:
         ###### Spike_sensitivity ########################################################
         self.spike_sensitivity_row = 6
         self.spike_sensitivity_variable = make_labelled_entry(IntVar(), 'Spike sensitivity:', self.spike_sensitivity_row)
+        self.spike_sensitivity_variable.set(10e6)
 
         ###### Equilibration time (minutes) ##############################################
         self.equilibration_time_variable_row = 7
