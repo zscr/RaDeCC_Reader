@@ -312,10 +312,14 @@ def slope_calculator (output_directory, detector_dict, arg_file, spike_sensitivi
 #________________________________________________________________________________________________________________________________________________
 #Detector Name (detname), Cartridge type, Read Number_________________________________________________________________________________________________
     
-    tempname=arg_file.parts
-    tempname2 = tempname[-1].split('-')
-    cart_type = tempname2[-3][-1].lower()
+    try:
+        tempname=arg_file.parts
+        tempname2 = tempname[-1].split('-')
+        cart_type = tempname2[-3][-1].lower()
     
+    except:
+        cart_type = None
+
     #find detector name
     detname_checklist = []
     for key in detector_dict.keys():

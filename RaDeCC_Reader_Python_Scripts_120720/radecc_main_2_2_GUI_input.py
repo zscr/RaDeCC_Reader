@@ -128,15 +128,15 @@ def radecc_reader_main(gui_input_df):
     
     print(Path(gui_input_df['Output_Directory'][0])/('RaDeCC_Reader_Ouput'+time.strftime("%Y-%m-%d_%H%M%S")))
 
-    output_directory = Path(gui_input_df['Output_Directory'][0])/('RaDeCC_Reader_Ouput'+time.strftime("%Y-%m-%d_%H%M%S"))
+    output_directory = Path(gui_input_df['Output_Directory'][0])/('RaDeCC_Reader_Ouput_'+time.strftime("%Y-%m-%d_%H%M%S"))
     print(output_directory)
     output_filename = 'Read_Results_Dataframe_'+time.strftime("%Y-%m-%d_%H%M%S")+'.csv'
     logfile_directory = Path(gui_input_df['Logsheet_Filepath'][0])
     DDMMYYY_DateFormat = gui_input_df['DDMMYY_Format'][0]
     if gui_input_df['sub_sample_check_variable'][0] == 1:
-        linear_data_type = True 
+        linear_data_type = False 
     else:
-        linear_data_type = False
+        linear_data_type = True
     spike_sensitivity = gui_input_df['Spike_sensitivity_variable'][0]
     equilibration_time = gui_input_df['Equilibration_time'][0]
     #time_interval_mins = gui_input_df['Input_Directory']
@@ -147,12 +147,12 @@ def radecc_reader_main(gui_input_df):
     detector_dict = ast.literal_eval(gui_input_df['detector_calibration_values_dict'][0])
     detector_226_efficiencies_dict = ast.literal_eval(gui_input_df['detector_226_efficiency_dict'][0])
     detector_adjustment_coefficients_dict = ast.literal_eval(gui_input_df['detector_adjustment_coefficient_dict'][0])
-    sample_mid_time = gui_input_df['sample_mid_time'][0]
-    sample_mid_date = gui_input_df['sample_mid_date'][0]
-    sample_variable = gui_input_df['sample_name_column_variable'][0]
-    sub_sample_variable = gui_input_df['sub_sample_option_variable'][0]
-    sample_volume = gui_input_df['sample_volume_variable'][0]
-    sample_volume_error = gui_input_df['sample_volume_error_variable'][0]
+    sample_mid_time = str(gui_input_df['sample_mid_time'][0])
+    sample_mid_date = str(gui_input_df['sample_mid_date'][0])
+    sample_variable = str(gui_input_df['sample_name_column_variable'][0])
+    sub_sample_variable = str(gui_input_df['sub_sample_option_variable'][0])
+    sample_volume = str(gui_input_df['sample_volume_variable'][0])
+    sample_volume_error = str(gui_input_df['sample_volume_error_variable'][0])
 
 
     start = time.time()
@@ -175,6 +175,16 @@ def radecc_reader_main(gui_input_df):
     folder_names_list.append(blank)
     folder_names_list.append('Misc')
     folder_names_list.append('Logsheet')
+
+# # # # Pre-run checks_______________________________________________________________________________________________________________________________________________________________________
+    if linear_data_type == False and sub_sample_variable == 'None':
+        raise ValueError('Sub-samples have been indicated but None have been selected')
+    if linear_data_type == True:
+        sub_sample_variable = 'subsample_dummy_column'
+
+
+# # # # Pre-run checks_______________________________________________________________________________________________________________________________________________________________________
+
 
     log_df = pd.read_csv(logfile_directory)
     dir_constructor(output_directory, log_df, sample_variable, sub_sample_variable, linear_data_type, folder_names_list)
@@ -209,7 +219,7 @@ def radecc_reader_main(gui_input_df):
 
     print (lvl2_main_df)
 
-    create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_variable, output_directory)
+    create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_variable, output_directory, linear_data_type)
 
     end = time.time()
     print ('Calculations completed in ',end-start,'seconds.')

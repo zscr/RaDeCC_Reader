@@ -2,31 +2,24 @@
 ## Version 1.0.0
 
 This program calculates:
-- Fully corrected dpm(223Ra)/1000 L and dpm(224Ra)/1000 L with propagated uncertainties
-- Detector efficiencies (Using 227-Actinium and 228-Thorium Standards)
+- Fully corrected dpm(223Ra)/1000 L and dpm(224Ra)/1000 L with propagated uncertainties for each read
+- Excess radium-223 and excess radium-224 activities for each sample
+- Supporting thorium-228 and actinium-227 for each sample
 - Estimated dpm(226Ra)/1000 L (via the rate of 222Rn ingrowth)
+- Detector efficiencies (Using 227-Actinium and 228-Thorium Standards)
+
 
 Required input:
-- RaDeCC system read files from samples, 227-actinium and 228-thorium standards and blanks (background measurements)
+- RaDeCC system read files from samples, thorium-228 standard and blanks (background measurements). Actinium-227 standards are optional as 219-channel efficiency can also be determined via 220-channel efficiency.
 - Logsheet with sample collection metadata (as .txt files)
-- User input to radecc_main.py 
+- User input via the graphical user interface (GUI) 
 
 ## Prerequisites
 
 Hardware Requirements: 2 x 64-bit 2.8 GHz 8.00 GT/s CPUs, 32 GB RAM (or 16 GB of 1600 MHz DDR3 RAM), 300 GB Storage. 
 
-Written in Python 3.6 (Spyder 3.3.4), RaDeCC Reader (179 KB) is available on GitHub (https://github.com/oxradreader/RaDeCC_Reader)
+Written in Python 3.6, RaDeCC Reader (235.7 MB) is available on GitHub (https://github.com/oxradreader/RaDeCC_Reader)
 
-
-## Installing Python (Anaconda)
-
-Before running the program scripts you will need a way of running python on your computer. The easiest method is to install Anaconda Navigator which includes Spyder, a scientific python development environment. Downloads for Anaconda distributions can be found at the below link:
-
-https://www.anaconda.com/download/
-
-Once the Anaconda distribution is successfully installed, open 'Anaconda Navigator' and launch 'Spyder'.
-
-Spyder is where you will open and run the RaDeCC Reader program.
 
 **It is advised to run the program with the data in Raw_Data_Example first in order to check that the program itself is functioning properly.**
 
@@ -42,47 +35,41 @@ Spyder is where you will open and run the RaDeCC Reader program.
 
 
 ### File naming conventions
-- For linear sample sets (e.g. 1-dimensional surface sampling), read file names need to follow the format: 
+- For linear sample sets (e.g. 1-dimensional surface sampling), read file names need to follow the format (addition details such as date or read number can be included but will not be used by the program): 
 		
-		[Read_Number]-[Sample]-[Cartridge_Type]-[Date]-[Detector_Name].txt
-
-	- [Read_Number] : Usually 1-4 this indicates whether it is a first, second, third or fourth read.
+		[Sample]-[Detector_Name].txt
+	
 	- [Sample] : this is the name of your sample, e.g. StnX001 (N.B. samples need to be numbered 001-999 e.g. StnX001 to StnX999)
-	- [Cartridge_Type] : When sampling with two MnO-fibres in series in order to calculate scavenging efficiency, the first MnO-fibre in the series may be the 'A' fibre and the second the 'B' fibre.
-	- [Date] : this is the date of this particular read of this sample in DDMMYY or MMDDYY form, it cannot contain any punctuation e.g.(/.,-)
 	- [Detector_Name] : this is the name of the detector used for this particular read of this sample.
 	
 	For example:
 		
-		 1-StnX042-250119-detector1.txt
+		 StnX042-detector1-250119.txt
 
 
 	- For sample sets that contain sub-samples (e.g. multiple depth profiles creating a 2-dimensional transect), sample read file names need to follow the format:
 	
-		[read_number]-[Sample]-[Sub-Sample][Cartridge_Type]-[Date]-[Detector_Name].txt
+		[Sample]-[Sub-Sample]-[Detector_Name].txt
 
-	- [Read_Number] : Usually 1-4 this indicates whether it is a first, second, third or fourth read.
+
 	- [Sample] : this is the name of your sample, e.g. StnX001 (N.B. samples need to be numbered 001-999 e.g. StnX001 to StnX999)
 	- [Sub-Sample] : this is the name of the sub sample, for example if one sample contains a number of sub-samples at different depths or times this could be the sub-sample depth or time. These values or names should match those in the logsheet(s)
-	- [Cartridge_Type] : When sampling with two MnO-fibres in series in order to calculate scavenging efficiency, the first MnO-fibre in the series may be the 'A' fibre and the second the 'B' fibre.
-	- [Date] : this is the date of this particular read of this sample. the format of this date is flexible but cannot contain any punctuation e.g.(/.,-)
 	- [Detector_Name] : this is the name of the detector used for this particular read of this sample.
 	
 	For example:
 	
-		 1-StnX042-1700A-250119-detector1.txt
+		 StnX042-1700A-detector1-250119.txt
 	
 	- For 227-actinium standard, 228-thorium standard and blank reads, the following file name format must be followed:
 
-		[Standard_or_Blank_Type]-[Date]-[Detector_Name].txt
+		[Standard_or_Blank_Type]-[Detector_Name].txt
 
 		- [Standard_or_Blank_Type] : this is the name of the standard or blank cartridge ( e.g 228-thorium standard = thstd, 227-actinium standard = acstd and blank = blank)
-		- [Date] : this is the date of this particular read of this sample. the format of this date is flexible but cannot contain any punctuation e.g.(/.,-)
 		- [Detector_Name] : this is the name of the detector used for this particular read of this sample.
 
 	For example:
 	
-		 thstd-250119-detector1.txt
+		 thstd-detector1.txt
 	  	
 
 

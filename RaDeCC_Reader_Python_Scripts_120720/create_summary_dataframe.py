@@ -15,7 +15,7 @@ from xs_calculator import xs_calculator
 
 
 
-def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_variable, output_directory):
+def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_variable, output_directory, linear_data_type):
     
     half_life223 = 11.43 #days
     half_life224 = 3.65 #days
@@ -28,6 +28,9 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
     ra228_lambda_days = (np.log(2)/(half_life_ra228))
     
     summary_df = copy.deepcopy(log_df)
+    if linear_data_type == True:
+        None_list = ['None' for i in range (len( summary_df))]
+        summary_df['subsample_dummy_column'] = None_list
     
     xs224_list = []
     xs224_err_list = []
@@ -72,12 +75,18 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
         read_specific_errors = {}
         
         row_sample_variable = row[sample_variable]
-        row_sub_sample_variable = str(row[sub_sample_variable])
+        if linear_data_type == False:
+            row_sub_sample_variable = str(row[sub_sample_variable])
+            read_number_set = set(lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) &
+                                 (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)), 'read_number'])
+        else:
+            row_sub_sample_variable = str(row['subsample_dummy_column'])
+            read_number_set = set(lvl2_main_df.loc[(lvl2_main_df[sample_variable]==row_sample_variable), 'read_number'])
+
         
 #        print (row_sample_variable, row_sub_sample_variable)
        
-        read_number_set = set(lvl2_main_df.loc[((lvl2_main_df[sample_variable]==row_sample_variable) &
-                                 (lvl2_main_df[sub_sample_variable]==row_sub_sample_variable)), 'read_number'])
+        
 
 ###########################################################################################################################################
 #       224xs calculations      
@@ -480,7 +489,7 @@ def create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_v
                                    '226Ra', '226Ra_err', '228Ra', '228Ra_err', 'xs_calc_errors', 'read_errors' ]
     summary_df = summary_df[cols]
     
-    summary_df.to_csv(output_directory/Path('Dataframes/summary_df_testing_'+time.strftime("%Y-%m-%d_%H%M%S")+'.csv'))
+    summary_df.to_csv(output_directory/Path('Dataframes/Summary_Sample_Results_Dataframe'+time.strftime("%Y-%m-%d_%H%M%S")+'.csv'))
     
     
     return(summary_df)

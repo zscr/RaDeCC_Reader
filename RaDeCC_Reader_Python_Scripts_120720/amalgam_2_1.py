@@ -264,6 +264,7 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
             #Time difference between sampling datetime and read datetime (t1 in Garcia-Solsona)
             diff = pd.to_datetime(lvl1_main_df['Mid_Read_Datetime'][i]) - pd.to_datetime(lvl1_main_df['Mid_Sample_Datetime'][i]) 
             t1.append((diff.seconds/60)+diff.days*24*60)
+
             
         
     lvl1_main_df['blankcorr223'] = blankcorr219
@@ -304,6 +305,10 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
     
     # print (len(read_number_list), len(lvl1_main_df.dpm224))
     lvl1_main_df['read_number'] = read_number_list
+    if linear_data_type == True:
+        None_list = ['None' for i in range (len( lvl1_main_df))]
+        lvl1_main_df['subsample_dummy_column'] = None_list
+
         
 
     return(lvl1_main_df)
