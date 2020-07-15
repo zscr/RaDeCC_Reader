@@ -10,9 +10,7 @@ import numpy as np
 import time
 import ast
 from pathlib import Path
-from dir_constructor_linear_sampling_v2 import dir_constructor_linear 
 from dir_constructor_v2 import dir_constructor
-from dir_filler_linear_sampling import dir_filler_linear
 from dir_filler import dir_filler
 from detector_efficiencies_2_1 import create_effdf
 from amalgam_2_1 import amalgam_2
@@ -121,85 +119,17 @@ from create_summary_dataframe import create_summary_dataframe
 
 
 
-
-
-#  input_directory = Path('/Users/seanselzer/Documents/GitHub/RaDeCC_Reader/Raw_Data_Example')
-#     output_directory = Path('/Users/seanselzer/Documents/GitHub/RaDeCC_Reader/Results_Folder_'+time.strftime("%Y-%m-%d_%H%M%S"))
-#     output_filename = 'Example_Results_Dataframe_'+time.strftime("%Y-%m-%d_%H%M%S")+'.csv',
-#     logfile_directory = Path('/Users/seanselzer/Documents/GitHub/RaDeCC_Reader/Raw_Data_Example/StnX_Logsheet.csv')
-#     DDMMYYY_DateFormat = True
-#     linear_data_type = False
-#     spike_sensitivity = 100
-#     equilibration_time = 0
-#     time_interval_mins = 10
-#     thstd_start_activity_dict = {'green':12.20454, 'yellow':12.20454}
-#     acstd_date_dict = {'red':'09/10/2014 ', 'blue':'13/10/2014 00:00:00'}
-#     acstd_start_activity_dict = {'red':10.49429, 'blue':10.49429}
-#     blank_name_list = ['exposure', 'analytical']
-#     detector_dict = {'detector1':0.000186, 'detector2':0.000187}
-#     detector_226_efficiencies_dict = {'detector1':1, 'detector2':1}
-#     detector_adjustment_coefficients_dict = {'detector1':0.45, 'detector2':45}
-#     sample_mid_time = 'Sampling_Start_Time'
-#     sample_mid_date = 'Date'
-#     sample_variable = 'sample_name'
-#     sub_sample_variable = 'Sample_Depth'
-#     sample_volume = 'Volume_sampled'
-#     sample_volume_error = 'Volume_error'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# #__________________________________________________________________________________________________________________________________________________________
-# #__________________________________________________________________________________________________________________________________________________________
-# #__________________________________________________________________________________________________________________________________________________________
-# save_dict = {
-#             'Input_Directory':[self.chosen_query_input_directory],
-#             'Output_Directory':[self.chosen_query_output_directory],
-#             'Logsheet_Filepath': [self.logfile_to_load],
-#             'DDMMYY_Format': [self.date_format_variable.get()],
-#             'sub_sample_check_variable':[self.subsample_check_variable.get()],
-#             'Spike_sensitivity_variable':[self.spike_sensitivity_variable.get()],
-#             'Equilibration_time':[self.equilibration_time_variable.get()],
-#             'number_of_thorium_stds':[self.no_of_thstds_variable.get()],
-#             'number_of_actinium_stds':[self.no_of_acstds_variable.get()],
-#             'number_of_blanks':[self.no_of_blanks_variable.get()],
-#             'number_of_detectors':[self.no_of_detectors_variable.get()],
-#             'th228_standard_start_activities_dict':[self.th228_standard_start_activity_dict],
-#             'ac227_standard_manufacture_date_dict':[self.ac227_standard_manufacture_date_dict],
-#             'ac227_standard_start_activities_dict':[self.ac227_standard_start_activity_dict],
-#             'blank_standard_names_list':[self.blank_standard_names_list],
-#             'detector_calibration_values_dict':[self.detector_calibration_values_dict],
-#             'detector_adjustment_coefficient_dict':[self.detector_adjustment_coefficient_dict],
-#             'detector_226_efficiency_dict':[self.detector_226_efficiency_dict],
-#             'sample_name_column_variable':[self.sample_name_column_variable.get()],
-#             'sub_sample_option_variable':[self.sub_sample_option_variable.get()],
-#             'sample_mid_date':[self.sample_mid_date.get()],
-#             'sample_mid_time':[self.sample_mid_time.get()],
-#             'sample_volume_variable':[self.sample_volume_variable.get()],
-#             'sample_volume_error_variable':[self.sample_volume_error_variable.get()]
-
-#         }
-
 # #__________________________________________________________________________________________________________________________________________________________
 # """Working Code, Do Not Change"""
 # #__________________________________________________________________________________________________________________________________________________________
 
 def radecc_reader_main(gui_input_df):
     input_directory = Path(gui_input_df['Input_Directory'][0])
-    output_directory = Path(gui_input_df['Output_Directory'][0])
+    
+    print(Path(gui_input_df['Output_Directory'][0])/('RaDeCC_Reader_Ouput'+time.strftime("%Y-%m-%d_%H%M%S")))
+
+    output_directory = Path(gui_input_df['Output_Directory'][0])/('RaDeCC_Reader_Ouput'+time.strftime("%Y-%m-%d_%H%M%S"))
+    print(output_directory)
     output_filename = 'Read_Results_Dataframe_'+time.strftime("%Y-%m-%d_%H%M%S")+'.csv'
     logfile_directory = Path(gui_input_df['Logsheet_Filepath'][0])
     DDMMYYY_DateFormat = gui_input_df['DDMMYY_Format'][0]

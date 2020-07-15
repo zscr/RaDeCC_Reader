@@ -340,7 +340,7 @@ class App:
         }
         self.save_df = pd.DataFrame.from_dict(save_dict, orient = 'columns')
         self.save_df.to_csv(os.path.join(self.chosen_query_output_directory,'RR_GUI_entries_'+time.strftime("%H%M%S_%Y-%m-%d")+'.csv'))
-        print ('Saved')
+        print ('Saved', self.chosen_query_output_directory+'/RR_GUI_entries_'+time.strftime("%H%M%S_%Y-%m-%d")+'.csv' )
         
         return(self.save_df)
 
@@ -399,7 +399,7 @@ class App:
         self.detector_name_widget_list = self.make_entry_widget_list(column_number = self.detector_name_column, start_row = self.detector_entries_start_row+1, number_of_widgets =  self.no_of_detectors_variable.get(), var_type = 'String')
 
         self.detector_calibration_values_column = 1
-        self.detector_calibration_values_label = Label(text = '226Ra Calibration Value:', fg = 'black', padx = self.padx_variable)
+        self.detector_calibration_values_label = Label(text = '226Ra Conversion Factor:', fg = 'black', padx = self.padx_variable)
         self.detector_calibration_values_label.grid(column = self.detector_calibration_values_column, row = self.detector_entries_start_row)
         self.detector_calibration_values_widget_list = self.make_entry_widget_list(column_number = self.detector_calibration_values_column, start_row = self.detector_entries_start_row+1, number_of_widgets =  self.no_of_detectors_variable.get(), var_type = 'Double')
 
