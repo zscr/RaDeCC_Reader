@@ -42,23 +42,23 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
                 # print ('££££££££',log_df[sub_sample_variable].iloc[i], dirName.parts)
                 if str(log_df[sub_sample_variable].iloc[i])in dirName.parts[-1]:
                     for file in fileList:
-                        print (file, sample_series, log_df[sub_sample_variable].iloc[i])
+                        # print (file, sample_series, log_df[sub_sample_variable].iloc[i])
                         main_samplelist.append(list(log_df.iloc[i])+[os.path.join(dirName, file)])
     else:
         sample_set = list(set(log_df[sample_variable]))
         #print(sample_set)
-        for i in range(len(sample_set)):
-            sample_series = sample_set[i]
-            #print('\n', type(sample_series), sample_series)
+        for i in range(len(log_df[sample_variable])):
+            sample_series = log_df[sample_variable].iloc[i]
+            print('\n', sample_series)
             for dirName, subdirList, fileList in os.walk(output_directory/'Read_Files'/sample_series):
                 
                 dirName = Path(dirName)
                 
-                #print (dirName.split('/')[-1])
-                if sample_series.lower() in dirName.parts[-1].lower():
+                print (log_df[sample_variable].iloc[i], sample_series, dirName.parts[-1].lower(), '\n', dirName)
+                if str(log_df[sample_variable].iloc[i]) in dirName.parts[-1].lower():
                     
                     for file in fileList:
-                        #print (file, sample_series)
+                        print (file, log_df[sample_variable].iloc[i],sample_series)
                         main_samplelist.append(list(log_df.iloc[i])+[os.path.join(dirName, file)])
                          
     sample_array = np.array(main_samplelist)
