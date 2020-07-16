@@ -95,9 +95,7 @@ Once the GUI window has appear the data entry fields can be filled in:
 
 **The first time the RaDeCC Reader GUI is used all fields must be filled out manually. Entries can however be saved before running the program and reloaded for later runs of the program.**
 
-Panel 1:
-
-1. Complete entry fields:
+1. Complete Panel 1 entry fields:
 
 	- *Input directory* : The folder which contains the read files and logsheet that the user want to input to the RaDeCC Reader.
 
@@ -136,130 +134,41 @@ Panel 1:
 		- *Start Activity (dpm)* : The activity of the standard on its date of preparation.
 		- *Date Made (DD/MM/YY HH:MM:SS)*: The date of preparation of the standard in 'DD/MM/YY HH:MM:SS' format.
 	
-	- Thorium-228 Standard:
-		The below entry fields will need to be completed for each thorium-228standard.
-		- *227Ac Std Name*: The name used to identify the thorium-228 standard in standard read filenames. 
+	- Thorium-228 Standard Fields:
+		The below entry fields will need to be completed for each thorium-228 standard.
+		- *228Th Std Name*: The name used to identify the thorium-228 standard in standard read filenames. 
 		- *Start Activity (dpm)* : The activity of the standard on its date of preparation.
 	
+	- Blank Standard Fields:
+		The below entry fields will need to be completed for each blank standard.
+		- *Blank Std Name*: The name used to identify the thorium-228 standard in standard read filenames. 
 	
+	- Logsheet variable selection:
+		Drop down menus will appear for each variable allowing the user to select the logsheet column the corresponds to each variable.
+		- *Sample name column* : The title of the logsheet column containing the sample names 
+		- *Sub-sample name column* : The title of the logsheet column containing the sub-sample names. If sub-samples are not present in the dataset then 'None' may be selected, in this case 'Contains sub-samples' should be unticked in panel 1.
+		- *Sampling date column* : The title of the logsheet column containing the sampling date for each sample in either 'DD/MM/YYYY' or 'MM/DD/YYYY' format. 
+		- *Mid-sampling time column* : The title of logsheet the column containing the time halfway between the start and end times of each sampling event.
+		- *Volume column*: The title of the logsheet column containing the volume of each sample in Litres.
+		- *Volume error column*: The title of the logsheet column containing the error associated with the volume of each sample in Litres.
 
+5. Check entries:
+	- If no errors are apparent, 'OK' will appear next to each field and 'Save Field Inputs' and 'Run RaDeCC Reader' buttons will appear.
+		- Clicking 'Save Field Inputs' will save a file containing the user entries to the *Output directory* selected.
+	- If there is an error in one of the entry fields this will be indicated by an 'Error' next to the field containing the error.
 
+6. Click 'Run RaDeCC Reader'
+	- While the program runs there will be some output to the terminal (or console). In the event of an error while running, the program will notify the user via a pop-up
 
+7. After 'Run Complete' appears below the 'Run RaDeCC Reader' button, navigate to the *Output directory* selected to find the results computed by the program.
 
+### Saving and Loading RaDeCC Reader GUI Inputs
+ - To save inputs to the RaDeCC Reader GUI, click the 'Save Field Inputs' button once all fields are completed and checked.
+ - To load previous inputs click on the 'Load Saved Entries' button and navigate to and select the RR_GUI_entries_HHMMSS_YYYY-MM-DD.csv file. This will have been saved in the *Output directory* selected when the previous inputs were saved. Then 'Check' the inputs and click 'Continue'. When Panel 2 appears click 'Load Saved entries' at the top of panel 2 in order to load the rest of the saved entries.
 
+## Output from RaDeCC Reader
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## User Input to radecc_main.py
-
-Open Anaconda Navigator  and launch Spyder. Once Spyder is running open radecc_main.py. Follow the below guide on user input within this file.
-
-**Important**: Ensure there are no spaces anywhere in the filepaths used for *input_directory* or *output_directory*
-- *input_directory*: This is the filepath of the folder in which the sample, standard and blank read files as well as logsheets were placed 
-	
-	For Example: 
-		
-		Filepath (Linux, OS X): /Users/username/Desktop/Project_X/Raw_Data_Example
-		Filepath (Windows): C:\\Users\\username\\Desktop\\Project_X\\Raw_Data_Example
-
-- *output_directory*: This is filepath of the folder in which you would like the output to be placed.
-	
-	For Example: 
-		
-		Filepath (Linux, OS X): /Users/username/Desktop/Project_X/Output_Data
-		Filepath (Windows): C:\\Users\\username\\Desktop\\Project_X\\Output_Data
-
-- *output_filename* : the name you would like to give the ouput file.
-	
-	For Example:
-		
-		project_x_output.csv
-
-- *linear_data_type* : This variable is set to True if the dataset being input is linear/1-dimensional (e.g. a string of ocean surface samples or a time series at one point/location). Alternatively this is set to False if the dataset being input is 2-dimensional (e.g. a time-series at a string of locations or a string of depth profiles).
-	**Note**
-	This variable should be set as either of the below:
-		
-		linear_data_type = True
-		linear_data_type = False
-	
-	Not:
-
-		linear_data_type = 'True'
-		linear_data_type = 'False'	
-
-### Electrical spike detection and removal
-The RaDeCC_Reader program is able to find spikes in read data that are anomalous (often due to a surge in the electrical supply to the RaDeCC detector). If a spike is found, it is removed and so is not included in the correction and error propagation calulcations that follow. The threshold that determines whether a spike is anomalous is set by the variable *spike_sensitivity*. This variable is set to 100 by default, meaning that if the number of counts in any time interval is more than 100 counts higher than the previous time interval it is deemed a spike and removed from calculations. To disable this function set *spike_sensitivity* = 1e6.
-
-- *spike_sensitivity* : The threshold of counts in a time interval that determines whether a spike is anomalous or not.
-
-### Information for the directory builder
-
-- *sample_type*: This is the sample naming convention e.g. if your first sample is sample001 and your second is sample002 then sample_type is 'sample'
-- *number_of_samples*: The is the number of samples (1-999).
-
-### Information for the detector efficiency calculations
-
-- *thstd*: This is the filename identifier for Thorium-228 standards e.g. 'thstd' in the filename 'thstd-250119-detector1.txt'
-- *acstd*: This is the filename identifier for Actinium-227 standards e.g. 'acstd' in the filename 'acstd-250119-detector1.txt'
-- *blank*: This is the filename identifier for blank standards e.g. 'blank' in the filename 'blank-250119-detector1.txt'
-- *acstd_activity*: This is the start activity of the actinium-227 standard at the date of preparation
-- *thstd_activity*:	This is the start activity of the thorium-228 standard at the date of preparation
-- *thstd_prepDatestr* = date and time of thorium-228 standard preparation in the form - 'dd/mm/yyyy hh:mm:ss'
-- *acstd_prepDatestr* = date and time of actinium-227 standard preparation in the form - 'dd/mm/yyyy hh:mm:ss'
-- *det_list* =  list of detectors in the form - ['detector_1', 'detector_2', ..., 'detector_n']
-
-### Logsheet identifiers (below)
-
-These are the row names used in the logsheet for each variable (e.g. Latitude may be abbreviated in the logsheet to 'Lat'). These are used by the programme to search for the relevant data
-in the logsheet.
-
-e.g.
-
-- *sample_mid_time* = 'Time Bot'
-- *sample_variable* = 'StnX'	
-- *sub_sample_variable* = 'Sample_Depth'
-- *sample_volume* = 'Volume_sampled'
-
-The program should now be ready to run. With radecc_main_2_1.py open in Spyder 3.3.4, click run (green triangle).
-
-## Output from radecc_main.py
-
-### While the program runs there will be some output to the terminal (or console). The program will notify the user via the terminal in the following events
-
-- If a directory that the program is trying to create already exists, the program will not overwrite the existing directory and notify the user via the terminal
-- After the files have been copied from the source directory(source_dir) to the newly constructed original directory (original_dir), the program will report the number of files not copied (should be 0)
-- If a spike ( when the *spike_sensitivity* is exceeded in either the 219 or 220 channel) is detected in a readfile, that interval is removed and the summary values are calculated without them. The user is notified via the terminal or console as well as in the .csv file contain the output results
-- If there are not enough data points to find a slope for 222Rn ingrowth. The user is notified
-
-
-
-### The program will also output the following files in .csv format
+### The program will output the following files in .csv format
 
 #### Dataframes (Found in the Dataframes Folder)
 - A main table (.csv format) containing all metadata from logsheets as well as values for each level of the Garcia-Solsona corrections and uncertainty propagations, ending with dpm/1000L for both 223Ra and 224Ra as well as an estimation of 226Ra based on 222Rn ingrowth. All this is displayed for each read of each sample, ready for easy data-manipulation in Microsoft Excel.
@@ -268,7 +177,14 @@ The program should now be ready to run. With radecc_main_2_1.py open in Spyder 3
 - An output logsheet, the amalgamation of all input logsheets.
 
 #### Plots (Found in the Read_Plots Folder)
-- A plot of counts per minute for the total, radon-219 and radon-220 channels over the course of each read. Spikes in counts per minute (any counts that exceeded the default spike_sensitivity constant) have been removed. 
+- A plot of counts per minute for the total, radon-219 and radon-220 channels over the course of each read. Spikes in counts per minute (any counts that exceeded the default spike_sensitivity constant) have been removed.
+
+#### Error Flagging
+
+- After the files have been copied from the source directory(source_dir) to the newly constructed original directory (original_dir), the program will report the number of files not copied (should be 0)
+- If a spike ( when the *spike_sensitivity* is exceeded in either the 219 or 220 channel) is detected in a readfile, that interval is removed and the summary values are calculated without them. The user is notified via the terminal or console as well as in the .csv file contain the output results
+- If the read runtime is < 600 minutes the radium-226 activity will not be calculated and the user will be notified via the 'Errors' column in the read results dataframe and the sample results dataframe.
+- The adequacy of a read for the quantification of radium-223 or radium-224 activity as determined by the logic outlined by Diego-Feliu et al. (2020) is assessed. In the event that a read is not adequate for the quantification of an isotope, the percentage of that read's intervals that are affected is logged in the read results  and sample results dataframes.
 
 
 
