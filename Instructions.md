@@ -1,5 +1,5 @@
 # RaDeCC Reader
-## Version 1.0.0
+## Version 2.0.0
 
 This program calculates:
 - Fully corrected dpm(223Ra)/1000 L and dpm(224Ra)/1000 L with propagated uncertainties for each read
@@ -12,7 +12,7 @@ This program calculates:
 Required input:
 - RaDeCC system read files from samples, thorium-228 standard and blanks (background measurements). Actinium-227 standards are optional as 219-channel efficiency can also be determined via 220-channel efficiency.
 - Logsheet with sample collection metadata (as .txt files)
-- User input via the graphical user interface (GUI) 
+- User input via the Graphical User Interface (GUI) 
 
 ## Prerequisites
 
@@ -32,6 +32,8 @@ Written in Python 3.6, RaDeCC Reader (235.7 MB) is available on GitHub (https://
 - Logsheets must be in a comma-separated value (.csv) format.
 - Sample names in the loghsheet must match the sample names used in filenames.
 - If using sub-sample names/values, those in the logsheet must match those in the filenames(e.g. individual sub-samples at different depths at a string of locations, each location being a sample, each depth being a sub-sample)
+
+**IMPORTANT: Sample/sub-sample names must be unique to each sample/sub-sample and a sample/sub-sample name must not be contained within another sample/sub-sample name (e.g. 'sample2' can be found within 'sample20')**
 
 
 ### File naming conventions
@@ -70,25 +72,108 @@ Written in Python 3.6, RaDeCC Reader (235.7 MB) is available on GitHub (https://
 	For example:
 	
 		 thstd-detector1.txt
-	  	
-
-
-In order to place the data where the program can find it:
-
-1. Create a main project folder, this will contain the raw data folder, the program scripts folder ond the output folder.
-	Filepath (MacOS): /Users/username/Desktop/Project_X
-
-2. Create a folder within the main project folder (/Users/username/Desktop/Project_X) for the raw data and place all logsheets as well as standard, blank and sample reads here.
-	e.g. Filepath: /Users/username/Desktop/Project_X/Raw_Data_Example
 	
-3. Copy and paste the RaDeCC_Reader_Scripts folder into the main project folder (Filepath: /Users/username/Desktop/Project_X).
-	e.g. Filepath: /Users/username/Desktop/Project_X/RaDeCC_Reader_Scripts
+	The addition of dates to filenames is advisable in order to differentiate them. In this case add dates to file names without spaces or slashes.
 
-You should now have the following folder structure:
+## Downloading RaDeCC_Reader
 
-Filepath: /Users/username/Desktop/Project_X
-Filepath: /Users/username/Desktop/Project_X/Raw_Data_Example
-Filepath: /Users/username/Desktop/Project_X/RaDeCC_Reader_Scripts
+- The RaDeCC_Reader application can be found on the 'Releases' page of the RaDeCC_Reader repository (https://github.com/oxradreader/RaDeCC_Reader/releases)
+- Each release includes:
+	1.  RaDeCC_Reader_OS_vX_X.zip file containing the application itself
+	2.  'Source code' : This comes as a .zip folder anda  .tar.gz file. Both contain a copy of the files in the repository which inclludes: Example Input data, example output files and the python script behind the application.
+
+- To get the program running:
+	1. Download the RaDeCC_Reader_OS_vX_X.zip file containing the application itself
+	2. Open the RaDeCC_Reader_OS_vX_X file (this should result in a terminal window appearing with some code and then after a few moments the GUI should appear)
+	3. Fill in all the fields in the GUI as per guidance below.
+	4. Click 'Run RaDeCC Reader'
+	5. When 'Run Complete' appears below the 'Run RaDeCC Reader' button, your corrected sample activities are ready!
+
+## Using the RaDeCC Reader GUI
+
+Once the GUI window has appear the data entry fields can be filled in:
+
+**The first time the RaDeCC Reader GUI is used all fields must be filled out manually. Entries can however be saved before running the program and reloaded for later runs of the program.**
+
+Panel 1:
+
+1. Complete entry fields:
+
+	- *Input directory* : The folder which contains the read files and logsheet that the user want to input to the RaDeCC Reader.
+
+	- *Output directory* : The folder in which the RaDeCC Reader will place its output folder of calculation results.
+
+	- *Logsheet File* : The .csv file containing the logsheet for the files in the 'Input directory'.
+
+	- *DDMMYYYY Format* : This box is ticked if all read files and logsheets are dated using the the days before months convention. For months before days leave the box unticked.
+
+	- *Contains sub-samples*: This box is ticked if the dataset contains sub-samples ('Branched') as opposed to unticked if the dataset does not contain sub-samples ('Linear')
+
+	- *Spike Sensitivity*: The RaDeCC Reader defines 'spikes' (often electrical) by the number of counts higher the 'spike' interval is compared to the previous interval. Here the user can set this count threshold. If spike removal is not desired then the spike sensitivity number can be set very high (as is default). For more detail see 'Electrical spike detection and removal' below.
+
+	- *Equilibration time (mins)*: When calculating the slope of radon-222 ingrowth in the total channel of a read a portion of time at the start of the read is ignored as the activity of radon-222 is equilibrating around the RaDeCC apparatus. The length of the portion of time that is ignore when calculating radon-222 ingrowth is set by the 'Equilibration time'.
+
+- The number of thorium-228 standards, actinium-227 standards, blank standards and detectors is then indicated in the appropriate fields.
+
+2. Check entries:
+	- If no errors are apparent, 'OK' will appear next to each field and a 'Continue' button will appear.
+	- If there is an error in one of the entry fields this will be indicated by an 'Error' next to the field containing the error.
+
+3. Click 'Continue'
+
+4. Complete Panel 2 entry fields:
+
+	- Detector Fields:
+		The below entry fields will need to be completed for each detector.
+		- *Detector Name* :  the name used to identify the detector in read file names.
+		- *226Ra Conversion Factor* : this is the change in total channel slope with radium-226 activity as described in Diego-Feliu et al. (2020).
+		- *226Ra System Efficiency*: The efficiency with which the detector measures radium-226 activity as described by Diego-Feliu et al. (2020).
+		- *SE219/220 Ratio*: The ratio of 219- and 220-channel efficiency as described by Moore and Cai (2013).
+	
+	- Actinium-227 Standard Fields:
+		The below entry fields will need to be completed for each actinium-227 standard.
+		- *227Ac Std Name*: The name used to identify the actinium-227 standard in standard read filenames. 
+		- *Start Activity (dpm)* : The activity of the standard on its date of preparation.
+		- *Date Made (DD/MM/YY HH:MM:SS)*: The date of preparation of the standard in 'DD/MM/YY HH:MM:SS' format.
+	
+	- Thorium-228 Standard:
+		The below entry fields will need to be completed for each thorium-228standard.
+		- *227Ac Std Name*: The name used to identify the thorium-228 standard in standard read filenames. 
+		- *Start Activity (dpm)* : The activity of the standard on its date of preparation.
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## User Input to radecc_main.py
@@ -190,7 +275,7 @@ The program should now be ready to run. With radecc_main_2_1.py open in Spyder 3
 
 ## Authors
 
-* **Sean Selzer** - (https://github.com/Rad-Reader)
+* **Sean Selzer** - (https://github.com/oxradreader)
 * **Amber L. Annett**
 * **William B. Homoky**
 
