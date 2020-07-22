@@ -28,7 +28,7 @@ def dir_filler(output_directory, input_directory, acstd_date_dict, thstd_start_a
     list_of_files_copied = []
     # print('Output?',output_directory/blank)
 
-    logsheet_filename = str(logfile_directory).split('/')[-1]
+    logsheet_filename = logfile_directory.parts[-1]
     shutil.copy(input_directory/logsheet_filename, output_directory/'Logsheet'/logsheet_filename)
     list_of_files_copied.append(logsheet_filename)
 
