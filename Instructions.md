@@ -30,10 +30,11 @@ Written in Python 3.6, RaDeCC Reader (235.7 MB) is available on GitHub (https://
 
 - Logsheets should be formatted such that each row represents a sample and each column a variable such as sample name, latitude, sample volume etc. (See Example_Logsheet.csv)
 - Logsheets must be in a comma-separated value (.csv) format.
-- Sample names in the loghsheet must match the sample names used in filenames.
+- Sample names in the logsheet must match the sample names used in filenames.
 - If using sub-sample names/values, those in the logsheet must match those in the filenames(e.g. individual sub-samples at different depths at a string of locations, each location being a sample, each depth being a sub-sample)
 
 **IMPORTANT: Sample/sub-sample names must be unique to each sample/sub-sample and a sample/sub-sample name must not be contained within another sample/sub-sample name (e.g. 'sample2' can be found within 'sample20')**
+**The easiest way to accomplish unique sample names that are not contained within eachother is to use a set number of digits. For example: instead of [Sample2, Sample20] use [Sample002, Sample020 ]**
 
 
 ### File naming conventions
