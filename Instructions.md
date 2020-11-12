@@ -92,7 +92,7 @@ Written in Python 3.6, RaDeCC Reader (235.7 MB) is available on GitHub (https://
 
 ## Using the RaDeCC Reader GUI
 
-Once the GUI window has appear the data entry fields can be filled in:
+Once the GUI window has appeared the data entry fields can be filled in:
 
 **The first time the RaDeCC Reader GUI is used all fields must be filled out manually. Entries can however be saved before running the program and reloaded for later runs of the program.**
 
