@@ -636,12 +636,7 @@ class App:
 
                 print (test_list)
                 sub_sample_name_list = list(set(test_list))
-                count = 0
-                for test_name_a in sub_sample_name_list:
-                    for test_name_b in sub_sample_name_list:
-                        if str(test_name_a) in str(test_name_b):
-                            count = count+1
-                if count>len(sub_sample_name_list):
+                if len(sub_sample_name_list) != len(test_list):
                     logsheet_identifiers_boolean_list[1] = False
                     showinfo('Warning: RaDeCC Reader','Sub-sample names provided are non-unique: some sample names are contained within others')
                 else:

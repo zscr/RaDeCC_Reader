@@ -134,11 +134,11 @@ def create_effdf(output_directory, thstd, acstd, blank, ac_halfLife,
     for detector in detector_list:
         
         no_of_acstd_reads.append(len(acstd_df[acstd_df['Detector_Name']== detector].E219))
-        #print (len(acstd_df[acstd_df['Detector_Name']== detector].E219))
+        print (len(acstd_df[acstd_df['Detector_Name']== detector].E219))
         no_of_thstd_reads.append(len(thstd_df[thstd_df['Detector_Name']== detector].E220))
-        #print (len(thstd_df[thstd_df['Detector_Name']== detector].E220))
+        print (len(thstd_df[thstd_df['Detector_Name']== detector].E220))
         no_of_blank_reads.append(len(blank_df[blank_df['Detector_Name']== detector].final220))
-        #print (len(blank_df[blank_df['Detector_Name']== detector].final220))
+        print (len(blank_df[blank_df['Detector_Name']== detector].final220))
        
     summary_df = pd.DataFrame(np.transpose([detector_list, no_of_acstd_reads, no_of_thstd_reads, no_of_blank_reads]), columns = ['Detector','no_of_acstd_reads', 'no_of_thstd_reads','no_of_blank_reads'])
     
@@ -159,12 +159,21 @@ def create_effdf(output_directory, thstd, acstd, blank, ac_halfLife,
         stdev_e220.append(np.std(thstd_df[thstd_df['Detector_Name']== detector].E220))
         ave_e219.append(np.average(acstd_df[acstd_df['Detector_Name']== detector].E219))
         stdev_e219.append(np.std(acstd_df[acstd_df['Detector_Name']== detector].E219))
-        ave_blank219.append(np.average(blank_df[blank_df['Detector_Name']== detector].final219))
-        stdev_blank219.append(np.std(blank_df[blank_df['Detector_Name']== detector].final219))
-        ave_blank220.append(np.average(blank_df[blank_df['Detector_Name']== detector].final220))
-        stdev_blank220.append(np.std(blank_df[blank_df['Detector_Name']== detector].final220))
-        ave_blanktot.append(np.average(blank_df[blank_df['Detector_Name']== detector].cpm_Tot))
-        stdev_blanktot.append(np.std(blank_df[blank_df['Detector_Name']== detector].cpm_Tot))
+        if len(blank_df)>0:
+            ave_blank219.append(np.average(blank_df[blank_df['Detector_Name']== detector].final219))
+            stdev_blank219.append(np.std(blank_df[blank_df['Detector_Name']== detector].final219))
+            ave_blank220.append(np.average(blank_df[blank_df['Detector_Name']== detector].final220))
+            stdev_blank220.append(np.std(blank_df[blank_df['Detector_Name']== detector].final220))
+            ave_blanktot.append(np.average(blank_df[blank_df['Detector_Name']== detector].cpm_Tot))
+            stdev_blanktot.append(np.std(blank_df[blank_df['Detector_Name']== detector].cpm_Tot))
+        else:
+            ave_blank219.append(0)
+            stdev_blank219.append(0)
+            ave_blank220.append(0)
+            stdev_blank220.append(0)
+            ave_blanktot.append(0)
+            stdev_blanktot.append(0)
+        
         adjustment_coefficient_list.append(detector_adjustment_coefficients_dict[detector])
     
     summary_df['Average_E220'] = ave_e220

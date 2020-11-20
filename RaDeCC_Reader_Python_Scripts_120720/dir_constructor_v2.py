@@ -30,8 +30,8 @@ def dir_constructor(new_master_dir, log_df, sample_variable, sub_sample_variable
         if os.path.exists(new_master_dir/'Read_Files'/log_df[sample_variable].iloc[i]) == False:
             os.mkdir(new_master_dir/'Read_Files'/log_df[sample_variable].iloc[i])
         if linear_data_type == False:
-            if os.path.exists(new_master_dir/'Read_Files'/log_df[sample_variable].iloc[i]/log_df[sub_sample_variable].iloc[i]) == False:
-                os.mkdir(new_master_dir/'Read_Files'/log_df[sample_variable].iloc[i]/log_df[sub_sample_variable].iloc[i])
+            if os.path.exists(new_master_dir/'Read_Files'/log_df[sample_variable].iloc[i]/str(log_df[sub_sample_variable].iloc[i])) == False:
+                os.mkdir(new_master_dir/'Read_Files'/log_df[sample_variable].iloc[i]/str(log_df[sub_sample_variable].iloc[i]))
 
 
 

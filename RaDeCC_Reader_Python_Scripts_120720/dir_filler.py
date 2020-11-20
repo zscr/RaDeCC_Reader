@@ -54,8 +54,8 @@ def dir_filler(output_directory, input_directory, acstd_date_dict, thstd_start_a
         # samples
         if linear_data_type == False:
             for i in range(len(log_df)):
-                if log_df[sample_variable].iloc[i].lower() in filename.lower() and log_df[sub_sample_variable].iloc[i].lower() in filename.lower():
-                    shutil.copy(input_directory/filename, output_directory/'Read_Files'/log_df[sample_variable].iloc[i]/log_df[sub_sample_variable].iloc[i]/filename)
+                if log_df[sample_variable].iloc[i].lower() in filename.lower() and str(log_df[sub_sample_variable].iloc[i]).lower() in filename.lower():
+                    shutil.copy(input_directory/filename, output_directory/'Read_Files'/log_df[sample_variable].iloc[i]/str(log_df[sub_sample_variable].iloc[i])/filename)
                     list_of_files_copied.append(filename)
         if linear_data_type == True:
             for i in range(len(log_df)):
