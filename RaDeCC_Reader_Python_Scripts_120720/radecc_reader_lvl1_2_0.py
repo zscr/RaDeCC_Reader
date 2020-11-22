@@ -110,12 +110,18 @@ def slope_calculator (output_directory, detector_dict, arg_file, spike_sensitivi
             interval_length_mins = -999
         #Find and remove spikes in counts (here a spike is defined by a count that is more than 100 counts higher than the last count period as default)
         spike_dict = {}
+        spike_list_219 = []
+        spike_list_220 = []
+        spike_list_tot = []
         for i in range (len(cntTotcopy)):
             if i != len(runtimecopy) - 1:
                 if (cnt219copy[i]-cnt219copy[i-1])>spike_sensitivity or (cnt220copy[i]-cnt220copy[i-1])>spike_sensitivity or (cntTotcopy[i]-cntTotcopy[i-1])>spike_sensitivity:
                     # print ('Spike detected and removed in file:',arg_file,'\ncnt219 cnts',cnt219copy[i],'\ncnt220 cnts',cnt220copy[i],'\ntot cnts :', cntTotcopy[i])
                     spike_dict.update({runtimecopy[i]:cntTotcopy[i]})
                     error_list.append('S1')
+                    spike_list_219.append(cnt219copy[i])
+                    spike_list_220.append(cnt220copy[i])
+                    spike_list_tot.append(cntTotcopy[i])
                 else:
                     runtime.append(runtimecopy[i])
                     CPM219.append(CPM219copy[i])
@@ -245,9 +251,12 @@ def slope_calculator (output_directory, detector_dict, arg_file, spike_sensitivi
     
 #________________________________________________________________________________________________________________________________________________
 #Propagation of Uncertainties___________________________________________________________________________________________
-    cntTot = add_on_summary_line(cntTot)
-    cnt219 = add_on_summary_line(cnt219)
+    cntTot = add_on_summary_line(cntTot) 
+    cntTot[-1] = cntTot[-1] - np.sum(spike_list_tot)
+    cnt219 = add_on_summary_line(cnt219) 
+    cnt219[-1] = cnt219[-1] - np.sum(spike_list_219)
     cnt220 = add_on_summary_line(cnt220)
+    cnt220[-1] = cnt220[-1] - np.sum(spike_list_220)
     # runtime = add_on_summary_line(runtime)
 
     if  np.sum(cnt219) == 0:
