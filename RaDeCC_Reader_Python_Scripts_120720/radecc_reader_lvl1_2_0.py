@@ -323,7 +323,7 @@ def slope_calculator (output_directory, detector_dict, arg_file, spike_sensitivi
     #find detector name
     detname_checklist = []
     for key in detector_dict.keys():
-        if key in tempname[-1]:
+        if key.lower() in tempname[-1].lower():
             detname_checklist.append(key)
             # print(detname_checklist)
     if len(detname_checklist)>1:
