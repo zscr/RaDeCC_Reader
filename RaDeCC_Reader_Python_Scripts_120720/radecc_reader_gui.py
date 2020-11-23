@@ -399,14 +399,18 @@ class App:
         self.detector_name_widget_list = self.make_entry_widget_list(column_number = self.detector_name_column, start_row = self.detector_entries_start_row+1, number_of_widgets =  self.no_of_detectors_variable.get(), var_type = 'String')
 
         self.detector_calibration_values_column = 1
-        self.detector_calibration_values_label = Label(text = '226Ra Conversion Factor:', fg = 'black', padx = self.padx_variable)
+        self.detector_calibration_values_label = Label(text = 'F_226:', fg = 'black', padx = self.padx_variable)
         self.detector_calibration_values_label.grid(column = self.detector_calibration_values_column, row = self.detector_entries_start_row)
         self.detector_calibration_values_widget_list = self.make_entry_widget_list(column_number = self.detector_calibration_values_column, start_row = self.detector_entries_start_row+1, number_of_widgets =  self.no_of_detectors_variable.get(), var_type = 'Double')
+        for entry in self.detector_calibration_values_widget_list:
+            entry[1].set(1.8e-4)
 
         self.detector_226_efficiency_column = 2
-        self.detector_226_efficiency_label = Label(text = '226Ra System Efficiency:', fg = 'black', padx = self.padx_variable)
+        self.detector_226_efficiency_label = Label(text = 'E_226:', fg = 'black', padx = self.padx_variable)
         self.detector_226_efficiency_label.grid(column = self.detector_226_efficiency_column, row = self.detector_entries_start_row)
         self.detector_226_efficiency_widget_list = self.make_entry_widget_list(column_number = self.detector_226_efficiency_column, start_row = self.detector_entries_start_row+1, number_of_widgets =  self.no_of_detectors_variable.get(), var_type = 'Double')
+        for entry in self.detector_226_efficiency_widget_list:
+            entry[1].set(0.51)
         
         self.detector_adjustment_coefficient_column = 4
         self.detector_adjustment_coefficient_label = Label(text = 'SE219/SE220 ratio:', fg = 'black', padx = self.padx_variable)
