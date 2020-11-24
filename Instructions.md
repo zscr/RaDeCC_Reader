@@ -101,36 +101,28 @@ Once the GUI window has appeared the data entry fields can be filled in:
 1. Complete Panel 1 entry fields:
 
 	- *Input directory* : The folder which contains the read files and logsheet that the user want to input to the RaDeCC Reader.
-
-		Example Data Input: The *'Example_Data'* Folder
+		**Example Data Input**: The *'Example_Data'* Folder
 
 	- *Output directory* : The folder in which the RaDeCC Reader will place its output folder of calculation results.
-
-		Example Data Input: The folder where you would like outputs to be saved.
+		**Example Data Input**: The folder where you would like outputs to be saved.
 
 	- *Logsheet File* : The .csv file containing the logsheet for the files in the 'Input directory'.
-
-		Example Data Input: *'Example_Logsheet.csv'* in the *'Example_Data'* folder.
+		**Example Data Input**: *'Example_Logsheet.csv'* in the *'Example_Data'* folder.
 
 	- *DDMMYYYY Format* : This box is ticked if all read files and logsheets are dated using the the days before months convention. For months before days leave the box unticked.
-
-		Example Data Input: This box should be *ticked*
+		**Example Data Input**: This box should be *ticked*
 
 	- *Contains sub-samples*: This box is ticked if the dataset contains sub-samples ('Branched') as opposed to unticked if the dataset does not contain sub-samples ('Linear')
-
-		Example Data Input: This box should be *ticked*
+		**Example Data Input**: This box should be *ticked*
 
 	- *Spike Sensitivity*: The RaDeCC Reader defines 'spikes' (often electrical) by the number of counts higher the 'spike' interval is compared to the previous interval. Here the user can set this count threshold. If spike removal is not desired then the spike sensitivity number can be set very high (as is default). For more detail see 'Electrical spike detection and removal' below.
-
-		Example Data Input: Leave this field as the *default value: 10000000*
+		**Example Data Input**: Leave this field as the *default value: 10000000*
 
 	- *Equilibration time (mins)*: When calculating the slope of radon-222 ingrowth in the total channel of a read a portion of time at the start of the read is ignored as the activity of radon-222 is equilibrating around the RaDeCC apparatus. The length of the portion of time that is ignore when calculating radon-222 ingrowth is set by the 'Equilibration time'.
-
-		Example Data Input: Leave Equilibration time set to *default value: 0*
+		**Example Data Input**: Leave Equilibration time set to *default value: 0*
 
 - The number of thorium-228 standards, actinium-227 standards, blank standards and detectors is then indicated in the appropriate fields.
-
-	Example Data Input:
+	**Example Data Input**:
 		No. of 228Th Standards : *2*
 		No. of 227Ac Standards : *2*
 		No. of Background Standards : *2*
