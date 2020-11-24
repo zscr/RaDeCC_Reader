@@ -140,7 +140,7 @@ class App:
 
         ###### Number of Actinium-227 Standards ##############################################
         self.no_of_blanks_variable_row = 10
-        self.no_of_blanks_variable = make_labelled_entry(IntVar(),'No. of Blanks:', self.no_of_blanks_variable_row)
+        self.no_of_blanks_variable = make_labelled_entry(IntVar(),'No. of Background Standards:', self.no_of_blanks_variable_row)
 
         ###### Number of Detectors ##############################################
         self.no_of_detectors_variable_row = 11

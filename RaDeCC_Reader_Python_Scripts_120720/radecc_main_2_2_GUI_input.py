@@ -222,7 +222,7 @@ def radecc_reader_main(gui_input_df):
     create_summary_dataframe(lvl2_main_df, log_df, sample_variable, sub_sample_variable, output_directory, linear_data_type)
 
     end = time.time()
-    print ('Calculations completed in ',end-start/60,' minutes.')
+    print ('Calculations completed in ',(end-start)/60,' minutes.')
     return_string = 'Run Complete ('+time.strftime("%H:%M:%S %Y-%m-%d")+')'
     return ([True, return_string])
 
