@@ -244,6 +244,8 @@ Once the GUI window has appeared the data entry fields can be filled in:
 
 ### The program will output the following files in .csv format
 
+**Important: When checking output data, it is important to check the detector efficiencies and errors as well as the individual read results in the 'Read_Results_Dataframe'. Errors in either of these will lead to errors in final excess calculations**
+
 #### Dataframes (Found in the Dataframes Folder)
 - A main table (.csv format) containing all metadata from logsheets as well as values for each level of the Garcia-Solsona corrections and uncertainty propagations, ending with dpm/1000L for both 223Ra and 224Ra as well as an estimation of 226Ra based on 222Rn ingrowth. All this is displayed for each read of each sample, ready for easy data-manipulation in Microsoft Excel.
 - A summary table of detector efficiencies. 
