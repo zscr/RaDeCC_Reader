@@ -148,38 +148,88 @@ Once the GUI window has appeared the data entry fields can be filled in:
 	- Detector Fields:
 		The below entry fields will need to be completed for each detector.
 		- *Detector Name* :  the name used to identify the detector in read file names.
-		- *226Ra Conversion Factor* : this is the change in total channel slope with radium-226 activity as described in Diego-Feliu et al. (2020).
-		- *226Ra System Efficiency*: The efficiency with which the detector measures radium-226 activity as described by Diego-Feliu et al. (2020).
-		- *SE219/220 Ratio*: The ratio of 219- and 220-channel efficiency as described by Moore and Cai (2013).
+
+			**Example Data Input**: Enter *detector1* and *detector2*
+
+		- *F_226 (226Ra Conversion Factor)* : this is the change in total channel slope with radium-226 activity as described in Diego-Feliu et al. (2020). The default is set to the theoretical value calculated by Diego-Feliu et al. but can be changed.
+
+			**Example Data Input**: *Default values: 0.00018*
+
+		- *226Ra System Efficiency*: The efficiency with which the detector measures radium-226 activity as described by Diego-Feliu et al. (2020). The default is set to the theoretical value calculated by Diego-Feliu et al. but can be changed.
+
+			**Example Data Input**: *Default values: 0.51*
+
+		- *SE219/220 Ratio*: The ratio of 219- and 220-channel efficiency as described by Moore and Cai (2013). The default is set to the theoretical value calculated by Moore and Cai but can be changed.
+
+			**Example Data Input**: *Default values: 0.91*
+
 	
 	- Actinium-227 Standard Fields:
 		The below entry fields will need to be completed for each actinium-227 standard.
 		- *227Ac Std Name*: The name used to identify the actinium-227 standard in standard read filenames. 
-		- *Start Activity (dpm)* : The activity of the standard on its date of preparation.
-		- *Date Made (DD/MM/YY HH:MM:SS)*: The date of preparation of the standard in 'DD/MM/YY HH:MM:SS' format.
+
+			**Example Data Input**: Enter *red* and *blue*
+
+		- *Start Activity (dpm)* : The activity of the standard on its date of preparation. 
+
+			**Example Data Input**: Enter *10.49* in both fields
+			
+		- *Date Made (DD/MM/YY HH:MM:SS)*: The date of preparation of the standard in 'DD/MM/YY HH:MM:SS' format. 
+
+			**Example Data Input**: Enter *09/10/2014 00:00:00* and *13/10/2014 00:00:00*
+			
 	
 	- Thorium-228 Standard Fields:
 		The below entry fields will need to be completed for each thorium-228 standard.
-		- *228Th Std Name*: The name used to identify the thorium-228 standard in standard read filenames. 
-		- *Start Activity (dpm)* : The activity of the standard on its date of preparation.
+		- *228Th Std Name*: The name used to identify the thorium-228 standard in standard read filenames.  
+
+			**Example Data Input**: Enter *green* and *yellow*
+			
+		- *Start Activity (dpm)* : The activity of the standard on its date of preparation. 
+
+			**Example Data Input**: Enter *12.20* in both fields
+			
 	
 	- Blank Standard Fields:
 		The below entry fields will need to be completed for each blank standard.
-		- *Blank Std Name*: The name used to identify the thorium-228 standard in standard read filenames. 
+		- *Blank Std Name*: The name used to identify the thorium-228 standard in standard read filenames.  
+
+			**Example Data Input**: Enter *exposure* and *analytical*
+			 
 	
 	- Logsheet variable selection:
 		Drop down menus will appear for each variable allowing the user to select the logsheet column the corresponds to each variable.
 		- *Sample name column* : The title of the logsheet column containing the sample names 
-		- *Sub-sample name column* : The title of the logsheet column containing the sub-sample names. If sub-samples are not present in the dataset then 'None' may be selected, in this case 'Contains sub-samples' should be unticked in panel 1.
-		- *Sampling date column* : The title of the logsheet column containing the sampling date for each sample in either 'DD/MM/YYYY' or 'MM/DD/YYYY' format. 
-		- *Mid-sampling time column* : The title of logsheet the column containing the time halfway between the start and end times of each sampling event.
-		- *Volume column*: The title of the logsheet column containing the volume of each sample in Litres.
-		- *Volume error column*: The title of the logsheet column containing the error associated with the volume of each sample in Litres.
+
+			**Example Data Input**: Select *Sample_Name*
+
+		- *Sub-sample name column* : The title of the logsheet column containing the sub-sample names. If sub-samples are not present in the dataset then 'None' may be selected, in this case 'Contains sub-samples' should be unticked in panel 1. 
+
+			**Example Data Input**: Select *Sub_Sample_Name*
+			
+		- *Sampling date column* : The title of the logsheet column containing the sampling date for each sample in either 'DD/MM/YYYY' or 'MM/DD/YYYY' format.  
+
+			**Example Data Input**: Select *Sampling_Date*
+			
+		- *Mid-sampling time column* : The title of logsheet the column containing the time halfway between the start and end times of each sampling event. 
+
+			**Example Data Input**: Select *Mid-Sampling Time*
+			
+		- *Volume column*: The title of the logsheet column containing the volume of each sample in Litres. 
+
+			**Example Data Input**: Select *Volume_sampled*
+			
+		- *Volume error column*: The title of the logsheet column containing the error associated with the volume of each sample in Litres. 
+
+			**Example Data Input**: Select *Volume_error*
+			
 
 5. Check entries:
 	- If no errors are apparent, 'OK' will appear next to each field and 'Save Field Inputs' and 'Run RaDeCC Reader' buttons will appear.
 		- Clicking 'Save Field Inputs' will save a file containing the user entries to the *Output directory* selected.
 	- If there is an error in one of the entry fields this will be indicated by an 'Error' next to the field containing the error.
+
+6. Click 'Save Field Inputs'. This will save time if you want to run the reader again with the same or similar settings later.
 
 6. Click 'Run RaDeCC Reader'
 	- While the program runs there will be some output to the terminal (or console). In the event of an error while running, the program will notify the user via a pop-up
