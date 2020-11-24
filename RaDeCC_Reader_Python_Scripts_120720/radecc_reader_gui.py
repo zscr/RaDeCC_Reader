@@ -384,7 +384,7 @@ class App:
         
         self.blank_entries_start_row = self.th228_entries_start_row+self.no_of_thstds_variable.get()+1
 
-        self.blank_standard_name_label = Label(text = 'Blank Std Name:', fg = 'black', padx = self.padx_variable+extra_padding)
+        self.blank_standard_name_label = Label(text = 'Background Std Name:', fg = 'black', padx = self.padx_variable+extra_padding)
         self.blank_standard_name_label.grid(column = 4, row = self.blank_entries_start_row)
         self.blank_standard_name_widget_list = self.make_entry_widget_list(column_number = 4, start_row = self.blank_entries_start_row+1, number_of_widgets =  self.no_of_blanks_variable.get(), var_type = 'String')
 
@@ -403,6 +403,7 @@ class App:
         self.detector_calibration_values_label.grid(column = self.detector_calibration_values_column, row = self.detector_entries_start_row)
         self.detector_calibration_values_widget_list = self.make_entry_widget_list(column_number = self.detector_calibration_values_column, start_row = self.detector_entries_start_row+1, number_of_widgets =  self.no_of_detectors_variable.get(), var_type = 'Double')
         for entry in self.detector_calibration_values_widget_list:
+            #Value from Diego-Feliu et al., 2020
             entry[1].set(1.8e-4)
 
         self.detector_226_efficiency_column = 2
@@ -410,13 +411,16 @@ class App:
         self.detector_226_efficiency_label.grid(column = self.detector_226_efficiency_column, row = self.detector_entries_start_row)
         self.detector_226_efficiency_widget_list = self.make_entry_widget_list(column_number = self.detector_226_efficiency_column, start_row = self.detector_entries_start_row+1, number_of_widgets =  self.no_of_detectors_variable.get(), var_type = 'Double')
         for entry in self.detector_226_efficiency_widget_list:
+            #Value from Diego-Feliu et al., 2020
             entry[1].set(0.51)
         
         self.detector_adjustment_coefficient_column = 4
         self.detector_adjustment_coefficient_label = Label(text = 'SE219/SE220 ratio:', fg = 'black', padx = self.padx_variable)
         self.detector_adjustment_coefficient_label.grid(column = self.detector_adjustment_coefficient_column, row = self.detector_entries_start_row)
         self.detector_adjustment_coefficient_widget_list = self.make_entry_widget_list(column_number = self.detector_adjustment_coefficient_column, start_row = self.detector_entries_start_row+1, number_of_widgets =  self.no_of_detectors_variable.get(), var_type = 'Double')
-
+        for entry in self.detector_adjustment_coefficient_widget_list:
+            #Value from Moore and Cai, 2013
+            entry[1].set(0.91)
         # # # # # Logsheet Identifier menus
         self.logfile_to_load_as_df = pd.read_csv(self.logfile_to_load)
         self.logsheet_columns = list(self.logfile_to_load_as_df.columns)

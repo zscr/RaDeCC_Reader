@@ -310,7 +310,7 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
         lvl1_main_df['subsample_dummy_column'] = None_list
 
         
-
+    print(lvl1_main_df.columns)
     return(lvl1_main_df)
 
 
