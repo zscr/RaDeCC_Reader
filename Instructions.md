@@ -21,7 +21,7 @@ Hardware Requirements: 2 x 64-bit 2.8 GHz 8.00 GT/s CPUs, 32 GB RAM (or 16 GB of
 Written in Python 3.6, RaDeCC Reader (235.7 MB) is available on GitHub (https://github.com/oxradreader/RaDeCC_Reader)
 
 
-**It is advised to run the program with the data in Raw_Data_Example first in order to check that the program itself is functioning properly. See 'Example Data Input:' comments throughout instructions**
+**It is advised to run the program with the data in the *Example_Data* Folder first in order to check that the program itself is functioning properly. See 'Example Data Input:' comments throughout instructions**
 
 
 ## Preparing Input Data
@@ -78,7 +78,7 @@ Written in Python 3.6, RaDeCC Reader (235.7 MB) is available on GitHub (https://
 
 ## Downloading RaDeCC_Reader
 
-- The RaDeCC_Reader application can be found on the 'Releases' page of the RaDeCC_Reader repository (https://github.com/oxradreader/RaDeCC_Reader/releases)
+- The RaDeCC_Reader application can be found on the 'Releases' page of the RaDeCC_Reader repository in the 'Assets' drop down menu (https://github.com/oxradreader/RaDeCC_Reader/releases)
 - Each release includes:
 	1.  RaDeCC_Reader_OS_vX_X.zip file containing the application itself
 	2.  'Source code' : This comes as a .zip folder anda  .tar.gz file. Both contain a copy of the files in the repository which inclludes: Example Input data, example output files and the python script behind the application.
@@ -96,13 +96,13 @@ Once the GUI window has appeared the data entry fields can be filled in:
 
 **The first time the RaDeCC Reader GUI is used all fields must be filled out manually. Entries can however be saved before running the program and reloaded for later runs of the program.**
 
-**It is advised to run the program with the data in Raw_Data_Example first in order to check that the program itself is functioning properly. See 'Example Data Input:' comments throughout instructions**
+**It is advised to run the program with the data in the *Example_Data* Folder first in order to check that the program itself is functioning properly. See 'Example Data Input:' comments throughout instructions**
 
 1. Complete Panel 1 entry fields:
 
-	- *Input directory* : The folder which contains the read files and logsheet that the user want to input to the RaDeCC Reader.
+	- *Input directory* : The folder which contains the read files and logsheet that the user wants to input to the RaDeCC Reader.
 
-		**Example Data Input**: The *'Example_Data'* Folder
+		**Example Data Input**: The *Example_Data* Folder
 
 	- *Output directory* : The folder in which the RaDeCC Reader will place its output folder of calculation results.
 
@@ -124,17 +124,17 @@ Once the GUI window has appeared the data entry fields can be filled in:
 
 		**Example Data Input**: Leave this field as the *default value: 10000000*
 
-	- *Equilibration time (mins)*: When calculating the slope of radon-222 ingrowth in the total channel of a read a portion of time at the start of the read is ignored as the activity of radon-222 is equilibrating around the RaDeCC apparatus. The length of the portion of time that is ignore when calculating radon-222 ingrowth is set by the 'Equilibration time'.
+	- *Equilibration time (mins)*: When calculating the slope of radon-222 ingrowth in the total channel of a read a portion of time at the start of the read is ignored as the activity of radon-222 is equilibrating around the RaDeCC apparatus. The length of time that is ignored when calculating radon-222 ingrowth is set by the 'Equilibration time'. By default this feature is 'off' and therefore set to 0 minutes.
 
 		**Example Data Input**: Leave Equilibration time set to *default value: 0*
 
-- The number of thorium-228 standards, actinium-227 standards, blank standards and detectors is then indicated in the appropriate fields.
+- The number of thorium-228 standards, actinium-227 standards, background standards and detectors is then indicated in the appropriate fields.
 
 	**Example Data Input**:
-		No. of 228Th Standards : *2*
-		No. of 227Ac Standards : *2*
-		No. of Background Standards : *2*
-		No. of Detectors : *2*
+	- No. of 228Th Standards : *2*
+	- No. of 227Ac Standards : *2*
+	- No. of Background Standards : *2*
+	- No. of Detectors : *2*
 		
 
 2. Check entries:
@@ -155,7 +155,7 @@ Once the GUI window has appeared the data entry fields can be filled in:
 
 			**Example Data Input**: *Default values: 0.00018*
 
-		- *226Ra System Efficiency*: The efficiency with which the detector measures radium-226 activity as described by Diego-Feliu et al. (2020). The default is set to the theoretical value calculated by Diego-Feliu et al. but can be changed.
+		- *E_226 (226Ra System Efficiency)*: The efficiency with which the detector measures radium-226 activity as described by Diego-Feliu et al. (2020). The default is set to the theoretical value calculated by Diego-Feliu et al. but can be changed.
 
 			**Example Data Input**: *Default values: 0.51*
 
@@ -237,7 +237,7 @@ Once the GUI window has appeared the data entry fields can be filled in:
 7. After 'Run Complete' appears below the 'Run RaDeCC Reader' button, navigate to the *Output directory* selected to find the results computed by the program.
 
 ### Saving and Loading RaDeCC Reader GUI Inputs
- - To save inputs to the RaDeCC Reader GUI, click the 'Save Field Inputs' button once all fields are completed and checked.
+ - To save inputs to the RaDeCC Reader GUI, click the 'Check Inputs' button followed by the 'Save Field Inputs' button.
  - To load previous inputs click on the 'Load Saved Entries' button and navigate to and select the RR_GUI_entries_HHMMSS_YYYY-MM-DD.csv file. This will have been saved in the *Output directory* selected when the previous inputs were saved. Then 'Check' the inputs and click 'Continue'. When Panel 2 appears click 'Load Saved entries' at the top of panel 2 in order to load the rest of the saved entries.
 
 ## Output from RaDeCC Reader
