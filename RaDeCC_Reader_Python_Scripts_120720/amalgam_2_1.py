@@ -74,7 +74,7 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
     lvl1_calc_df = pd.DataFrame(lvl1_calc_list, columns = ['Read_Start_Time', 'Read_End_Time', 'Slope', 'stderr_slope', 'cnt219', 'cnt219_abserr', 'cnt220', 'cnt220_abserr', 'cpm_219', 'err_219', 'cpm_220', 'err_220', 'cpm_Tot', 'err_Tot', 'y219cc', 'y219cc_err', 
                                                 'y220cc', 'y220cc_err', 'corr219', 'corr219_err', 'corr220', 'corr220_err','final219', 
                                                        'final220', 'Read_Runtime', 'final219_err', 'final220_err', 'cntTot_abserr', 
-                                                      'errslope_abs', 'Detector_Name', 'Cartridge_Type', 'Read_Number', 'Spike_Value', 'Error_List'])
+                                                      'errslope_abs', 'Detector_Name', 'Cartridge_Type', 'Filename_Read_Interval', 'Spike_Value', 'Error_List'])
     
     lvl1_main_df = pd.concat([temp_df, lvl1_calc_df], axis=1, join_axes=[temp_df.index])
     
@@ -123,12 +123,12 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
         if lvl1_main_df['Detector_Name'][i].lower() in list(eff_df.Detector):
         
             #final219 - 219 channel blank for relevant detector
-            blankcorr219.append(float(lvl1_main_df.final219[i] - eff_df.Average_Blank_219[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]))
+            blankcorr219.append(float(lvl1_main_df.final219[i] - eff_df.Average_bkg_219[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]))
             #error associated with blankcorr219 correction added
             blankcorr219_err.append(float(np.sqrt(eff_df.Standard_Deviation_Blank_219[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]**2 + lvl1_main_df['final219_err'][i]**2)))
             
             #final220 - 220 channel blank for relevant detector
-            blankcorr220.append(float(lvl1_main_df.final220[i] - eff_df.Average_Blank_220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]))
+            blankcorr220.append(float(lvl1_main_df.final220[i] - eff_df.Average_bkg_220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]))
             #error associated with blankcorr220 correction added
             blankcorr220_err.append(float(np.sqrt(eff_df.Standard_Deviation_Blank_220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]**2 + lvl1_main_df['final220_err'][i]**2)))
             
@@ -267,10 +267,10 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
 
             
         
-    lvl1_main_df['blankcorr223'] = blankcorr219
-    lvl1_main_df['blankcorr223_err'] = blankcorr219_err
-    lvl1_main_df['blankcorr224'] = blankcorr220
-    lvl1_main_df['blankcorr224_err'] = blankcorr220_err
+    lvl1_main_df['bkgcorr223'] = blankcorr219
+    lvl1_main_df['bkgcorr223_err'] = blankcorr219_err
+    lvl1_main_df['bkgcorr224'] = blankcorr220
+    lvl1_main_df['bkgcorr224_err'] = blankcorr220_err
     lvl1_main_df['dpm223'] = dpm219
     lvl1_main_df['dpm223_err'] = dpm219_err
     lvl1_main_df['dpm223_thstdonly'] = dpm219_thstdonly

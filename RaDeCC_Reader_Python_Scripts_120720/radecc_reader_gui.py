@@ -359,7 +359,7 @@ class App:
 
         self.ac227_entries_start_row = 1
         
-        self.ac227_standard_name_label = Label(text = '227Ac Std Name:', fg = 'black', padx = self.padx_variable+extra_padding)
+        self.ac227_standard_name_label = Label(text = '219Rn Std Name:', fg = 'black', padx = self.padx_variable+extra_padding)
         self.ac227_standard_name_label.grid(column = 4, row = self.ac227_entries_start_row)
         self.ac227_standard_name_widget_list = self.make_entry_widget_list(column_number = 4, start_row = self.ac227_entries_start_row+1, number_of_widgets =  self.no_of_acstds_variable.get(), var_type = 'String')
         
@@ -400,6 +400,7 @@ class App:
 
         self.detector_calibration_values_column = 1
         self.detector_calibration_values_label = Label(text = 'F_226:', fg = 'black', padx = self.padx_variable)
+        self.detector_calibration_values_label = Label(text = '226Ra Conversion Factor (m):', fg = 'black', padx = self.padx_variable)
         self.detector_calibration_values_label.grid(column = self.detector_calibration_values_column, row = self.detector_entries_start_row)
         self.detector_calibration_values_widget_list = self.make_entry_widget_list(column_number = self.detector_calibration_values_column, start_row = self.detector_entries_start_row+1, number_of_widgets =  self.no_of_detectors_variable.get(), var_type = 'Double')
         for entry in self.detector_calibration_values_widget_list:

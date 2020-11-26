@@ -180,11 +180,11 @@ def create_effdf(output_directory, thstd, acstd, blank, ac_halfLife,
     summary_df['Standard_Deviation_E220'] = stdev_e220
     summary_df['Average_E219'] = ave_e219
     summary_df['Standard_Deviation_E219'] = stdev_e219
-    summary_df['Average_Blank_219'] = ave_blank219
+    summary_df['Average_bkg_219'] = ave_blank219
     summary_df['Standard_Deviation_Blank_219'] = stdev_blank219
-    summary_df['Average_Blank_220'] = ave_blank220
+    summary_df['Average_bkg_220'] = ave_blank220
     summary_df['Standard_Deviation_Blank_220'] = stdev_blank220
-    summary_df['Average_Blank_Tot'] = ave_blanktot
+    summary_df['Average_bkg_Tot'] = ave_blanktot
     summary_df['Standard_Deviation_Blank_Tot'] = stdev_blanktot
     summary_df['E219_from_E220_adjustment_coefficient'] = adjustment_coefficient_list
     
