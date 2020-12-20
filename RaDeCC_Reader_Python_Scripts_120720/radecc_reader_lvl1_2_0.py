@@ -140,7 +140,7 @@ def slope_calculator (output_directory, detector_dict, arg_file, spike_sensitivi
                 cntTot.append(cntTotcopy[i])
          
         f.close()
-    interval_length = int(runtime[1]-runtime[0])
+    interval_length = round(runtime[1]-runtime[0])
     # print(interval_length)
     equilibration_number_of_intervals = int(equilibration_time_variable/interval_length)
 #________________________________________________________________________________________________________________________________________________

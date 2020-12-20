@@ -1,6 +1,6 @@
-from tkinter import *
-from tkinter import ttk
-from tkinter.messagebox import showinfo
+#from tkinter import *
+#from tkinter import ttk
+#from tkinter.messagebox import showinfo
 from tkinter import filedialog as fd
 from ast import literal_eval
 from pathlib import Path
@@ -14,12 +14,12 @@ from radecc_main_2_2_GUI_input import radecc_reader_main
 
 
 def popupmsg(msg):
-    popup = Toplevel()
+    popup = tk.Toplevel()
     
     popup.wm_title("Error")
-    label = ttk.Label(popup, text= msg, padding=(10, 2, 10, 6))
+    label = tk.ttk.Label(popup, text= msg, padding=(10, 2, 10, 6))
     label.grid(column = 0, row = 0)
-    B1 = ttk.Button(popup, text='Close', command = lambda: popup.destroy())
+    B1 = tk.ttk.Button(popup, text='Close', command = lambda: popup.destroy())
     B1.grid(column = 1, row = 0)
     popup.mainloop()
     
@@ -28,13 +28,13 @@ def popupmsg(msg):
 
 
 def make_labelled_entry(variable_type, labeltext, labelrow):
-    entry_label = Label(
+    entry_label = tk.Label(
             text = labeltext
         )
-    entry_label.grid(column = 0, row = labelrow, sticky=W)
+    entry_label.grid(column = 0, row = labelrow, sticky=tk.W)
 
     entry_variable = variable_type
-    entry_entry = Entry(
+    entry_entry = tk.Entry(
             textvariable=entry_variable, 
             width = 10
             )
@@ -51,71 +51,71 @@ class App:
         self.panel1_entry_width = 10
         ###### Select Saved file Button ##################################################################
         self.load_saved_fields_button_row = 0
-        self.load_saved_fields_button = Button(text="Load Saved Entries", command= lambda: self.find_saved_fields_file(1,0) )
+        self.load_saved_fields_button = tk.Button(text="Load Saved Entries", command= lambda: self.find_saved_fields_file(1,0) )
         self.load_saved_fields_button.grid(column = 0, row = self.load_saved_fields_button_row)
-        self.load_saved_fields_variable = StringVar()
-        self.load_saved_fields_entry = Entry(textvariable = self.load_saved_fields_variable, width = self.panel1_entry_width)
+        self.load_saved_fields_variable = tk.StringVar()
+        self.load_saved_fields_entry = tk.Entry(textvariable = self.load_saved_fields_variable, width = self.panel1_entry_width)
         self.load_saved_fields_entry.grid(column = 1, row = self.load_saved_fields_button_row)
         ######################################################################################
         
         ###### Choose Input Directory Button ########################################################
         self.input_directory_button_row = 1
-        self.input_directory_button = Button(
+        self.input_directory_button = tk.Button(
             master, text="Choose Input Directory...", bg='blue', command=self.find_input_directory)
         self.input_directory_button.grid(column = 0, row = self.input_directory_button_row)
-        self.input_directory_variable = StringVar()
-        self.input_directory_entry = Entry(textvariable = self.input_directory_variable, width = self.panel1_entry_width)
+        self.input_directory_variable = tk.StringVar()
+        self.input_directory_entry = tk.Entry(textvariable = self.input_directory_variable, width = self.panel1_entry_width)
         self.input_directory_entry.grid(column = 1, row = self.input_directory_button_row)
 
         ###### Choose Output Directory Button ########################################################
         self.output_directory_button_row = 2
-        self.output_directory_button = Button(
+        self.output_directory_button = tk.Button(
             master, text="Choose Output Directory...", bg='blue', command=self.find_output_directory)
         self.output_directory_button.grid(column = 0, row = self.output_directory_button_row )
-        self.output_directory_variable = StringVar()
-        self.output_directory_entry = Entry(textvariable = self.output_directory_variable, width = self.panel1_entry_width)
+        self.output_directory_variable = tk.StringVar()
+        self.output_directory_entry = tk.Entry(textvariable = self.output_directory_variable, width = self.panel1_entry_width)
         self.output_directory_entry.grid(column = 1, row = self.output_directory_button_row )
         ######################################################################################
         
         ###### Select Logsheet Button ##################################################################
         self.load_logsheet_row = 3
-        self.load_logsheet = Button(text="Select Logsheet File", command= lambda: self.find_logfile(1,self.load_logsheet_row))
+        self.load_logsheet = tk.Button(text="Select Logsheet File", command= lambda: self.find_logfile(1,self.load_logsheet_row))
         self.load_logsheet.grid(column = 0, row = self.load_logsheet_row )
-        self.load_logsheet_variable = StringVar()
-        self.load_logsheet_entry = Entry(textvariable = self.load_logsheet_variable, width = self.panel1_entry_width)
+        self.load_logsheet_variable = tk.StringVar()
+        self.load_logsheet_entry = tk.Entry(textvariable = self.load_logsheet_variable, width = self.panel1_entry_width)
         self.load_logsheet_entry.grid(column = 1, row = self.load_logsheet_row)
         #########################################################################################
         
         ###### Check Inputs Button ##################################################################
-        self.check_inputs = Button(text="Check Inputs", fg='green', command=self.panel1_checks)
+        self.check_inputs = tk.Button(text="Check Inputs", fg='green', command=lambda : self.panel1_checks(self.master))
         self.check_inputs.grid(column = 2, row = 4)
         ######################################################################################
         
         
 
         ###### Choose DDMMYYYY Format ########################################################        
-        self.date_format_label = Label(
+        self.date_format_label = tk.Label(
             master,
             text = 'DDMMYYYY Format:'
         )
-        self.date_format_label.grid(column = 0, row = 4, sticky=W)
+        self.date_format_label.grid(column = 0, row = 4, sticky=tk.W)
 
-        self.date_format_variable = IntVar()
-        c = Checkbutton(
+        self.date_format_variable = tk.IntVar()
+        c = tk.Checkbutton(
             master,
             variable=self.date_format_variable,
             )
         c.grid(column = 1, row = 4)
 
         ###### Are there sub-samples? ########################################################
-        self.subsample_check_label = Label(
+        self.subsample_check_label = tk.Label(
             master,
             text = 'Contains sub-samples:'
         )
-        self.subsample_check_label.grid(column = 0, row = 5, sticky=W)
+        self.subsample_check_label.grid(column = 0, row = 5, sticky=tk.W)
 
-        self.subsample_check_variable = IntVar()
-        c = Checkbutton(
+        self.subsample_check_variable = tk.IntVar()
+        c = tk.Checkbutton(
             master,
             variable=self.subsample_check_variable,
             )
@@ -123,28 +123,28 @@ class App:
 
         ###### Spike_sensitivity ########################################################
         self.spike_sensitivity_row = 6
-        self.spike_sensitivity_variable = make_labelled_entry(IntVar(), 'Spike sensitivity:', self.spike_sensitivity_row)
+        self.spike_sensitivity_variable = make_labelled_entry(tk.IntVar(), 'Spike sensitivity:', self.spike_sensitivity_row)
         self.spike_sensitivity_variable.set(10e6)
 
         ###### Equilibration time (minutes) ##############################################
         self.equilibration_time_variable_row = 7
-        self.equilibration_time_variable = make_labelled_entry(IntVar(),'Equilibration time (mins):', self.equilibration_time_variable_row)
+        self.equilibration_time_variable = make_labelled_entry(tk.IntVar(),'Equilibration time (mins):', self.equilibration_time_variable_row)
 
         ###### Number of Thorium-228 Standards ##############################################
         self.no_of_thstds_variable_row = 8
-        self.no_of_thstds_variable = make_labelled_entry(IntVar(),'No. of 228Th Standards:', self.no_of_thstds_variable_row)
+        self.no_of_thstds_variable = make_labelled_entry(tk.IntVar(),'No. of 228Th Standards:', self.no_of_thstds_variable_row)
 
         ###### Number of Actinium-227 Standards ##############################################
         self.no_of_acstds_variable_row = 9
-        self.no_of_acstds_variable = make_labelled_entry(IntVar(),'No. of 227Ac Standards:', self.no_of_acstds_variable_row)
+        self.no_of_acstds_variable = make_labelled_entry(tk.IntVar(),'No. of 227Ac Standards:', self.no_of_acstds_variable_row)
 
         ###### Number of Actinium-227 Standards ##############################################
         self.no_of_blanks_variable_row = 10
-        self.no_of_blanks_variable = make_labelled_entry(IntVar(),'No. of Background Standards:', self.no_of_blanks_variable_row)
+        self.no_of_blanks_variable = make_labelled_entry(tk.IntVar(),'No. of Background Standards:', self.no_of_blanks_variable_row)
 
         ###### Number of Detectors ##############################################
         self.no_of_detectors_variable_row = 11
-        self.no_of_detectors_variable = make_labelled_entry(IntVar(),'No. of Detectors:', self.no_of_detectors_variable_row)
+        self.no_of_detectors_variable = make_labelled_entry(tk.IntVar(),'No. of Detectors:', self.no_of_detectors_variable_row)
 
         # # # # # # # # Logo_________________________________________________________________________________________________________________________________ 
     
@@ -158,13 +158,13 @@ class App:
                 application_path = os.path.dirname(__file__)
 
             config_path = os.path.join(application_path, config_name)
-            self.rr_logo = PhotoImage(file=config_path)
-            self.logo_label = Label(image = self.rr_logo)
+            self.rr_logo = tk.PhotoImage(file=config_path)
+            self.logo_label = tk.Label(image = self.rr_logo)
             self.logo_label.grid(column = 2, row=0, rowspan = 3)
             # # # # # # # _________________________________________________________________________________________________________________________________
 
         except:
-            self.logo_label = Label(text = ('[FileNotFound:RR_Logo]'))
+            self.logo_label = tk.Label(text = ('[FileNotFound:RR_Logo]'))
             self.logo_label.grid(column = 2, row=0, rowspan = 3)
 
 
@@ -220,11 +220,12 @@ class App:
         
         try:
             number_variable.get()
-            check_label = Label(text = 'OK', fg='green', padx = self.padx_variable)
+            check_label = tk.Label(text = 'OK', fg='green', padx = self.padx_variable)
             check_label.grid(column = column_number, row = row_number)
             return(True)
-        except TclError: # if the conversion fails due to it containing letters
-            check_label = Label(text = 'Err', fg='red')
+        
+        except tk.TclError: # if the conversion fails due to it containing letters
+            check_label = tk.Label(text = 'Err', fg='red')
             check_label.grid(column = column_number, row = row_number)
             return(False)
 
@@ -232,23 +233,28 @@ class App:
         allowed_chars = list('ABCDEFGHIJKLMNOPQRSTUWXYZabcdefghijklmnopqrstuwxyz0123456789_')
         if  len(set(allowed_chars+list(string_variable.get()))) == 61 and len(list(string_variable.get())) != 0 :
             # print (len(set(allowed_chars+list(string_variable.get()))))
-            check_label = Label(text = 'OK', fg='green', padx = self.padx_variable+6)
+            check_label = tk.Label(text = 'OK', fg='green', padx = self.padx_variable+6)
             check_label.grid(column = column_number, row = row_number)
             return(True)
         
         if  len(set(allowed_chars+list(string_variable.get()))) == 61 and len(list(string_variable.get())) == 0 :
             # print (len(set(allowed_chars+list(string_variable.get()))))
-            check_label = Label(text = 'Err', fg='red', padx = self.padx_variable)
+            check_label = tk.Label(text = 'Err', fg='red', padx = self.padx_variable)
             check_label.grid(column = column_number, row = row_number)
             return(False)
 
         else: # if the conversion fails due to it containing letters
-            check_label = Label(text = 'Err', fg='red')
+            check_label = tk.Label(text = 'Err', fg='red')
             check_label.grid(column = column_number, row = row_number)
             return(False)
  
-    def panel1_checks (self):
-        
+    def panel1_checks (self, master):
+        """Clear gridded widgets if they are there"""
+        for label in master.grid_slaves():
+            if int(label.grid_info()["column"]) == 2:
+                if int(label.grid_info()["row"] > (self.spike_sensitivity_row-1)):
+                    label.grid_forget()
+
         """ saved_fields_file_to_load Check"""
         try: 
             list(self.saved_fields_file_to_load)
@@ -302,11 +308,11 @@ class App:
         # popupmsg(str(check_list))
         self.run_button_panel1_row = self.no_of_detectors_variable_row +1
         if False not in check_list:
-            self.run_button_1 = Button(text="Continue", fg='green', command= lambda : self.create_panel2())
+            self.run_button_1 = tk.Button(text="Continue", fg='green', command= lambda : self.create_panel2())
             self.run_button_1.grid(column = 2, row = self.run_button_panel1_row)
         
         if False in check_list:
-            self.run_button_1 = Button(text="Continue", fg='grey', command=lambda : popupmsg('Errors apparent'))
+            self.run_button_1 = tk.Button(text="Continue", fg='grey', command=lambda : popupmsg('Errors apparent'))
             self.run_button_1.grid(column = 2, row = self.run_button_panel1_row)
 
     def save_previous_inputs(self):
@@ -348,7 +354,7 @@ class App:
 
         extra_padding = 0
         ###### Load Button ##################################################################
-        self.load_saved_fields_button = Button(text="Load Saved Entries", command= lambda: self.load_panel2_entries() )
+        self.load_saved_fields_button = tk.Button(text="Load Saved Entries", command= lambda: self.load_panel2_entries() )
         self.load_saved_fields_button.grid(column = 4, row = 0)
         #####################################################################################
         
@@ -359,32 +365,32 @@ class App:
 
         self.ac227_entries_start_row = 1
         
-        self.ac227_standard_name_label = Label(text = '219Rn Std Name:', fg = 'black', padx = self.padx_variable+extra_padding)
+        self.ac227_standard_name_label = tk.Label(text = '219Rn Std Name:', fg = 'black', padx = self.padx_variable+extra_padding)
         self.ac227_standard_name_label.grid(column = 4, row = self.ac227_entries_start_row)
         self.ac227_standard_name_widget_list = self.make_entry_widget_list(column_number = 4, start_row = self.ac227_entries_start_row+1, number_of_widgets =  self.no_of_acstds_variable.get(), var_type = 'String')
         
-        self.ac227_standard_manufacture_date_label = Label(text = 'Date Made (DD/MM/YY HH:MM:SS):', fg = 'black', padx = self.padx_variable+extra_padding+3)
+        self.ac227_standard_manufacture_date_label = tk.Label(text = 'Date Made (DD/MM/YY HH:MM:SS):', fg = 'black', padx = self.padx_variable+extra_padding+3)
         self.ac227_standard_manufacture_date_label.grid(column = 6, row = self.ac227_entries_start_row)
         self.ac227_standard_manufacture_date_widget_list = self.make_entry_widget_list(column_number = 6, start_row = self.ac227_entries_start_row+1, number_of_widgets =  self.no_of_acstds_variable.get(), var_type = 'String')
         
-        self.ac227_standard_start_activity_label = Label(text = 'Start Activity (dpm):', fg = 'black', padx = self.padx_variable+extra_padding)
+        self.ac227_standard_start_activity_label = tk.Label(text = 'Start Activity (dpm):', fg = 'black', padx = self.padx_variable+extra_padding)
         self.ac227_standard_start_activity_label.grid(column = 5, row = self.ac227_entries_start_row)
         self.ac227_standard_start_activity_widget_list = self.make_entry_widget_list(column_number = 5, start_row = self.ac227_entries_start_row+1, number_of_widgets =  self.no_of_acstds_variable.get(), var_type = 'Double')
         
         self.th228_entries_start_row = self.ac227_entries_start_row+self.no_of_acstds_variable.get()+1
-        self.th228_standard_name_label = Label(text = 'Th228 Std Name:', fg = 'black', padx = self.padx_variable)
+        self.th228_standard_name_label = tk.Label(text = 'Th228 Std Name:', fg = 'black', padx = self.padx_variable)
         self.th228_standard_name_label.grid(column = 4, row = self.th228_entries_start_row)
         '''Create a list of [[entry_widget, entry_widget_variable],...]'''
         self.th228_standard_name_widget_list = self.make_entry_widget_list( column_number = 4, start_row = self.th228_entries_start_row+1, number_of_widgets =  self.no_of_thstds_variable.get(), var_type = 'String')
 
-        self.th228_standard_start_activity_label = Label(text = 'Start Activity (dpm):', fg = 'black', padx = self.padx_variable+extra_padding)
+        self.th228_standard_start_activity_label = tk.Label(text = 'Start Activity (dpm):', fg = 'black', padx = self.padx_variable+extra_padding)
         self.th228_standard_start_activity_label.grid(column = 5, row = self.th228_entries_start_row)
         '''Create a list of [[entry_widget, entry_widget_variable],...]'''
         self.th228_standard_start_activity_widget_list = self.make_entry_widget_list(column_number = 5, start_row = self.th228_entries_start_row+1, number_of_widgets =  self.no_of_thstds_variable.get(), var_type = 'Double')
         
         self.blank_entries_start_row = self.th228_entries_start_row+self.no_of_thstds_variable.get()+1
 
-        self.blank_standard_name_label = Label(text = 'Background Std Name:', fg = 'black', padx = self.padx_variable+extra_padding)
+        self.blank_standard_name_label = tk.Label(text = 'Background Std Name:', fg = 'black', padx = self.padx_variable+extra_padding)
         self.blank_standard_name_label.grid(column = 4, row = self.blank_entries_start_row)
         self.blank_standard_name_widget_list = self.make_entry_widget_list(column_number = 4, start_row = self.blank_entries_start_row+1, number_of_widgets =  self.no_of_blanks_variable.get(), var_type = 'String')
 
@@ -394,13 +400,12 @@ class App:
             self.detector_entries_start_row = self.blank_entries_start_row+self.no_of_blanks_variable.get()+1
         
         self.detector_name_column = 0
-        self.detector_name_label = Label(text = 'Detector Name:', fg = 'black', padx = self.padx_variable+extra_padding+6)
+        self.detector_name_label = tk.Label(text = 'Detector Name:', fg = 'black', padx = self.padx_variable+extra_padding+6)
         self.detector_name_label.grid(column = self.detector_name_column, row = self.detector_entries_start_row)
         self.detector_name_widget_list = self.make_entry_widget_list(column_number = self.detector_name_column, start_row = self.detector_entries_start_row+1, number_of_widgets =  self.no_of_detectors_variable.get(), var_type = 'String')
 
         self.detector_calibration_values_column = 1
-        self.detector_calibration_values_label = Label(text = 'F_226:', fg = 'black', padx = self.padx_variable)
-        self.detector_calibration_values_label = Label(text = '226Ra Conversion Factor (m):', fg = 'black', padx = self.padx_variable)
+        self.detector_calibration_values_label = tk.Label(text = '226Ra Conversion Factor (m):', fg = 'black', padx = self.padx_variable)
         self.detector_calibration_values_label.grid(column = self.detector_calibration_values_column, row = self.detector_entries_start_row)
         self.detector_calibration_values_widget_list = self.make_entry_widget_list(column_number = self.detector_calibration_values_column, start_row = self.detector_entries_start_row+1, number_of_widgets =  self.no_of_detectors_variable.get(), var_type = 'Double')
         for entry in self.detector_calibration_values_widget_list:
@@ -408,7 +413,7 @@ class App:
             entry[1].set(1.8e-4)
 
         self.detector_226_efficiency_column = 2
-        self.detector_226_efficiency_label = Label(text = 'E_226:', fg = 'black', padx = self.padx_variable)
+        self.detector_226_efficiency_label = tk.Label(text = 'E_226:', fg = 'black', padx = self.padx_variable)
         self.detector_226_efficiency_label.grid(column = self.detector_226_efficiency_column, row = self.detector_entries_start_row)
         self.detector_226_efficiency_widget_list = self.make_entry_widget_list(column_number = self.detector_226_efficiency_column, start_row = self.detector_entries_start_row+1, number_of_widgets =  self.no_of_detectors_variable.get(), var_type = 'Double')
         for entry in self.detector_226_efficiency_widget_list:
@@ -416,7 +421,7 @@ class App:
             entry[1].set(0.51)
         
         self.detector_adjustment_coefficient_column = 4
-        self.detector_adjustment_coefficient_label = Label(text = 'SE219/SE220 ratio:', fg = 'black', padx = self.padx_variable)
+        self.detector_adjustment_coefficient_label = tk.Label(text = 'SE219/SE220 ratio:', fg = 'black', padx = self.padx_variable)
         self.detector_adjustment_coefficient_label.grid(column = self.detector_adjustment_coefficient_column, row = self.detector_entries_start_row)
         self.detector_adjustment_coefficient_widget_list = self.make_entry_widget_list(column_number = self.detector_adjustment_coefficient_column, start_row = self.detector_entries_start_row+1, number_of_widgets =  self.no_of_detectors_variable.get(), var_type = 'Double')
         for entry in self.detector_adjustment_coefficient_widget_list:
@@ -428,48 +433,53 @@ class App:
 
         self.logsheet_identifiers_label_row = self.th228_entries_start_row
         self.logsheet_identifiers_label_column = 6
-        self.logsheet_identifiers_label = Label(text = "Logsheet Variable Selection:")
-        self.logsheet_identifiers_label.grid(column = self.logsheet_identifiers_label_column, row = self.logsheet_identifiers_label_row, sticky = 'W')
+        self.logsheet_identifiers_label = tk.Label(text = "Logsheet Variable Selection:")
+        self.logsheet_identifiers_label.grid(column = self.logsheet_identifiers_label_column, row = self.logsheet_identifiers_label_row, sticky = tk.W)
         
         # options_list = ["Choose sample name column...", "one", "two", "three", "four"]
         
         # # # # # sample_variable
-        self.sample_name_column_variable = StringVar()
+        self.sample_name_options = ['Sample name column...'] + self.logsheet_columns
+        self.sample_name_column_variable = tk.StringVar()
         self.sample_name_column_variable.set("Sample name column...") # initial value
-        self.sample_name_option = OptionMenu(self.master, self.sample_name_column_variable, *self.logsheet_columns)
-        self.sample_name_option.grid(column = self.logsheet_identifiers_label_column, row = self.logsheet_identifiers_label_row+1, sticky = W)
+        self.sample_name_option = tk.OptionMenu(self.master, self.sample_name_column_variable, *self.sample_name_options)
+        self.sample_name_option.grid(column = self.logsheet_identifiers_label_column, row = self.logsheet_identifiers_label_row+1, sticky = tk.W)
         # # # # # sub_sample_option_variable
-        self.sub_sample_options = self.logsheet_columns + ['None']
-        self.sub_sample_option_variable = StringVar()
+        self.sub_sample_options =  ['Sub-sample name column...'] + self.logsheet_columns + ['None']
+        self.sub_sample_option_variable = tk.StringVar()
         self.sub_sample_option_variable.set("Sub-sample name column...") # initial value
-        self.sub_sample_name_option = OptionMenu(self.master, self.sub_sample_option_variable, *self.sub_sample_options)
-        self.sub_sample_name_option.grid(column = self.logsheet_identifiers_label_column, row = self.logsheet_identifiers_label_row+2, sticky = W)
+        self.sub_sample_name_option = tk.OptionMenu(self.master, self.sub_sample_option_variable, *self.sub_sample_options)
+        self.sub_sample_name_option.grid(column = self.logsheet_identifiers_label_column, row = self.logsheet_identifiers_label_row+2, sticky = tk.W)
         # # # # # sample_mid_date
-        self.sample_mid_date = StringVar()
+        self.sample_mid_date_options = ['Sampling date column...'] + self.logsheet_columns
+        self.sample_mid_date = tk.StringVar()
         self.sample_mid_date.set("Sampling date column...") # initial value
-        self.sample_mid_date_option = OptionMenu(self.master, self.sample_mid_date, *self.logsheet_columns)
-        self.sample_mid_date_option.grid(column = self.logsheet_identifiers_label_column, row = self.logsheet_identifiers_label_row+3, sticky = W)
+        self.sample_mid_date_option = tk.OptionMenu(self.master, self.sample_mid_date, *self.sample_mid_date_options)
+        self.sample_mid_date_option.grid(column = self.logsheet_identifiers_label_column, row = self.logsheet_identifiers_label_row+3, sticky = tk.W)
         # # # # # sample_mid_time
-        self.sample_mid_time = StringVar()
+        self.sample_mid_time_options = ['Mid-sampling time column...'] + self.logsheet_columns
+        self.sample_mid_time = tk.StringVar()
         self.sample_mid_time.set("Mid-sampling time column...") # initial value
-        self.sample_mid_time_option = OptionMenu(self.master, self.sample_mid_time, *self.logsheet_columns)
-        self.sample_mid_time_option.grid(column = self.logsheet_identifiers_label_column, row = self.logsheet_identifiers_label_row+4, sticky = W)
+        self.sample_mid_time_option = tk.OptionMenu(self.master, self.sample_mid_time, *self.sample_mid_time_options)
+        self.sample_mid_time_option.grid(column = self.logsheet_identifiers_label_column, row = self.logsheet_identifiers_label_row+4, sticky = tk.W)
         # # # # # sample_volume
-        self.sample_volume_variable = StringVar()
+        self.sample_volume_options = ['Volume column...'] + self.logsheet_columns
+        self.sample_volume_variable = tk.StringVar()
         self.sample_volume_variable.set("Volume column...") # initial value
-        self.sample_volume_option = OptionMenu(self.master, self.sample_volume_variable, *self.logsheet_columns)
-        self.sample_volume_option.grid(column = self.logsheet_identifiers_label_column, row = self.logsheet_identifiers_label_row+5, sticky = W)
+        self.sample_volume_option = tk.OptionMenu(self.master, self.sample_volume_variable, *self.sample_volume_options)
+        self.sample_volume_option.grid(column = self.logsheet_identifiers_label_column, row = self.logsheet_identifiers_label_row+5, sticky = tk.W)
         # # # # # sample_volume_error
-        self.sample_volume_error_variable = StringVar()
+        self.sample_volume_err_options = ['Volume error column...']+ self.logsheet_columns
+        self.sample_volume_error_variable = tk.StringVar()
         self.sample_volume_error_variable.set("Volume error column...") # initial value
-        self.sample_volume_error_option = OptionMenu(self.master, self.sample_volume_error_variable, *self.logsheet_columns)
-        self.sample_volume_error_option.grid(column = self.logsheet_identifiers_label_column, row = self.logsheet_identifiers_label_row+6, sticky = W)
+        self.sample_volume_error_option = tk.OptionMenu(self.master, self.sample_volume_error_variable, *self.sample_volume_err_options)
+        self.sample_volume_error_option.grid(column = self.logsheet_identifiers_label_column, row = self.logsheet_identifiers_label_row+6, sticky = tk.W)
 
 
 
         ###### Check Inputs Button No.2 ##################################################################
-        self.check_inputs = Button(text="Check Inputs", fg='green', 
-                                    command= lambda: self.check_panel2())
+        self.check_inputs = tk.Button(text="Check Inputs", fg='green', 
+                                    command= lambda: self.check_panel2(self.master))
         self.check_inputs.grid(column = 7, row = 0)
         ######################################################################################
 
@@ -480,13 +490,13 @@ class App:
         for i in range(start_row, start_row+number_of_widgets):
 
             if var_type == 'String':
-                variable_list.append(StringVar())
+                variable_list.append(tk.StringVar())
             if var_type == 'Int':
-                variable_list.append(IntVar())
+                variable_list.append(tk.IntVar())
             if var_type == 'Double':
-                variable_list.append(DoubleVar())
+                variable_list.append(tk.DoubleVar())
 
-            entry_list.append( Entry(textvariable = variable_list[-1], width = 10))
+            entry_list.append( tk.Entry(textvariable = variable_list[-1], width = 10))
             entry_list[-1].grid(column = column_number, row = i)
             widget_list.append([entry_list[-1],variable_list[-1]])
 
@@ -503,7 +513,12 @@ class App:
         else:
             return(False)
 
-    def check_panel2 (self):
+    def check_panel2 (self, master):
+        """Clear gridded widgets if they are there"""
+        for label in master.grid_slaves():
+            if int(label.grid_info()["column"]) == 7:
+                if int(label.grid_info()["row"] > (self.ac227_entries_start_row-1)) and int(label.grid_info()["row"] < (self.detector_entries_start_row+4)):
+                    label.grid_forget()
 
         """Check Thorium-228 standard Entries"""
         # th228_standard_entries_boolean = self.check_widget_list_set(self.th228_standard_name_widget_list, 'N/A', 
@@ -521,17 +536,17 @@ class App:
         print("th activities:", th228_standard_start_activities_boolean_list)
         
         if False in th228_standard_entries_boolean_list:
-            check_label = Label(text = 'Error(std_name)', fg='red')
+            check_label = tk.Label(text = 'Error(std_name)', fg='red')
             check_label.grid(column = 7, row =self.th228_entries_start_row+1)
         else:
-            check_label = Label(text = 'OK', fg='green')
+            check_label = tk.Label(text = 'OK', fg='green')
             check_label.grid(column = 7, row =self.th228_entries_start_row+1)
 
         if False in th228_standard_start_activities_boolean_list:
-            check_label = Label(text = 'Error(activity)', fg='red')
+            check_label = tk.Label(text = 'Error(activity)', fg='red')
             check_label.grid(column = 7, row =self.th228_entries_start_row+2)
         else:
-            check_label = Label(text = 'OK', fg='green')
+            check_label = tk.Label(text = 'OK', fg='green')
             check_label.grid(column = 7, row =self.th228_entries_start_row+2)
         
         """Check Actinium-227 standard Entries"""
@@ -549,24 +564,24 @@ class App:
         
 
         if False in ac227_standard_name_boolean_list:
-            check_label = check_label = Label(text = 'Error(name)', fg='red')
+            check_label = check_label = tk.Label(text = 'Error(name)', fg='red')
             check_label.grid(column = 7, row =self.ac227_entries_start_row)
         else:
-            check_label = Label(text = 'OK', fg='green')
+            check_label = tk.Label(text = 'OK', fg='green')
             check_label.grid(column = 7, row =self.ac227_entries_start_row)
 
         if False in ac227_standard_start_activities_boolean_list:
-            check_label = check_label = Label(text = 'Error(activity)', fg='red')
+            check_label = check_label = tk.Label(text = 'Error(activity)', fg='red')
             check_label.grid(column = 7, row =self.ac227_entries_start_row+1)
         else:
-            check_label = Label(text = 'OK', fg='green')
+            check_label = tk.Label(text = 'OK', fg='green')
             check_label.grid(column = 7, row =self.ac227_entries_start_row+1)
 
         if False in ac227_standard_manufacture_date_boolean_list:
-            check_label = check_label = Label(text = 'Error(date)', fg='red')
+            check_label = check_label = tk.Label(text = 'Error(date)', fg='red')
             check_label.grid(column = 7, row =self.ac227_entries_start_row+2)
         else:
-            check_label = Label(text = 'OK', fg='green')
+            check_label = tk.Label(text = 'OK', fg='green')
             check_label.grid(column = 7, row =self.ac227_entries_start_row+2)
         
         
@@ -579,10 +594,10 @@ class App:
             blank_entries_boolean_list.append(self.check_string_inputs(string_variable=self.blank_standard_name_widget_list[i][1], column_number=7, row_number=self.blank_entries_start_row+1))
         
         if False in blank_entries_boolean_list:
-            check_label = Label(text = 'Error(name)', fg='red', padx = self.padx_variable)
+            check_label = tk.Label(text = 'Error(name)', fg='red', padx = self.padx_variable)
             check_label.grid(column = 7, row =self.blank_entries_start_row+1)
         else:
-            check_label = Label(text = 'OK', fg='green')
+            check_label = tk.Label(text = 'OK', fg='green')
             check_label.grid(column = 7, row =self.blank_entries_start_row+1)
 
         """Detector Entries"""
@@ -602,16 +617,16 @@ class App:
                                                                                 column_number = 7, row_number=self.detector_entries_start_row+4))
         print (detector_226_efficiency_boolean_list,detector_adjustment_coefficient_boolean_list)
         if False in detector_names_boolean_list:
-            check_label = check_label = Label(text = 'Error(name)', fg='red')
+            check_label = check_label = tk.Label(text = 'Error(name)', fg='red')
             check_label.grid(column = 7, row =self.detector_entries_start_row+1)
         if False in detector_calibration_values_boolean_list:
-            check_label = check_label = Label(text = 'Error(calib_value)', fg='red')
+            check_label = check_label = tk.Label(text = 'Error(calib_value)', fg='red')
             check_label.grid(column = 7, row =self.detector_entries_start_row+2)
         if False in detector_226_efficiency_boolean_list:
-            check_label = check_label = Label(text = 'Error(226_Eff)', fg='red')
+            check_label = check_label = tk.Label(text = 'Error(226_Eff)', fg='red')
             check_label.grid(column = 7, row =self.detector_entries_start_row+3)
         if False in detector_adjustment_coefficient_boolean_list:
-            check_label = check_label = Label(text = 'Error(ratio)', fg='red')
+            check_label = check_label = tk.Label(text = 'Error(ratio)', fg='red')
             check_label.grid(column = 7, row =self.detector_entries_start_row+4)
 
         """________________________________________________________________________________________Check Logsheet Identifier Entries________________________________________________________________________________________________________________________"""
@@ -626,11 +641,11 @@ class App:
                         count = count+1
             if count>len(sample_name_list):
                 logsheet_identifiers_boolean_list[1] = False
-                showinfo('Warning: RaDeCC Reader','Sample names provided are non-unique: some sample names are contained within others')
+                tk.messagebox.showinfo('Warning: RaDeCC Reader','Sample names provided are non-unique: some sample names are contained within others')
             else:
                 logsheet_identifiers_boolean_list[0] = True
         else:
-            showinfo('Warning: RaDeCC Reader','Please choose sample name column...')
+            tk.messagebox.showinfo('Warning: RaDeCC Reader','Please choose sample name column...')
             logsheet_identifiers_boolean_list[1] = False
 
         # # # sub_sample_option_variable
@@ -647,7 +662,7 @@ class App:
                 sub_sample_name_list = list(set(test_list))
                 if len(sub_sample_name_list) != len(test_list):
                     logsheet_identifiers_boolean_list[1] = False
-                    showinfo('Warning: RaDeCC Reader','Sub-sample names provided are non-unique: some sample names are contained within others')
+                    tk.messagebox.showinfo('Warning: RaDeCC Reader','Sub-sample names provided are non-unique: some sample names are contained within others')
                 else:
                     logsheet_identifiers_boolean_list[1] = True
             if self.sub_sample_option_variable.get() == 'None':
@@ -655,7 +670,7 @@ class App:
                 logsheet_identifiers_boolean_list[1] = True
 
             if self.sub_sample_option_variable.get() == 'Sub-sample name column...':
-                showinfo('Warning: RaDeCC Reader','Please choose sub-sample name column...')
+                tk.messagebox.showinfo('Warning: RaDeCC Reader','Please choose sub-sample name column...')
                 logsheet_identifiers_boolean_list[1] = False
         # # # sample_mid_date
         if self.sample_mid_date.get() != 'Sampling date column...':
@@ -674,7 +689,7 @@ class App:
                 logsheet_identifiers_boolean_list[2] = True
             else:
                 logsheet_identifiers_boolean_list[2] = False
-                showinfo('Warning: RaDeCC Reader','Sample dates column selected contains non-date values')
+                tk.messagebox.showinfo('Warning: RaDeCC Reader','Sample dates column selected contains non-date values')
         
         # # # sample_mid_time
         if self.sample_mid_time.get() != 'Mid-sampling time column...':
@@ -693,7 +708,7 @@ class App:
                 logsheet_identifiers_boolean_list[3] = True
             else:
                 logsheet_identifiers_boolean_list[3] = False
-                showinfo('Warning: RaDeCC Reader','Sample times column selected contains non-time values')
+                tk.messagebox.showinfo('Warning: RaDeCC Reader','Sample times column selected contains non-time values')
         
         # # # sample_volume_variable
         if self.sample_volume_variable.get() != 'Volume column...':
@@ -709,7 +724,7 @@ class App:
                 logsheet_identifiers_boolean_list[4] = True
             else:
                 logsheet_identifiers_boolean_list[4] = False
-                showinfo('Warning: RaDeCC Reader','Sample volume column contains non-numeric values')
+                tk.messagebox.showinfo('Warning: RaDeCC Reader','Sample volume column contains non-numeric values')
         
         # # # sample_volume_error_variable
         if self.sample_volume_error_variable.get() != 'Volume error column...':
@@ -725,7 +740,7 @@ class App:
                 logsheet_identifiers_boolean_list[5] = True
             else:
                 logsheet_identifiers_boolean_list[5] = False
-                showinfo('Warning: RaDeCC Reader','Sample volume error column contains non-numeric values')
+                tk.messagebox.showinfo('Warning: RaDeCC Reader','Sample volume error column contains non-numeric values')
 
 
 
@@ -742,7 +757,7 @@ class App:
                                     self.sample_volume_variable.get(),
                                     self.sample_volume_error_variable.get()]
         if len(set(list_of_option_variables))<len(list_of_option_variables):
-            showinfo('Warning: RaDeCC Reader','A logsheet column has been selected twice')
+            tk.messagebox.showinfo('Warning: RaDeCC Reader','A logsheet column has been selected twice')
             option_picked_twice[0]=False
         else:
             option_picked_twice[0]=True
@@ -785,13 +800,13 @@ class App:
             self.detector_226_efficiency_dict = dict(zip([x[1].get() for x in self.detector_name_widget_list], [x[1].get() for x in self.detector_226_efficiency_widget_list ]))
             
             ###### Save Inputs Button No.2 ##################################################################
-            self.save_previous_inputs_button_2 = Button(text = "Save Field Inputs", command = lambda : self.save_previous_inputs())
+            self.save_previous_inputs_button_2 = tk.Button(text = "Save Field Inputs", command = lambda : self.save_previous_inputs())
             self.save_previous_inputs_button_2.grid(column = 7, row = self.detector_entries_start_row+4+1)
             #################################################################################################
 
             ###### Run Program Button ##################################################################
             self.run_button_row =  self.detector_entries_start_row+4+2
-            self.run_button = Button(text = "Run RaDeCC Reader", fg = 'green', command = lambda : self.run_radecc_reader_main())
+            self.run_button = tk.Button(text = "Run RaDeCC Reader", fg = 'green', command = lambda : self.run_radecc_reader_main())
             self.run_button.grid(column = 7, row = self.run_button_row)
             #################################################################################################
             
@@ -808,8 +823,9 @@ class App:
             #################################################################################################
 
             ###### Run Program Button ##################################################################
-            self.run_error_button = Button(text = "Run RaDeCC Reader", fg = 'grey')
-            self.run_error_button.grid(column = 7, row = self.detector_entries_start_row+4+2)
+            self.run_button_row =  self.detector_entries_start_row+4+2
+            self.run_error_button = tk.Button(text = "Run RaDeCC Reader", fg = 'grey')
+            self.run_error_button.grid(column = 7, row = self.run_button_row)
             #################################################################################################
 
     def load_panel2_entries (self):
@@ -897,17 +913,17 @@ class App:
         try:
             
             self.run_complete = radecc_reader_main(run_df)
-            self.run_complete_label= Label(text=self.run_complete[1])
+            self.run_complete_label= tk.Label(text=self.run_complete[1])
             self.run_complete_label.grid(column=7,row=self.run_button_row+1)
         except Exception as err:
-            self.run_complete_label= Label(text='Error: Modify Inputs')
+            self.run_complete_label= tk.Label(text='Error: Modify Inputs')
             self.run_complete_label.grid(column=7,row=self.run_button_row+1)
-            showinfo('Warning: RaDeCC Reader', err)
+            tk.messagebox.showinfo('Warning: RaDeCC Reader', err)
             traceback.print_tb(err.__traceback__)
 
 
 def run_GUI():
-    window_1 = Tk()
+    window_1 = tk.Tk()
     window_1.title('RaDeCC Reader')
     app = App(window_1)
     window_1.mainloop()

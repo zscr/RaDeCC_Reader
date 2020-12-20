@@ -60,7 +60,7 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
                     for file in fileList:
                         print (file, log_df[sample_variable].iloc[i],sample_series)
                         main_samplelist.append(list(log_df.iloc[i])+[os.path.join(dirName, file)])
-                         
+                        
     sample_array = np.array(main_samplelist)
     temp_df = pd.DataFrame(sample_array)
     
@@ -75,8 +75,8 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
                                                 'y220cc', 'y220cc_err', 'corr219', 'corr219_err', 'corr220', 'corr220_err','final219', 
                                                        'final220', 'Read_Runtime', 'final219_err', 'final220_err', 'cntTot_abserr', 
                                                       'errslope_abs', 'Detector_Name', 'Cartridge_Type', 'Filename_Read_Interval', 'Spike_Value', 'Error_List'])
-    
-    lvl1_main_df = pd.concat([temp_df, lvl1_calc_df], axis=1, join_axes=[temp_df.index])
+                                                      
+    lvl1_main_df = pd.concat([temp_df, lvl1_calc_df], axis=1)
     
 #    print(pd.to_datetime(log_df.Date+' '+log_df[sample_mid_time], dayfirst = True))
     
@@ -146,7 +146,7 @@ def amalgam_2(eff_df, ra223_lambda, ra224_lambda, log_df, sample_volume, sample_
             #dpm219_thstdonly calculation using 
             dpm219_thstdonly.append(float(blankcorr219[-1]/eff_df.E219_from_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]))
             #dpm219_thstdonly error 
-            dpm219_thstdonly_err.append(float((np.sqrt((blankcorr219_err[-1]/eff_df.E219_from_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()])**2 + ((lvl1_main_df['final219'][i]*eff_df.E219_from_E220_uncertainty[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()])/eff_df.E219_from_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]**2)**2))/dpm219_thstdonly[-1]))
+            dpm219_thstdonly_err.append(float((np.sqrt((blankcorr219_err[-1]/eff_df.E219_from_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()])**2 + ((lvl1_main_df['final219'][i]*eff_df.E219_from_E220_uncertainty[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()])/eff_df.E219_from_E220[eff_df.Detector == lvl1_main_df['Detector_Name'][i].lower()]**2)**2))))
                     
             ################################################
             if float(lvl1_main_df[sample_volume][i]) > 0:

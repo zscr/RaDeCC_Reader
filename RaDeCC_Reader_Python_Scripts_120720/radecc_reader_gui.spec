@@ -1,4 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
+import sys
+sys.setrecursionlimit(5000)
 
 block_cipher = None
 
@@ -6,7 +8,7 @@ block_cipher = None
 a = Analysis(['/Users/seanselzer/Documents/GitHub/RaDeCC_Reader/RaDeCC_Reader_Python_Scripts_120720/radecc_reader_gui.py'],
              pathex=['/Users/seanselzer/Desktop/Executables'],
              binaries=[],
-             datas=[],
+             datas=[('RR_logo.png','.')],
              hiddenimports=['pkg_resources.py2_warn', '_sysconfigdata_x86_64_apple_darwin13_4_0','scipy.special.cython_special'],
              hookspath=[],
              runtime_hooks=[],
